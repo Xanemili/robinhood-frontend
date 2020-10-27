@@ -1,4 +1,4 @@
-```
+```javascript
 {
   user: {
     name: string,
@@ -6,7 +6,8 @@
     userId: id
   },
   tickers: {
-    [tickerId]: {id: int, ticker: string, price: float, {...(historical dates w/ prices)}}
+    [tickerId]: {id: int, ticker: string, price: float, {...(historical dates w/ prices)}},
+    allTickers : [ticker1, ticker2, ...tickers]
   },
   portfolio: {
     [tickerId]: {id: tickerId}
