@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import { getToken } from './fetches/authentication';
-import {Button} from '@material-ui/core'
-import RobinhoodContext from './RobinhoodContext'
+import { getToken } from '../fetches/authentication';
+import Button from '@material-ui/core/Button'
+import RobinhoodContext from '../RobinhoodContext'
 
 const LoginForm = () => {
   const [email, setEmail] = useState('demo@example.com');

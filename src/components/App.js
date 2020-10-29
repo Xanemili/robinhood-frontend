@@ -1,8 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import RobinhoodContext from './RobinhoodContext';
+import RobinhoodContext from '../RobinhoodContext';
 
 import Login from './LoginForm'
+import Dashboard from './Dashboard'
+import Asset from './Asset'
+// import Navbar from './Navbar'
 
 const PrivateRoute = (props) => {
   return (
@@ -17,7 +20,7 @@ const PrivateRoute = (props) => {
 }
 
 const App = () => {
-  const { token, setToken } = useContext(RobinhoodContext);
+  const [ token, setToken ] = useState('')
 
   useEffect(() => {
     (async() => {
@@ -42,7 +45,17 @@ const App = () => {
         <PrivateRoute
         path='/'
         exact={true}
-        needLogin={needLogin}/>
+        needLogin={needLogin}>
+          <Dashboard token={token}/>
+
+        </PrivateRoute>
+
+        <PrivateRoute
+        path='/assets/:asset'>
+          <Asset token={token}/>
+        </PrivateRoute>
+
+
       </Switch>
     </BrowserRouter>
   );
