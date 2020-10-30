@@ -7,6 +7,7 @@ import NavBar from '../Navbar'
 import PortfolioChart from './PortfolioChart'
 import RobinhoodContext from '../../RobinhoodContext'
 import NewsContainer from './NewsContainer';
+import CurrentBalance from './CurrentBalance'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +43,7 @@ const DashBoard = () => {
       />
       <Grid container spacing={3}>
         <Grid item xs={6}>
+          <CurrentBalance />
           <NewsContainer />
         </Grid>
 

@@ -15,8 +15,8 @@ const NewsContainer = () => {
 
   return (
     <>
-      {news.articles.map( article => {
-        return <News article={article}/>
+      {news.articles.map( (article,idx) => {
+        return <News article={article} key={idx}/>
       })}
     </>
   )

@@ -29,18 +29,19 @@ const Portfolio = () => {
 
   return (
       <Card>
-
         <List>
-      {portfolio.map( (stock, idx)=> {
+      {portfolio.filter(sec => sec.ticker.ticker !== 'CASH').map( (stock, idx)=> {
         return(
           <>
-            <ListItem alignItems='center' key={stock.Ticker.ticker}>
-              <NavLink  to={`/assets/${stock.Ticker.ticker}`}>
+            <ListItem alignItems='center' key={stock.ticker.ticker}>
+              <NavLink  to={`/assets/${stock.ticker.ticker}`}>
                 <div>
                   <span>
-                  {stock.Ticker.ticker}
+                  {stock.ticker.ticker}
                   </span>
-                  <span>{stock.amount}</span>
+                  <span>{stock.ticker.lastQuote.p}</span>
+                  <span>{stock.ticker.todaysChange}</span>
+                  <span>{stock.ticker.todaysChangePerc}%</span>
                 </div>
               </NavLink>
             </ListItem>
