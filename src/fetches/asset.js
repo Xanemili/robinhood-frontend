@@ -7,6 +7,8 @@ export const getAssetData = async (token, asset) => {
     }
   });
 
+  console.log(res)
+
 
   if(res.ok) {
     const data = await res.json()
@@ -28,4 +30,16 @@ export const sendTrade = async (token, data) => {
   if(response.ok){
     return true;
   }
+}
+
+export const getPortfolioValue = async (token, assets) => {
+
+  let assetsDaily = assets.forEach( async(asset) => {
+    const assetResponse = await fetch(`https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${asset}?apiKey=0sXWlN4BphrsPZEVMC1cWUKxM5lHx53z`)
+    let pricing = assetResponse.json()
+    console.log(pricing)
+    return {ticker: asset, price: pricing}
+  });
+
+  return assetsDaily;
 }

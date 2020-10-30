@@ -7,6 +7,8 @@ export const getPortfolio = async (token) => {
     }
   });
 
+
+
   if(res.ok) {
     const portfolio = await res.json()
     return portfolio.portfolio

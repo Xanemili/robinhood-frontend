@@ -19,10 +19,10 @@ const Portfolio = () => {
       const currentPortfolio = await getPortfolio(token);
       if(portfolio !== currentPortfolio){
         setPortfolio(currentPortfolio);
-      }})()
+      }
+    })()
    }, [setPortfolio])
 
-   console.log(portfolio)
   if(!portfolio) {
     return null;
   }

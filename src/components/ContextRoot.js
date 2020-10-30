@@ -11,7 +11,7 @@ const Root = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [portfolio, setPortfolio] = useState([]);
   const [watchlist, setWatchlist] = useState([]);
-  const [asset, setAsset] = useState({data: {}, companyInfo: {}});
+  const [asset, setAsset] = useState({data: {results: []}, companyInfo: {}, companyNews: {}});
 
   const value =  {
     token,

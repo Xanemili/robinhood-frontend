@@ -25,6 +25,9 @@ const DashBoard = () => {
 
    let currentUser, balance, balanceChange, balancePercent, dailyData, max, min;
 
+   if(!token) {
+     return null
+   }
     return(
       <>
       <NavBar />

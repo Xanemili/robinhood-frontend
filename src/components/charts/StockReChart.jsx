@@ -1,5 +1,8 @@
-import React, {useState} from 'react';
-import {LineChart, Line, YAxis, Tooltip} from 'recharts';
+import React, {useState, useContext} from 'react';
+import {LineChart, Line, YAxis, Tooltip, XAxis} from 'recharts';
+import RobinhoodContext from '../../RobinhoodContext';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Button from '@material-ui/core/Button';
 
 const RANGES = {
   '1W': { length: 5, increment: 1},
@@ -9,36 +12,68 @@ const RANGES = {
   // '5Y': { length: 1265, increment: 5}
 }
 
-const MONTHS = {
-  1: "JAN",
-  2: "FEB",
-  3: "MAR",
-  4: "APR",
-  5: "MAY",
-  6: "JUN",
-  7: "JUL",
-  8: "AUG",
-  9: "SEP",
-  10: "OCT",
-  11: "NOV",
-  12: "DEC"
-};
+
 
 const StockRechart = () => {
 
   const [active, setActive] = useState('')
+  const [dateRange, setDateRange] = useState([])
+  const {asset} = useContext(RobinhoodContext)
 
   const render1DChart = () => {
 
   }
-  const data = []
+
+  const setMonth = (number) => {
+    const MONTHS = {
+      0: "Jan",
+      1: "Feb",
+      2: "Mar",
+      3: "Apr",
+      4: "May",
+      5: "Jun",
+      6: "Jul",
+      7: "Aug",
+      8: "Sep",
+      9: "Oct",
+      10: "Nov",
+      11: "Dec"
+    };
+
+    return MONTHS[number];
+  }
+
+  const cleanData = asset.data.results.map( day => {
+    let date = new Date()
+    date.setTime(day.t);
+
+    let parsedDate = `${setMonth(date.getMonth())}, ${date.getDay()}, ${date.getFullYear()}`
+    return (
+      {
+        date,
+        parsedDate,
+        vw: day.vw,
+        price: day.c
+      }
+    )
+  })
+
+  console.log(cleanData)
 
   const handleRange = (e) => {
-    console.log(e)
+    let start = new Date();
+    start.setMonth(start.getMonth() - 1)
+    let end = new Date();
+
+    let parsedStart = `${start.getFullYear()}-${start.getMonth()+1}-${start.getDay()}`
+    let parsedEnd = `${end.getFullYear()}-${end.getMonth()+1}-${end.getDay()}`
+
+    setDateRange([parsedStart, parsedEnd]);
+    console.log(dateRange);
   }
 
   const handleIntraDay = (e) => {
-    console.log(e)
+    console.log(e.target)
   }
 
   return (
@@ -47,20 +82,22 @@ const StockRechart = () => {
       <h2>stock price</h2>
       <h3>price % change</h3>
       <div className="stock-chart">
-        <LineChart width={650} height={200} data={data}
+        <LineChart width={650} height={200} data={cleanData}
         margin={{top: 5, right: 30, left: 0, bottom: 5}}>
           <YAxis hide={true}
-          domain={[1,5]} />
+          />
+          <XAxis dataKey="date" />
           <Tooltip />
           <Line type='linear' dataKey='price' dot={false} />
+          <Line type='linear' dataKey='parsedDate' dot={false} />
         </LineChart>
-        <ul className='chart-range__stock'>
-          <li><a className={active === '1D' ? 'chart-date-range active' : 'chart-date-range'} onClick={handleIntraDay}>1D</a></li>
-          <li><a className={active === '1M' ? 'chart-date-range active' : 'chart-date-range'} onClick={handleRange}>1M</a></li>
-          <li><a className={active === '3M' ? 'chart-date-range active' : 'chart-date-range'} onClick={handleRange}>3M</a></li>
-          <li><a className={active === '1Y' ? 'chart-date-range active' : 'chart-date-range'} onClick={handleRange}>1Y</a></li>
-          <li><a className={active === '5Y' ? 'chart-date-range active' : 'chart-date-range'} onClick={handleRange}>5Y</a></li>
-        </ul>
+        <ButtonGroup color='primary' size='small'>
+          <Button onClick={handleRange} value={2}>1D</Button>
+          <Button onClick={handleRange} value={3}>1M</Button>
+          <Button onClick={handleRange} value={4}>3M</Button>
+          <Button onClick={handleRange} value={5}>1Y</Button>
+          <Button onClick={handleRange} value={1}>3Y</Button>
+        </ButtonGroup>
       </div>
     </div>
   )

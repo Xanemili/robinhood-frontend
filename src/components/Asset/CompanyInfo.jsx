@@ -10,7 +10,18 @@ const CompanyInfo = () => {
         {companyInfo.ceo}
       </div>
       <div>
-
+        {companyInfo.description}
+        {companyInfo.industry}
+        {companyInfo.sector}
+        {companyInfo.name}
+        {companyInfo.url}
+        {companyInfo.similar.map( ticker => {
+          return (
+            <div>
+              {ticker}
+            </div>
+          )
+        })}
       </div>
 
     </div>
