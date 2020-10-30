@@ -63,7 +63,7 @@ export default function TradePanel () {
       <CardHeader>
       </CardHeader>
       <CardContent>
-        {asset.data["Meta Data"]["2. Symbol"]}
+        {asset.ticker}
         <div>
           <Button onClick={updateProperty(setOrderType)} value='BUY'>
             Buy

@@ -1,28 +1,27 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import Grid from '@material-ui/core/Grid'
 import { getAssetData } from '../../fetches/asset'
 import NavBar from '../Navbar';
 import TradePanel from './TradePanel'
 import RobinhoodContext from '../../RobinhoodContext';
 import StockChart from '../charts/StockChart';
+import CompanyInfo from './CompanyInfo';
+import {useParams} from 'react-router-dom';
 
 const Asset = () => {
 
   const {token, asset, setAsset} = useContext(RobinhoodContext)
-  const [ticker, setTicker] = useState('')
+  const {symbol} = useParams();
 
   useEffect(()=> {
     (async() => {
-      if(asset !== ticker){
-        const dataRes = await getAssetData(token, 'MSFT');
+      if(asset.data.ticker !== symbol){
+        const dataRes = await getAssetData(token, symbol);
 
         await setAsset(dataRes)
-        await setTicker('MSFT')
       }
     })();
-
-
-  }, [setAsset])
+  }, [asset, symbol, token, setAsset])
 
   return(
     <>
@@ -32,10 +31,12 @@ const Asset = () => {
         <StockChart>
 
         </StockChart>
-      </Grid>
-      <Grid item xs={2}>
+        <CompanyInfo>
 
+        </CompanyInfo>
       </Grid>
+
+
 
       <Grid item xs={3}>
         <TradePanel />

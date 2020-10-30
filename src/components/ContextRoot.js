@@ -11,7 +11,7 @@ const Root = () => {
   const [currentUser, setCurrentUser] = useState({});
   const [portfolio, setPortfolio] = useState([]);
   const [watchlist, setWatchlist] = useState([]);
-  const [asset, setAsset] = useState({});
+  const [asset, setAsset] = useState({data: {}, companyInfo: {}});
 
   const value =  {
     token,
@@ -23,7 +23,7 @@ const Root = () => {
     watchlist,
     setWatchlist,
     asset,
-    setAsset
+    setAsset,
   }
   return (
     <RobinhoodContext.Provider value={value}>
