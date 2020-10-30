@@ -6,13 +6,23 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import React, { useState, useEffect, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
-import { getPortfolio } from '../fetches/portfolio';
+import { getPortfolio } from '../../fetches/portfolio';
+import RobinhoodContext from '../../RobinhoodContext';
 
-const Portfolio = ({currentUser}) => {
+const Portfolio = () => {
 
+   const { token } = useContext(RobinhoodContext);
+   const {portfolio, setPortfolio} = useContext(RobinhoodContext);
 
-  const portfolio = currentUser.portfolio;
+   useEffect(() => {
+    (async() => {
+      const currentPortfolio = await getPortfolio(token);
+      if(portfolio !== currentPortfolio){
+        setPortfolio(currentPortfolio);
+      }})()
+   }, [setPortfolio])
 
+   console.log(portfolio)
   if(!portfolio) {
     return null;
   }

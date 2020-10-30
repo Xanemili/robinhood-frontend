@@ -1,12 +1,12 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles';
-// import RobinhoodContext from './RobinhoodContext';
+
 import Portfolio from './Portfolio'
-import NavBar from './Navbar'
-import News from './News'
+import NavBar from '../Navbar'
 import PortfolioChart from './PortfolioChart'
-import RobinhoodContext from '../RobinhoodContext'
+import RobinhoodContext from '../../RobinhoodContext'
+import NewsContainer from './NewsContainer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const DashBoard = () => {
 
-   const { token } = useContext(RobinhoodContext);
+   const {token} = useContext(RobinhoodContext);
 
    let currentUser, balance, balanceChange, balancePercent, dailyData, max, min;
 
@@ -39,7 +39,7 @@ const DashBoard = () => {
       />
       <Grid container spacing={3}>
         <Grid item xs={6}>
-          <News />
+          <NewsContainer />
         </Grid>
 
         <Grid item xs={3}>
