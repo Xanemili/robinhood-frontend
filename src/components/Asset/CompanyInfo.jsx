@@ -4,6 +4,9 @@ import RobinhoodContext from '../../RobinhoodContext';
 const CompanyInfo = () => {
   const {asset: {companyInfo}} = useContext(RobinhoodContext);
 
+  if(!companyInfo) {
+    return null;
+  }
   return(
     <div>
       <div>

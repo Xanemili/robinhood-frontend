@@ -4,7 +4,7 @@ import { getAssetData } from '../../fetches/asset'
 import NavBar from '../Navbar';
 import TradePanel from './TradePanel'
 import RobinhoodContext from '../../RobinhoodContext';
-import StockChart from '../charts/StockChart';
+import StockReChart from '../charts/StockReChart';
 import CompanyInfo from './CompanyInfo';
 import CompanyNews from './CompanyNews'
 import {useParams} from 'react-router-dom';
@@ -34,7 +34,7 @@ const Asset = () => {
     <NavBar />
     <Grid container spacing={3}>
       <Grid item xs={6}>
-        <StockChart />
+        <StockReChart />
         <CompanyInfo />
         <CompanyNews />
 

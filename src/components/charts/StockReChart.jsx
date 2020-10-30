@@ -4,14 +4,6 @@ import RobinhoodContext from '../../RobinhoodContext';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 
-const RANGES = {
-  '1W': { length: 5, increment: 1},
-  '1M': { length: 23, increment: 1},
-  '3M': { length: 66, increment: 1},
-  '1Y': { length: 252, increment: 1},
-  // '5Y': { length: 1265, increment: 5}
-}
-
 
 
 const StockRechart = () => {

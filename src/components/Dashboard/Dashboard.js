@@ -24,7 +24,6 @@ const DashBoard = () => {
 
    const {token} = useContext(RobinhoodContext);
 
-   let currentUser, balance, balanceChange, balancePercent, dailyData, max, min;
 
    if(!token) {
      return null
@@ -32,15 +31,7 @@ const DashBoard = () => {
     return(
       <>
       <NavBar />
-      <PortfolioChart
-      currentUser={currentUser}
-      balance={balance}
-      balanceChange={balanceChange}
-      balancePercent={balancePercent}
-      dailyData={dailyData}
-      max={max}
-      min={min}
-      />
+      <PortfolioChart />
       <Grid container spacing={3}>
         <Grid item xs={6}>
           <CurrentBalance />
@@ -48,7 +39,7 @@ const DashBoard = () => {
         </Grid>
 
         <Grid item xs={3}>
-          <Portfolio token={token}/>
+          <Portfolio />
         </Grid>
 
       </Grid>
