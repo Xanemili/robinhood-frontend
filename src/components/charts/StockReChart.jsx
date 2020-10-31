@@ -47,12 +47,8 @@ const StockRechart = () => {
           )
         });
 
-        console.log(cleanData)
-
         const priceDiff = (cleanData[0].price - cleanData[cleanData.length - 1].price).toFixed(2);
         const perc = (((cleanData[cleanData.length - 1].price / cleanData[0].price) - 1) *100).toFixed(2);
-
-        console.log(priceDiff, perc)
 
         setChartData(cleanData)
         setPriceChange(priceDiff)
@@ -118,7 +114,7 @@ const StockRechart = () => {
 
   return (
     <div className="chart">
-      <h1>{asset.data.ticker}</h1>
+      <h1>{chartData.ticker}</h1>
       <h2>{stockPrice > 0 ? `${stockPrice}` : `-$${stockPrice}`}</h2>
       <h3>{priceChange < 0 ? `$${priceChange}` : `-$${priceChange}`}</h3>
       <h3>{percentChange}%</h3>

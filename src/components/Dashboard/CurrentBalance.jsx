@@ -5,21 +5,16 @@ const CurrentBalance = () => {
 
   const {portfolio} = useContext(RobinhoodContext);
 
-  if(!portfolio) {
+  if(portfolio.length === 0) {
     return null;
   }
 
-  const cash = portfolio.filter(sec => sec.ticker.ticker === 'CASH');
-
-
-  if(cash.length === 0){
-    return null;
-  }
+  console.log(portfolio)
 
   return(
     <div>
       BALANCE: $
-      {cash[0].ticker.ticker}
+
     </div>
   )
 }

@@ -28,10 +28,12 @@ const Portfolio = () => {
     return null;
   }
 
+  console.log(portfolio)
+
   return (
       <Card>
         <List>
-      {portfolio.filter(sec => sec.ticker.ticker !== 'CASH').map( (stock, idx)=> {
+      {/* {portfolio.filter(sec => sec.ticker.ticker !== 'CASH').map( (stock, idx)=> {
         return(
           <>
             <ListItem alignItems='center' key={stock.ticker.ticker}>
@@ -49,7 +51,7 @@ const Portfolio = () => {
             <Divider />
           </>
         )
-      })}
+      })} */}
         </List>
         <Watchlist />
       </Card>

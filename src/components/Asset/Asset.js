@@ -17,8 +17,13 @@ const Asset = () => {
   const {symbol} = useParams();
 
   useEffect(()=> {
+
+    if(!asset.companyInfo){
+      return;
+    }
+
     (async() => {
-      if(asset.data.ticker !== symbol){
+      if(asset.companyInfo.symbol !== symbol){
         const dataRes = await getAssetData(token, symbol);
         await setAsset(dataRes)
       }

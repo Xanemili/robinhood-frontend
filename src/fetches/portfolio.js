@@ -9,17 +9,14 @@ export const getPortfolio = async (token) => {
 
   let tickerList = await res.json()
 
-  let tickerAndPricing = tickerList.portfolio.filter(security => security !== 'CASH').map( async(security) => {
-    const pricing = await fetch(`https://api.polygon.io/v2/snapshot/locale/us/markets/stocks/tickers/${security.Ticker.ticker}?apiKey=0sXWlN4BphrsPZEVMC1cWUKxM5lHx53z`)
+  tickerList.portfolio.filter(security => security.Ticker.ticker !== 'CASH').forEach( async(security) => {
+    const pricing = await fetch(`https://api.polygon.io/v2/aggs/ticker/${security.Ticker.ticker}/prev?apiKey=0sXWlN4BphrsPZEVMC1cWUKxM5lHx53z`)
     let waitpricing = await pricing.json();
-    return waitpricing
+    security.data = waitpricing
   })
 
-  let getData = await Promise.all(tickerAndPricing)
-
-
   if(res.ok) {
-    return getData
+    return tickerList;
   } else {
     return [];
   }
