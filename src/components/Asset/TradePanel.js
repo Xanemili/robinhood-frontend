@@ -65,10 +65,10 @@ export default function TradePanel () {
       <CardContent>
         {asset.ticker}
         <div>
-          <Button onClick={updateProperty(setOrderType)} value='BUY'>
+          <Button onClick={() => setOrderType('BUY')}>
             Buy
           </Button>
-          <Button onClick={updateProperty(setOrderType)} value='SELL'>
+          <Button onClick={() => setOrderType('SELL')}>
             Sell
           </Button>
         </div>

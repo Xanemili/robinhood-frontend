@@ -8,6 +8,7 @@ import StockReChart from '../charts/StockReChart';
 import CompanyInfo from './CompanyInfo';
 import CompanyNews from './CompanyNews'
 import {useParams} from 'react-router-dom';
+import './asset-styles.css'
 
 const Asset = () => {
 
@@ -19,7 +20,6 @@ const Asset = () => {
     (async() => {
       if(asset.data.ticker !== symbol){
         const dataRes = await getAssetData(token, symbol);
-
         await setAsset(dataRes)
       }
     })();
@@ -31,21 +31,23 @@ const Asset = () => {
 
   return(
     <>
-    <NavBar />
-    <Grid container spacing={3}>
-      <Grid item xs={6}>
-        <StockReChart />
-        <CompanyInfo />
-        <CompanyNews />
+      <nav>
+        <NavBar />
+      </nav>
+      <main>
 
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <StockReChart />
+          <CompanyInfo />
+          <CompanyNews />
+        </Grid>
+
+        <Grid item xs={2} className='sidebar-content__right'>
+          <TradePanel />
+        </Grid>
       </Grid>
-
-
-
-      <Grid item xs={3}>
-        <TradePanel />
-      </Grid>
-    </Grid>
+      </main>
     </>
   )
 

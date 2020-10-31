@@ -1,6 +1,7 @@
 import React, {useContext, useEffect} from 'react';
 import Grid from '@material-ui/core/Grid'
 import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container'
 
 import Portfolio from './Portfolio'
 import NavBar from '../Navbar'
@@ -30,9 +31,12 @@ const DashBoard = () => {
    }
     return(
       <>
-      <NavBar />
-      <PortfolioChart />
+      <nav>
+        <NavBar />
+      </nav>
+
       <Grid container spacing={3}>
+      <PortfolioChart />
         <Grid item xs={6}>
           <CurrentBalance />
           <NewsContainer />
@@ -43,6 +47,7 @@ const DashBoard = () => {
         </Grid>
 
       </Grid>
+
     </>
     )
 }

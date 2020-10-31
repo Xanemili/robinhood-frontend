@@ -1,1 +1,15 @@
 /* TODO Add site wide styles */
+
+.sidebar-content__right {
+  /* position: fixed;
+  align-items: center; */
+}
+
+main{
+}
+
+.nav {
+  top: 0;
+  position: fixed;
+  overflow: hidden;
+}
