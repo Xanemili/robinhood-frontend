@@ -13,12 +13,12 @@ const StockRechart = () => {
 
   const [active, setActive] = useState('')
   const [dateRange, setDateRange] = useState(['2020-10-27', '2020-10-30'])
-  const {asset, token} = useContext(RobinhoodContext)
+  const {token, assetPrice, setAssetPrice} = useContext(RobinhoodContext)
   const [chartData, setChartData] = useState([{results: []}]);
   const [stockPrice, setStockPrice] = useState();
   const [priceChange, setPriceChange] = useState(0);
   const [percentChange, setPercentChange] = useState(0);
-  const symbol = 'MSFT'
+  const {symbol} = useParams();
 
 
 
@@ -49,9 +49,11 @@ const StockRechart = () => {
         const priceDiff = (cleanData[0].price - cleanData[cleanData.length - 1].price).toFixed(2);
         const perc = (((cleanData[cleanData.length - 1].price / cleanData[0].price) - 1) *100).toFixed(2);
 
+
         setChartData(cleanData)
         setPriceChange(priceDiff)
         setPercentChange(perc)
+        setAssetPrice(cleanData[cleanData.length - 1].price.toFixed(2))
       }
     })();
 
@@ -112,8 +114,8 @@ const StockRechart = () => {
 
   return (
     <div className="chart">
-      <h1>{chartData.ticker}</h1>
-      <h2>{stockPrice > 0 ? `${stockPrice}` : `-$${stockPrice}`}</h2>
+      <h1>{symbol}</h1>
+      <h2>{assetPrice > 0 ? `${assetPrice}` : `-$${assetPrice}`}</h2>
       <h3>{priceChange < 0 ? `$${priceChange}` : `-$${priceChange}`}</h3>
       <h3>{percentChange}%</h3>
       <div className="stock-chart">

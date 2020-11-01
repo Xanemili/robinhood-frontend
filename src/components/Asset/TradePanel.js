@@ -1,8 +1,6 @@
 import React, {useState, useEffect, useContext} from 'react';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import RobinhoodContext from '../../RobinhoodContext';
@@ -11,7 +9,8 @@ import { useParams } from 'react-router-dom';
 import { Divider, TextField } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
-import red from '@material-ui/core/colors/red'
+import red from '@material-ui/core/colors/red';
+import {addItemToList} from '../../fetches/portfolio';
 
 function NumberFormatCustom(props) {
   const { inputRef, onChange, ...other } = props;
@@ -49,7 +48,7 @@ export default function TradePanel () {
   const [orderType, setOrderType] = useState('BUY');
   const {symbol} = useParams();
 
-  const {token, asset} = useContext(RobinhoodContext);
+  const {token, asset, assetPrice} = useContext(RobinhoodContext);
 
   const handleOrder = async (e) => {
     e.preventDefault();
@@ -77,8 +76,9 @@ export default function TradePanel () {
 
   },[asset])
 
-  const addToList = e => {
-    console.log('here')
+  const addToList = async() => {
+    let response = await addItemToList(token, symbol);
+    console.log(response);
   }
 
   if(!asset.companyInfo) {
@@ -121,8 +121,7 @@ export default function TradePanel () {
           label="Price"
           required
           variant='outlined'
-          value={`${price}`}
-          onChange={updateProperty(setPrice)}
+          value={`${assetPrice}`}
         />
         </Grid>
         <Grid item xs={8} >

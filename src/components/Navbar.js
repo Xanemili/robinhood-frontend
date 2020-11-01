@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect, Link } from 'react-router-dom';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NavBar() {
   const classes = useStyles();
 
-  const {setToken} = useContext(RobinhoodContext);
+  const {token, setToken} = useContext(RobinhoodContext);
   const [searchValue, setSearchValue] = useState('');
   const [searchResults, setSearchResults] = useState([])
   const [open, setOpen] = React.useState(false);
@@ -79,12 +79,14 @@ export default function NavBar() {
 
   useEffect(() => {
     (async() => {
-      let searchArray = await getSearch(searchValue)
-      setSearchResults(searchArray)
+
+        let searchArray = await getSearch(searchValue)
+        if(searchArray.status === 'OK'){
+          setSearchResults(searchArray.tickers)
+        }
+
     })()
   },[searchValue]);
-
-  console.log(searchResults)
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -113,6 +115,10 @@ export default function NavBar() {
 
     prevOpen.current = open;
   }, [open])
+
+  const handleRoute = (event) => {
+    return <Redirect to={`/assets/${event.target.ticker}`}></Redirect>
+  }
 
   return (
     <AppBar position='absolute'>
@@ -145,10 +151,13 @@ export default function NavBar() {
               <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList id="menu-list-grow" onKeyDown={handleListKeyDown}>
-
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    {searchResults.map( ticker => {
+                      return (
+                        <MenuItem key={ticker.ticker} value={ticker.ticker}>
+                          <Link to={`/assets/${ticker.ticker}`}> {ticker.ticker}</Link>
+                        </MenuItem>
+                      )
+                    })}
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -156,19 +165,19 @@ export default function NavBar() {
           )}
         </Popper>
           </div>
-          <Button onClick={removeToken}>
-            Logout
-          </Button>
           <Button color="inherit">
             <NavLink to='/'>
               Portfolio
             </NavLink>
           </Button>
-          <Button color="inherit">
+          <Button onClick={removeToken}>
+            Logout
+          </Button>
+          {/* <Button color="inherit">
             <NavLink to='/account'>
               Account
             </NavLink>
-          </Button>
+          </Button> */}
         </Toolbar>
       </AppBar>
   );
