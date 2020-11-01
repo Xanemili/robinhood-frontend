@@ -8,7 +8,7 @@ import {ThemeProvider} from '@material-ui/core'
 const Root = () => {
 
   const [token, setToken] = useState('');
-  const [historicalPortfolio, setHistoricalPortfolio] = useState({});
+  const [assetPrice, setAssetPrice] = useState(0.00);
   const [portfolio, setPortfolio] = useState([{Ticker: {ticker: ''}}]);
   const [watchlist, setWatchlist] = useState([]);
   const [asset, setAsset] = useState({data: {results: []}, companyInfo: {similar: []}, companyNews: []});
@@ -16,8 +16,8 @@ const Root = () => {
   const value =  {
     token,
     setToken,
-    historicalPortfolio,
-    setHistoricalPortfolio,
+    assetPrice,
+    setAssetPrice,
     portfolio,
     setPortfolio,
     watchlist,
