@@ -13,3 +13,24 @@ export const getToken = async (email, password) => {
     return token;
   }
 }
+
+export const createUser = async (body) => {
+
+  const response = await fetch(`${baseUrl}/users`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body)
+  })
+
+  console.log(response)
+
+  if(response.ok) {
+    const {token} = await response.json();
+    window.localStorage.setItem('token', token)
+    return token;
+  } else {
+    return;
+  }
+}

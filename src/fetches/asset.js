@@ -17,6 +17,9 @@ export const getAssetData = async (token, asset) => {
 };
 
 export const sendTrade = async (token, data) => {
+  data.price = parseFloat(data.price)
+  data.amount = parseFloat(data.amount)
+
   const response = await fetch (`${baseUrl}/trades/${data.ticker}/${data.orderType}`, {
     method: 'Post',
     headers: {
@@ -43,5 +46,17 @@ export const getHistoricalAssetData = async (token, asset, dateRange) => {
     return data
   } else {
     return []
+  }
+}
+
+export const getSearch = async(search) => {
+  const url = `${baseUrl}/assets/search/${search}/`
+  const res = await fetch(url)
+
+  if(res.ok) {
+    const data = await res.json()
+    return data;
+  } else {
+    return [];
   }
 }

@@ -1,8 +1,10 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {LineChart, Line, YAxis, Tooltip, XAxis} from 'recharts';
+import {LineChart, Line, YAxis, Tooltip, XAxis, ResponsiveContainer} from 'recharts';
 import RobinhoodContext from '../../RobinhoodContext';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper'
 import {getPortfolioHistory} from '../../fetches/portfolio'
 
 const PortfolioChart = () => {
@@ -89,10 +91,17 @@ const PortfolioChart = () => {
   }
 
   return (
-    <div className="chart">
-      <div className="stock-chart">
-        <LineChart width={650} height={200} data={portfolioChartData}
-        margin={{top: 5, right: 30, left: 0, bottom: 5}}>
+
+      <Paper spacing={2}>
+        <div margin={{left: 5}}>
+          <Typography variant='h6' padding={20}>
+            Portfolio
+          </Typography>
+        </div>
+      <div style={{width: '100%', height: 300}}>
+        <ResponsiveContainer>
+        <LineChart data={portfolioChartData}
+        margin={{top: 5, right: 7, left: 7, bottom: 0}}>
           <YAxis hide={true}
           />
           <XAxis dataKey="date" />
@@ -100,15 +109,18 @@ const PortfolioChart = () => {
           <Line type='linear' dataKey='price' dot={false} />
           <Line type='linear' dataKey='parsedDate' dot={false} />
         </LineChart>
-        <ButtonGroup color='primary' size='small'>
+        </ResponsiveContainer>
+      </div>
+
+      <ButtonGroup color='secondary' size='small' margin={5}>
           <Button onClick={handleRange} value={2}>1D</Button>
           <Button onClick={handleRange} value={3}>1M</Button>
           <Button onClick={handleRange} value={4}>3M</Button>
           <Button onClick={handleRange} value={5}>1Y</Button>
           <Button onClick={handleRange} value={1}>3Y</Button>
         </ButtonGroup>
-      </div>
-    </div>
+      </Paper>
+
   )
 }
 

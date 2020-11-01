@@ -5,6 +5,7 @@ import RobinhoodContext from '../RobinhoodContext';
 import Login from './LoginForm'
 import Dashboard from './Dashboard/Dashboard'
 import Asset from './Asset/Asset'
+import Signup from './Signup'
 // import Navbar from './Navbar'
 
 const PrivateRoute = (props) => {
@@ -40,6 +41,12 @@ const App = () => {
         path='/login'
         render={(props) => (
           <Login {...props} />
+        )}
+        />
+        <Route
+        path='/sign-up'
+        render={(props) => (
+          <Signup {...props} />
         )}
         />
         <PrivateRoute

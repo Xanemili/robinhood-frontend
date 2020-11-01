@@ -75,3 +75,38 @@ export const addItemToList = async (token, security) => {
     return 'There was an error'
   }
 }
+
+export const addCash = async(token) => {
+  const url = `${baseUrl}/trades/cash`
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  if (res.ok) {
+    const data = await res.json()
+    return data;
+  } else {
+    return [];
+  }
+}
+
+export const getCash = async(token) => {
+
+  const url = `${baseUrl}/users/cash`
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  if (res.ok) {
+    const data = await res.json()
+    return data
+  } else {
+    return {};
+  }
+
+}

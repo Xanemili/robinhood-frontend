@@ -21,9 +21,9 @@ const Watchlist = () => {
 
   return (
     <>
-    <Divider />
+    <Divider variant='middle'/>
       <ListSubheader>
-        {watchlist.watchlist ? watchlist.watchlist.name : 'insert'}
+        {watchlist.watchlist ? watchlist.watchlist.name : 'Watchlist'}
       </ListSubheader>
     <Divider variant='middle'/>
       {watchlist.watchlist ? watchlist.watchlist.Tickers.map( ticker => {

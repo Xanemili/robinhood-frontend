@@ -3,7 +3,7 @@ import RobinhoodContext from '../../RobinhoodContext';
 import { ListSubheader, ListItem, Divider, ListItemText } from '@material-ui/core';
 import { Link } from 'react-router-dom'
 import StockPrice from './StockPrice'
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {addItemToList} from '../../fetches/portfolio'
 
 
@@ -18,14 +18,13 @@ const Suggested = () => {
     if(addItem){
       (async()=> {
         const addtoList = await addItemToList(token, addItem)
-
       })();
     }
   },[addItem, token])
 
   return (
     <>
-      <Divider />
+      <Divider variant='middle'/>
       <ListSubheader>
         Suggested
       </ListSubheader>
@@ -38,8 +37,11 @@ const Suggested = () => {
                 {ticker}
               </Link>
             </ListItemText>
-            <StockPrice ticker={ticker} />
-            <RemoveCircleIcon onClick={()=>setAddItem(ticker)}/>
+                <StockPrice ticker={ticker} />
+                {/* <AddCircleIcon onClick={()=> {
+                  setAddItem(ticker)
+                  //implement custom reducer
+                }} color='secondary'/> */}
           </ListItem>
         )
       })}

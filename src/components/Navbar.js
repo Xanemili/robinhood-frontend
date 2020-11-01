@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { NavLink } from 'react-router-dom';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,6 +7,9 @@ import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
 import RobinhoodContext from '../RobinhoodContext'
+import { AppBar, Grow, Paper,ClickAwayListener, MenuList, Popper, MenuItem } from '@material-ui/core';
+import {getSearch} from '../fetches/asset';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -63,17 +66,59 @@ const useStyles = makeStyles((theme) => ({
 export default function NavBar() {
   const classes = useStyles();
 
-  const {token, setToken} = useContext(RobinhoodContext);
+  const {setToken} = useContext(RobinhoodContext);
+  const [searchValue, setSearchValue] = useState('');
+  const [searchResults, setSearchResults] = useState([])
+  const [open, setOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
 
   const removeToken = () => {
     localStorage.removeItem('token');
     setToken(null);
   }
 
+  useEffect(() => {
+    (async() => {
+      let searchArray = await getSearch(searchValue)
+      setSearchResults(searchArray)
+    })()
+  },[searchValue]);
+
+  console.log(searchResults)
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    }
+  }
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open])
+
   return (
-      <nav>
+    <AppBar position='absolute'>
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
+            RobinTrades
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -86,7 +131,30 @@ export default function NavBar() {
                 input: classes.inputInput,
               }}
               inputProps={{ 'aria-label': 'search' }}
+              value={searchValue}
+              ref={anchorRef}
+              onChange={(e)=> setSearchValue(e.target.value)}
+              onFocus={(e)=> handleToggle(e)}
             />
+            <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleClose}>
+                  <MenuList id="menu-list-grow" onKeyDown={handleListKeyDown}>
+
+                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem onClick={handleClose}>My account</MenuItem>
+                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
           </div>
           <Button onClick={removeToken}>
             Logout
@@ -102,6 +170,6 @@ export default function NavBar() {
             </NavLink>
           </Button>
         </Toolbar>
-      </nav>
+      </AppBar>
   );
 }

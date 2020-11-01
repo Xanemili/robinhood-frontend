@@ -21,14 +21,15 @@ const StockPrice = ({ticker}) => {
   })
 
   return (
-
-        <ListItemText
-          primary={data.c ? `$ ${(data.c).toFixed(2)}` : 0}
-          secondary={data.c ? `${(((data.c / data.o) - 1) * 100).toFixed(2)}%` : 0}
-          >
-        </ListItemText>
-
-
+    <>
+    {data ?
+      <ListItemText
+      primary={data.c ? `$ ${(data.c).toFixed(2)}` : 0}
+      secondary={data.c ? `${(((data.c / data.o) - 1) * 100).toFixed(2)}%` : 0}
+      >
+      </ListItemText> : <></>
+    }
+    </>
   )
 }
 
