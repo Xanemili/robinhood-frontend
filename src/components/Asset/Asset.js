@@ -14,7 +14,7 @@ const Asset = () => {
 
   const {token, asset, setAsset} = useContext(RobinhoodContext)
   const [lastPrice, setLastPrice] = useState(0)
-  const {symbol} = useParams();
+  const {symbol} = useParams(); // PARAMS ARENT WORING
 
   useEffect(()=> {
 
@@ -25,6 +25,7 @@ const Asset = () => {
     (async() => {
       if(asset.companyInfo.symbol !== symbol){
         const dataRes = await getAssetData(token, symbol);
+        console.log(dataRes)
         await setAsset(dataRes)
       }
     })();
@@ -41,14 +42,14 @@ const Asset = () => {
       </nav>
       <main>
 
-      <Grid container spacing={3}>
+      <Grid container spacing={5} justify={'center'}>
         <Grid item xs={6}>
           <StockReChart />
           <CompanyInfo />
           <CompanyNews />
         </Grid>
 
-        <Grid item xs={2} className='sidebar-content__right'>
+        <Grid item xs={2}>
           <TradePanel />
         </Grid>
       </Grid>

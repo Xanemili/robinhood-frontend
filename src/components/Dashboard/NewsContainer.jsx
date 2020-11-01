@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import News from './News'
 import {getNews} from '../../fetches/news';
+import Grid from '@material-ui/core/Grid';
+import { Typography } from '@material-ui/core';
 
 const NewsContainer = () => {
 
@@ -14,11 +16,22 @@ const NewsContainer = () => {
   }, [setNews]);
 
   return (
-    <>
+    <Grid container spacing={2}>
+      <Grid item>
+        <Typography variant='h2'>
+          Market News
+        </Typography>
+      </Grid>
       {news.articles.map( (article,idx) => {
-        return <News article={article} key={idx}/>
+        return (
+
+            <Grid item key={idx}>
+              <News article={article} />
+            </Grid>
+
+        )
       })}
-    </>
+    </Grid>
   )
 }
 

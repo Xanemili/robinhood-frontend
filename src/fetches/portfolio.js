@@ -9,14 +9,8 @@ export const getPortfolio = async (token) => {
 
   let tickerList = await res.json()
 
-  tickerList.portfolio.filter(security => security.Ticker.ticker !== 'CASH').forEach( async(security) => {
-    const pricing = await fetch(`https://api.polygon.io/v2/aggs/ticker/${security.Ticker.ticker}/prev?apiKey=0sXWlN4BphrsPZEVMC1cWUKxM5lHx53z`)
-    let waitpricing = await pricing.json();
-    security.data = waitpricing
-  })
-
   if(res.ok) {
-    return tickerList;
+    return tickerList.portfolio;
   } else {
     return [];
   }
@@ -33,5 +27,51 @@ export const getWatchlist = async(token) => {
     return res.json()
   }  else {
     return [];
+  }
+}
+
+export const getPortfolioHistory = async(token) => {
+  const res = await fetch(`${baseUrl}/users/history`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  if(res.ok) {
+    return res.json()
+  } else {
+    return [];
+  }
+}
+
+export const deleteListItem = async(token, security) => {
+  const res = await fetch(`${baseUrl}/api/watchlist/${security}/MSFT`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  if(res.ok){
+    return res.json()
+  } else {
+    return 'There was an error'
+  }
+}
+
+export const addItemToList = async (token, security) => {
+
+  console.log(token, security)
+  const res = await fetch(`${baseUrl}/watchlist/security/${security}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  if (res.ok) {
+    return res.json()
+  } else {
+    return 'There was an error'
   }
 }

@@ -8,30 +8,30 @@ import Asset from './Asset/Asset'
 // import Navbar from './Navbar'
 
 const PrivateRoute = (props) => {
-  return (
-    <Route {...props} render={() => {
-      if(props.needLogin === true){
-        return <Redirect to='/login' />
-      } else {
-        return props.children;
-      }
-    }}
-  />);
+  return (<Route render={() => {
+    return (
+      props.needLogin === true
+        ? <Redirect to='/login' />
+        : props.children
+      );
+    }}/>);
 }
+
 
 const App = () => {
   const { token, setToken } = useContext(RobinhoodContext)
 
   useEffect(() => {
     (async() => {
-      const localToken = window.localStorage.getItem('token');
+      const localToken = await window.localStorage.getItem('token');
       if(localToken) {
         setToken(localToken)
       }
-    })()
-  }, [setToken]);
+    })();
 
+  }, [setToken]);
   const needLogin = !token;
+
 
   return (
     <BrowserRouter>
@@ -47,15 +47,13 @@ const App = () => {
         exact={true}
         needLogin={needLogin}>
           <Dashboard token={token}/>
-
         </PrivateRoute>
 
-        <PrivateRoute
+        <Route
         path='/assets/:symbol'
         needLogin={needLogin}>
           <Asset token={token}/>
-        </PrivateRoute>
-
+        </Route>
 
       </Switch>
     </BrowserRouter>

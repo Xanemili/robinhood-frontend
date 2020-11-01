@@ -1,14 +1,9 @@
 import React, {useContext} from 'react';
 import RobinhoodContext from '../../RobinhoodContext';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import ButtonBase from '@material-ui/core/ButtonBase';
 import CardMedia from '@material-ui/core/CardMedia';
 import Divider from '@material-ui/core/Divider';
 import makeStyles from '@material-ui/core/styles/makeStyles'

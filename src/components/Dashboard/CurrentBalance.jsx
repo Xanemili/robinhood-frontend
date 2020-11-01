@@ -1,21 +1,21 @@
 import React, {useContext} from 'react';
 import RobinhoodContext from '../../RobinhoodContext';
+import Paper from '@material-ui/core/Paper'
+import Grid from '@material-ui/core/Grid'
+import { useState } from 'react';
 
-const CurrentBalance = () => {
-
-  const {portfolio} = useContext(RobinhoodContext);
-
-  if(portfolio.length === 0) {
-    return null;
-  }
-
-  console.log(portfolio)
+const CurrentBalance = (props) => {
 
   return(
-    <div>
-      BALANCE: $
+    <Paper>
+      <Grid container justify='space-between'>
+        <Grid item>
+          BALANCE: ${props.cash}
+        </Grid>
 
-    </div>
+
+      </Grid>
+    </Paper>
   )
 }
 

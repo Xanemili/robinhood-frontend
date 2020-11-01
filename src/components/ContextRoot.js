@@ -9,7 +9,7 @@ const Root = () => {
 
   const [token, setToken] = useState('');
   const [historicalPortfolio, setHistoricalPortfolio] = useState({});
-  const [portfolio, setPortfolio] = useState([]);
+  const [portfolio, setPortfolio] = useState([{Ticker: {ticker: ''}}]);
   const [watchlist, setWatchlist] = useState([]);
   const [asset, setAsset] = useState({data: {results: []}, companyInfo: {similar: []}, companyNews: []});
 

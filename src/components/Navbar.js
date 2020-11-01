@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import { NavLink } from 'react-router-dom';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
+import RobinhoodContext from '../RobinhoodContext'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -61,6 +63,13 @@ const useStyles = makeStyles((theme) => ({
 export default function NavBar() {
   const classes = useStyles();
 
+  const {token, setToken} = useContext(RobinhoodContext);
+
+  const removeToken = () => {
+    localStorage.removeItem('token');
+    setToken(null);
+  }
+
   return (
       <nav>
         <Toolbar>
@@ -79,6 +88,9 @@ export default function NavBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
+          <Button onClick={removeToken}>
+            Logout
+          </Button>
           <Button color="inherit">
             <NavLink to='/'>
               Portfolio

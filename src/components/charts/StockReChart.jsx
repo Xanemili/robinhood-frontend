@@ -18,7 +18,7 @@ const StockRechart = () => {
   const [stockPrice, setStockPrice] = useState();
   const [priceChange, setPriceChange] = useState(0);
   const [percentChange, setPercentChange] = useState(0);
-  const {symbol} = useParams();
+  const symbol = 'MSFT'
 
 
 
@@ -30,8 +30,7 @@ const StockRechart = () => {
         console.log(dataRes.error)
       }
 
-
-      if(dataRes.status === 'DELAYED' || dataRes.status === 'OK'){
+      if((dataRes.status === 'DELAYED' || dataRes.status === 'OK') && dataRes.ticker !== undefined){
         let cleanData = dataRes.results.map(day => {
           let date = new Date()
           date.setTime(day.t);
@@ -77,7 +76,7 @@ const StockRechart = () => {
     return MONTHS[number];
   }
 
-  const cleanMonth = (number) => {
+  const cleanDate = (number) => {
     if(number < 10){
       return '0'+number
     } else {
@@ -101,9 +100,8 @@ const StockRechart = () => {
 
     let end = new Date();
 
-    let parsedStart = `${start.getFullYear()}-${cleanMonth(start.getMonth()+1)}-${start.getDate()}`
-    let parsedEnd = `${end.getFullYear()}-${cleanMonth(end.getMonth()+1)}-${end.getDate()}`
-    console.log(parsedStart,parsedEnd)
+    let parsedStart = `${start.getFullYear()}-${cleanDate(start.getMonth()+1)}-${cleanDate(start.getDate())}`
+    let parsedEnd = `${end.getFullYear()}-${cleanDate(end.getMonth()+1)}-${cleanDate(end.getDate())}`
 
     setDateRange([parsedStart, parsedEnd]);
   }

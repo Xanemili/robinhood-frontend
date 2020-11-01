@@ -1,18 +1,39 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {LineChart, Line, YAxis, Tooltip, XAxis} from 'recharts';
 import RobinhoodContext from '../../RobinhoodContext';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
+import {getPortfolioHistory} from '../../fetches/portfolio'
 
 const PortfolioChart = () => {
 
   const [active, setActive] = useState('')
   const [dateRange, setDateRange] = useState([])
-  const {} = useContext(RobinhoodContext)
+  const [portfolioChartData, setPortfolioChartData] = useState([{data: {}}])
+  const {token} = useContext(RobinhoodContext)
 
-  const render1DChart = () => {
+  useEffect(()=> {
+    (async() => {
+      const response = await getPortfolioHistory(token);
 
-  }
+      if(response){
+
+        const cleanData = response.portfolio.map(day => {
+          let date = new Date(Date.parse(day.updatedAt.toString()))
+
+          let parsedDate = `${setMonth(date.getMonth())}, ${date.getDate()}, ${date.getFullYear()}`
+
+          return ({
+            date,
+            parsedDate,
+            price: day.tradeTotal
+          })
+        });
+
+        setPortfolioChartData(cleanData)
+      }
+    })();
+  }, [setPortfolioChartData, token])
 
   const setMonth = (number) => {
     const MONTHS = {
@@ -33,43 +54,34 @@ const PortfolioChart = () => {
     return MONTHS[number];
   }
 
-  const testData = [{
-    t: 1604052951230627600,
-    vw: 12,
-    price: 13
-  }, {
-    t: 1604052951230627600,
-    vw: 12,
-    price: 14
-  }]
+  const cleanDate = (number) => {
+    if (number < 10) {
+      return '0' + number
+    } else {
+      return number
+    }
+  }
 
-  const cleanData = testData.map( day => {
-    let date = new Date()
-    date.setTime(day.t);
 
-    let parsedDate = `${setMonth(date.getMonth())}, ${date.getDay()}, ${date.getFullYear()}`
-    return (
-      {
-        date,
-        parsedDate,
-        vw: day.vw,
-        price: day.c
-      }
-    )
-  })
-
-  console.log(cleanData)
-
-  const handleRange = (e) => {
+  const handleRange = (period, size) => {
     let start = new Date();
-    start.setMonth(start.getMonth() - 1)
+    switch (period) {
+      case 'month':
+        start.setMonth(start.getMonth() - size);
+        break;
+      case 'year':
+        start.setFullYear(start.getFullYear() - size);
+        break;
+      default:
+        return;
+    }
+
     let end = new Date();
 
-    let parsedStart = `${start.getFullYear()}-${start.getMonth()+1}-${start.getDay()}`
-    let parsedEnd = `${end.getFullYear()}-${end.getMonth()+1}-${end.getDay()}`
+    let parsedStart = `${start.getFullYear()}-${cleanDate(start.getMonth()+1)}-${cleanDate(start.getDate())}`
+    let parsedEnd = `${end.getFullYear()}-${cleanDate(end.getMonth()+1)}-${cleanDate(end.getDate())}`
 
     setDateRange([parsedStart, parsedEnd]);
-    console.log(dateRange);
   }
 
   const handleIntraDay = (e) => {
@@ -79,7 +91,7 @@ const PortfolioChart = () => {
   return (
     <div className="chart">
       <div className="stock-chart">
-        <LineChart width={650} height={200} data={cleanData}
+        <LineChart width={650} height={200} data={portfolioChartData}
         margin={{top: 5, right: 30, left: 0, bottom: 5}}>
           <YAxis hide={true}
           />
