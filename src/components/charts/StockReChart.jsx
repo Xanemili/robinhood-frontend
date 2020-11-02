@@ -55,7 +55,7 @@ const StockRechart = () => {
         setChartData(cleanData)
         setPriceChange(priceDiff)
         setPercentChange(perc)
-        setAssetPrice(new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(cleanData[cleanData.length - 1].price))
+        setAssetPrice(cleanData[cleanData.length - 1].price)
 
         if(priceDiff < 0){
           setColor('#ba000d')

@@ -57,9 +57,10 @@ export default function TradePanel () {
     const payload = {
       orderType,
       ticker: symbol,
-      price,
+      price: assetPrice,
       amount
     }
+
 
     const success = await sendTrade(token, payload);
     if(success) {
@@ -73,8 +74,6 @@ export default function TradePanel () {
   const updateProperty = callback => e => {
     callback(e.target.value)
   }
-
-  console.log(watchlist)
 
   useEffect(() => {
   },[asset])
