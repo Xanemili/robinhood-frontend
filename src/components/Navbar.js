@@ -124,7 +124,7 @@ export default function NavBar() {
     <AppBar position='absolute'>
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <NavLink to='/'>
+            <NavLink to='/' style={{textDecoration: 'none', color: 'inherit'}}>
             RobinTrades
             </NavLink>
           </Typography>
@@ -167,8 +167,8 @@ export default function NavBar() {
           )}
         </Popper>
           </div>
-          <Button color="secondary">
-            <NavLink to='/'>
+          <Button>
+            <NavLink to='/' style={{textDecoration: 'none', color: 'inherit'}}>
               Portfolio
             </NavLink>
           </Button>

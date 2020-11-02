@@ -9,7 +9,6 @@ import { useParams } from 'react-router-dom';
 import { Divider, TextField } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
-import red from '@material-ui/core/colors/red';
 import {addItemToList, deleteListItem} from '../../fetches/portfolio';
 import ActionModal from './ActionModal';
 
@@ -46,11 +45,11 @@ NumberFormatCustom.propTypes = {
 export default function TradePanel () {
 
   const [amount, setAmount] = useState(0);
-  const [price, setPrice] = useState(0);
+  // const [price, setPrice] = useState(0);
   const [orderType, setOrderType] = useState('BUY');
   const {symbol} = useParams();
 
-  const {token, asset, assetPrice, watchlist} = useContext(RobinhoodContext);
+  const {token, asset, assetPrice} = useContext(RobinhoodContext);
 
   const handleOrder = async (e) => {
     e.preventDefault();
@@ -64,9 +63,9 @@ export default function TradePanel () {
 
     const success = await sendTrade(token, payload);
     if(success) {
-      console.log('yayayayay')
+      alert('Trade Successful!')
     } else {
-      console.log('trade failed')
+      alert('Trade Failed')
     }
 
   }
@@ -80,12 +79,13 @@ export default function TradePanel () {
 
   const addToList = async() => {
     let response = await addItemToList(token, symbol);
-    console.log(response);
+    if(response){
+      alert(`${symbol} was added to your Watchlist.`)
+    }
   }
 
   const removeFromList = async() => {
     let response = await deleteListItem(token, symbol);
-    console.log(response)
     return  <ActionModal message={response.message} />
   }
 
@@ -130,6 +130,14 @@ export default function TradePanel () {
           required
           variant='outlined'
           value={`${assetPrice}`}
+        />
+        </Grid>
+        <Grid item xs={8}>
+          <TextField
+          label="Trade Total"
+          disabled
+          variant='standard'
+          value={`${amount ? parseFloat(assetPrice) * parseFloat(amount) :0}`}
         />
         </Grid>
         <Grid item xs={8} >

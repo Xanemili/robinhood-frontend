@@ -53,7 +53,6 @@ export default function SignUp() {
     }
 
     const token = await createUser(body);
-    console.log(token)
     if(token){
       setToken(token);
 

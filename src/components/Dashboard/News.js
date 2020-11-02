@@ -22,9 +22,6 @@ const useStyles = makeStyles({
   },
 });
 
-const parseDate = (date) => {
-  let parsedDate = new Date()
-}
 
 export default function News({article}) {
   const classes = useStyles();

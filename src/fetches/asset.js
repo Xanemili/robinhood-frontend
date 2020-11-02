@@ -9,7 +9,6 @@ export const getAssetData = async (token, asset) => {
 
   if(res.ok) {
     const data = await res.json()
-    console.log(data)
     return data
   } else {
     return [];

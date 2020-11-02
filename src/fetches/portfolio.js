@@ -38,8 +38,6 @@ export const getPortfolioHistory = async(token) => {
     }
   });
 
-  console.log(res)
-
   if(res.ok) {
     return res.json()
   } else {
@@ -48,7 +46,7 @@ export const getPortfolioHistory = async(token) => {
 }
 
 export const deleteListItem = async(token, security) => {
-  console.log(token, security)
+
   const res = await fetch(`${baseUrl}/watchlist/security/${security}`, {
     method: 'DELETE',
     headers: {

@@ -6,13 +6,13 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper'
 import {getPortfolioHistory} from '../../fetches/portfolio'
-import moment from 'moment'
+// import moment from 'moment'
 import Divider from '@material-ui/core/Divider'
 
 const PortfolioChart = () => {
 
-  const [active, setActive] = useState('')
-  const [dateRange, setDateRange] = useState([])
+  // const [active, setActive] = useState('')
+  // const [dateRange, setDateRange] = useState([])
   const [portfolioChartData, setPortfolioChartData] = useState([{data: {}}])
   const {token} = useContext(RobinhoodContext)
   const [priceChange, setPriceChange] = useState('')
@@ -104,12 +104,8 @@ const PortfolioChart = () => {
     let parsedEnd = `${end.getFullYear()}-${cleanDate(end.getMonth()+1)}-${cleanDate(end.getDate())}`
 
     let filtered = portfolioChartData.filter(data => data.date > start)
-    setDateRange([parsedStart, parsedEnd]);
+    // setDateRange([parsedStart, parsedEnd]);
     setCurrentData(filtered)
-  }
-
-  const handleIntraDay = (e) => {
-    console.log(e.target)
   }
 
   return (

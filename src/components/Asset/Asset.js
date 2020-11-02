@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, { useEffect, useContext} from 'react';
 import Grid from '@material-ui/core/Grid'
 import { getAssetData } from '../../fetches/asset'
 import NavBar from '../Navbar';
@@ -41,7 +41,7 @@ content: {
 const Asset = () => {
 
   const {token, asset, setAsset} = useContext(RobinhoodContext)
-  const [lastPrice, setLastPrice] = useState(0)
+  // const [lastPrice, setLastPrice] = useState(0)
   const {symbol} = useParams();
 
    const classes = useStyles();
@@ -55,7 +55,6 @@ const Asset = () => {
     (async() => {
       if(asset.companyInfo.symbol !== symbol){
         const dataRes = await getAssetData(token, symbol);
-        console.log(dataRes)
         await setAsset(dataRes)
       }
     })();

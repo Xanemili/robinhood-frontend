@@ -13,7 +13,7 @@ import { Typography, Paper } from '@material-ui/core';
 
 const StockRechart = () => {
 
-  const [active, setActive] = useState('')
+  // const [active, setActive] = useState('')
   const [dateRange, setDateRange] = useState(['2020-10-01', '2020-10-30'])
   const {token, assetPrice, setAssetPrice} = useContext(RobinhoodContext)
   const [chartData, setChartData] = useState([{results: []}]);
@@ -28,7 +28,7 @@ const StockRechart = () => {
       const dataRes = await getHistoricalAssetData(token, symbol, dateRange);
 
       if(dataRes.status === 'ERROR') {
-        console.log(dataRes.error)
+        return;
       }
 
       if((dataRes.status === 'DELAYED' || dataRes.status === 'OK') && dataRes.ticker !== undefined){
@@ -50,8 +50,6 @@ const StockRechart = () => {
         const priceDiff = (cleanData[cleanData.length - 1].price - cleanData[0].price).toFixed(2);
         const perc = (((cleanData[cleanData.length - 1].price / cleanData[0].price) - 1) *100).toFixed(2);
 
-        console.log(priceDiff < 0)
-
         setChartData(cleanData)
         setPriceChange(priceDiff)
         setPercentChange(perc)
@@ -65,7 +63,7 @@ const StockRechart = () => {
       }
     })();
 
-  },[dateRange, token, symbol]);
+  },[dateRange, token, symbol, setAssetPrice]);
 
   const setMonth = (number) => {
     const MONTHS = {
@@ -116,16 +114,12 @@ const StockRechart = () => {
     setDateRange([parsedStart, parsedEnd]);
   }
 
-  const handleIntraDay = (e) => {
-
-  }
-
   return (
     <Paper className="chart" style={{marginBottom:10}}>
-      <div style={{marginLeft: 14, color: color}}>
+      <div style={{marginLeft: 14}}>
       <Typography variant={'h5'}>{symbol}</Typography>
-      <Typography >{assetPrice > 0 ? `${assetPrice}` : `${assetPrice}`} </Typography>
-      <Typography style={{ color: color }}>{priceChange < 0 ? `$${priceChange}` : `-$${priceChange}`}</Typography>
+      <Typography variant='h5'>{assetPrice > 0 ? `${assetPrice}` : `${assetPrice}`} </Typography>
+      <Typography style={{ color: color }}>{priceChange < 0 ? `$${priceChange}` : `$${priceChange}`}</Typography>
       <Typography style={{ color: color, fontWeight: 'bold' }}>{percentChange}%</Typography>
       </div>
       <div style={{ width: '100%', height: 300 }}>

@@ -24,7 +24,6 @@ export const createUser = async (body) => {
     body: JSON.stringify(body)
   })
 
-  console.log(response)
 
   if(response.ok) {
     const {token} = await response.json();
