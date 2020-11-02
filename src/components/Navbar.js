@@ -124,7 +124,9 @@ export default function NavBar() {
     <AppBar position='absolute'>
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
+            <NavLink to='/'>
             RobinTrades
+            </NavLink>
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -165,7 +167,7 @@ export default function NavBar() {
           )}
         </Popper>
           </div>
-          <Button color="inherit">
+          <Button color="secondary">
             <NavLink to='/'>
               Portfolio
             </NavLink>

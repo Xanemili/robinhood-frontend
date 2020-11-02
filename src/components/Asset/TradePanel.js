@@ -10,7 +10,8 @@ import { Divider, TextField } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 import red from '@material-ui/core/colors/red';
-import {addItemToList} from '../../fetches/portfolio';
+import {addItemToList, deleteListItem} from '../../fetches/portfolio';
+import ActionModal from './ActionModal';
 
 function NumberFormatCustom(props) {
   const { inputRef, onChange, ...other } = props;
@@ -41,6 +42,7 @@ NumberFormatCustom.propTypes = {
 };
 
 
+
 export default function TradePanel () {
 
   const [amount, setAmount] = useState(0);
@@ -48,7 +50,7 @@ export default function TradePanel () {
   const [orderType, setOrderType] = useState('BUY');
   const {symbol} = useParams();
 
-  const {token, asset, assetPrice} = useContext(RobinhoodContext);
+  const {token, asset, assetPrice, watchlist} = useContext(RobinhoodContext);
 
   const handleOrder = async (e) => {
     e.preventDefault();
@@ -72,13 +74,20 @@ export default function TradePanel () {
     callback(e.target.value)
   }
 
-  useEffect(() => {
+  console.log(watchlist)
 
+  useEffect(() => {
   },[asset])
 
   const addToList = async() => {
     let response = await addItemToList(token, symbol);
     console.log(response);
+  }
+
+  const removeFromList = async() => {
+    let response = await deleteListItem(token, symbol);
+    console.log(response)
+    return  <ActionModal message={response.message} />
   }
 
   if(!asset.companyInfo) {
@@ -100,7 +109,7 @@ export default function TradePanel () {
           <Button onClick={() => setOrderType('BUY')} color='secondary'>
             Buy
           </Button>
-          <Button onClick={() => setOrderType('SELL')} color={red[50]}>
+          <Button onClick={() => setOrderType('SELL')}>
             Sell
           </Button>
         </Grid>
@@ -135,6 +144,9 @@ export default function TradePanel () {
       <Grid container justify='center' style={{padding: 12}}>
         <Button onClick={addToList} >
           Add To List
+        </Button>
+        <Button onClick={removeFromList}>
+          Remove From List
         </Button>
       </Grid>
 

@@ -31,11 +31,14 @@ export const getWatchlist = async(token) => {
 }
 
 export const getPortfolioHistory = async(token) => {
-  const res = await fetch(`${baseUrl}/users/history`, {
+
+  const res = await fetch(`${baseUrl}/users/portfolio/history`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
   });
+
+  console.log(res)
 
   if(res.ok) {
     return res.json()
@@ -45,7 +48,8 @@ export const getPortfolioHistory = async(token) => {
 }
 
 export const deleteListItem = async(token, security) => {
-  const res = await fetch(`${baseUrl}/api/watchlist/${security}/MSFT`, {
+  console.log(token, security)
+  const res = await fetch(`${baseUrl}/watchlist/security/${security}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${token}`
@@ -61,7 +65,7 @@ export const deleteListItem = async(token, security) => {
 
 export const addItemToList = async (token, security) => {
 
-  console.log(token, security)
+
   const res = await fetch(`${baseUrl}/watchlist/security/${security}`, {
     method: 'POST',
     headers: {

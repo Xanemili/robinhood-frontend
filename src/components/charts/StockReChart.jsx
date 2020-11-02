@@ -1,25 +1,26 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {LineChart, Line, YAxis, Tooltip, XAxis} from 'recharts';
+import {LineChart, Line, YAxis, Tooltip, XAxis, ResponsiveContainer} from 'recharts';
 import RobinhoodContext from '../../RobinhoodContext';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 
 import {getHistoricalAssetData} from '../../fetches/asset';
 import { useParams } from 'react-router-dom';
+import moment from 'moment'
+import { Typography, Paper } from '@material-ui/core';
 
 
 
 const StockRechart = () => {
 
   const [active, setActive] = useState('')
-  const [dateRange, setDateRange] = useState(['2020-10-27', '2020-10-30'])
+  const [dateRange, setDateRange] = useState(['2020-10-01', '2020-10-30'])
   const {token, assetPrice, setAssetPrice} = useContext(RobinhoodContext)
   const [chartData, setChartData] = useState([{results: []}]);
-  const [stockPrice, setStockPrice] = useState();
   const [priceChange, setPriceChange] = useState(0);
   const [percentChange, setPercentChange] = useState(0);
   const {symbol} = useParams();
-
+  const [color, setColor] = useState('#82ca9d')
 
 
   useEffect(() => {
@@ -46,14 +47,21 @@ const StockRechart = () => {
           )
         });
 
-        const priceDiff = (cleanData[0].price - cleanData[cleanData.length - 1].price).toFixed(2);
+        const priceDiff = (cleanData[cleanData.length - 1].price - cleanData[0].price).toFixed(2);
         const perc = (((cleanData[cleanData.length - 1].price / cleanData[0].price) - 1) *100).toFixed(2);
 
+        console.log(priceDiff < 0)
 
         setChartData(cleanData)
         setPriceChange(priceDiff)
         setPercentChange(perc)
-        setAssetPrice(cleanData[cleanData.length - 1].price.toFixed(2))
+        setAssetPrice(new Intl.NumberFormat('en-US', {style: 'currency', currency: 'USD'}).format(cleanData[cleanData.length - 1].price))
+
+        if(priceDiff < 0){
+          setColor('#ba000d')
+        } else {
+          setColor('#82ca9d')
+        }
       }
     })();
 
@@ -109,34 +117,37 @@ const StockRechart = () => {
   }
 
   const handleIntraDay = (e) => {
-    console.log(chartData)
+
   }
 
   return (
-    <div className="chart">
-      <h1>{symbol}</h1>
-      <h2>{assetPrice > 0 ? `${assetPrice}` : `-$${assetPrice}`}</h2>
-      <h3>{priceChange < 0 ? `$${priceChange}` : `-$${priceChange}`}</h3>
-      <h3>{percentChange}%</h3>
-      <div className="stock-chart">
+    <Paper className="chart" style={{marginBottom:10}}>
+      <div style={{marginLeft: 14, color: color}}>
+      <Typography variant={'h5'}>{symbol}</Typography>
+      <Typography >{assetPrice > 0 ? `${assetPrice}` : `${assetPrice}`} </Typography>
+      <Typography style={{ color: color }}>{priceChange < 0 ? `$${priceChange}` : `-$${priceChange}`}</Typography>
+      <Typography style={{ color: color, fontWeight: 'bold' }}>{percentChange}%</Typography>
+      </div>
+      <div style={{ width: '100%', height: 300 }}>
+        <ResponsiveContainer>
         <LineChart width={650} height={200} data={chartData}
-        margin={{top: 5, right: 30, left: 0, bottom: 5}}>
+        margin={{top: 5, right: 30, left: 10, bottom: 5}}>
           <YAxis hide={true}
           />
-          <XAxis dataKey="date" />
+          <XAxis dataKey="parsedDate" name='date' tickFormatter={(unixTime) => moment(unixTime).format('MMM Do YY')} />
           <Tooltip />
-          <Line type='linear' dataKey='price' dot={false} />
-          <Line type='linear' dataKey='parsedDate' dot={false} />
+          <Line type='linear' dataKey='price' name='Price' dot={false} stroke={color}/>
         </LineChart>
+        </ResponsiveContainer>
+      </div>
         <ButtonGroup color='secondary' size='small'>
-          <Button onClick={handleIntraDay} value={2}>1D</Button>
+          {/* <Button onClick={handleIntraDay} value={2}>1D</Button> */}
           <Button onClick={() => handleRange('month', 1)} value={3}>1M</Button>
           <Button onClick={() => handleRange('month', 3)} value={4}>3M</Button>
           <Button onClick={() => handleRange('year', 1)} value={5}>1Y</Button>
           <Button onClick={() => handleRange('year', 3)} value={1}>3Y</Button>
         </ButtonGroup>
-      </div>
-    </div>
+    </Paper>
   )
 }
 

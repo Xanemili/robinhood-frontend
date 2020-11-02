@@ -17,18 +17,16 @@ const NewsContainer = () => {
 
   return (
     <Grid container spacing={2}>
-      <Grid item>
+      <Grid item xs={12}>
         <Typography variant='h2'>
           Market News
         </Typography>
       </Grid>
       {news.articles.map( (article,idx) => {
         return (
-
-            <Grid item key={idx}>
+            <Grid item key={idx} xs={6}>
               <News article={article} />
             </Grid>
-
         )
       })}
     </Grid>
