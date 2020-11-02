@@ -3,7 +3,7 @@ import RobinhoodContext from '../../RobinhoodContext';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { Divider, Typography } from '@material-ui/core';
+import { Container, Divider, Typography } from '@material-ui/core';
 import Link from '@material-ui/core/Link'
 
 const CompanyInfo = () => {
@@ -13,35 +13,44 @@ const CompanyInfo = () => {
     return null;
   }
   return(
-    <>
+  <Container style={{margin: 10}}>
 
-    <Grid container spacing={2} direction="column" justify='space-evenly'>
+    <Paper elevation={0} >
+    <Grid container spacing={2} direction="column" justify='space-evenly' >
+
+        <Grid item >
+          <Paper elevation={0} style={{marginLeft: 10}}>
+
+        <Typography variant='h6'>
+         {companyInfo.name}
+        </Typography>
+        <Divider />
+          </Paper>
+
+      </Grid>
       <Grid item >
-        <Paper elevation={0}>
+        <Paper elevation={0} style={{marginLeft: 10}}>
           <Typography variant='h2'>
-            CEO
+              CEO: <span color={{color: 'grey'}}>{companyInfo.ceo}</span>
           </Typography>
-        <div>{companyInfo.ceo}</div>
         </Paper>
       </Grid>
+
+
       <Grid item xs={10} >
-        Description: {companyInfo.description}
+            <Paper elevation={0} style={{ marginLeft: 10 }}>
+
+        {companyInfo.description}
+            </Paper>
       </Grid>
       <Grid item xs={4} >
-        Industry: {companyInfo.industry}
+        <Paper elevation={0} style={{ marginLeft: 10 }}>
+            {companyInfo.sector} | {companyInfo.industry}
+        </Paper>
       </Grid>
-    </Grid>
 
-    <Grid container spacing={2} direction="column">
-      <Grid item xs={5}>
-        Sector: {companyInfo.sector}
-      </Grid>
       <Grid item >
-        {companyInfo.name}
-      </Grid>
-      <Grid item >
-        <Paper elevation={0}>
-
+        <Paper elevation={0} style={{padding: 10}}>
         <Typography variant='h2'>
           Company Website: <Link href={companyInfo.url} color='secondary'> {companyInfo.url}</Link>
         </Typography>
@@ -49,10 +58,11 @@ const CompanyInfo = () => {
       </Grid>
       <Grid item>
 
-        <Paper >
-        <Typography variant='h2'>
+        <Paper style={{padding: 10}}>
+        <Typography variant='h6'>
           Related Tickers:
         </Typography>
+        <Divider />
         {companyInfo.similar.map( ticker => {
           return (
             <Link href={`/assets/${ticker}`} onClick={(e) => e.preventDefault} key={ticker}>
@@ -64,7 +74,9 @@ const CompanyInfo = () => {
         </Paper>
       </Grid>
      </Grid>
-     </>
+    </Paper>
+    </Container>
+
   )
 }
 

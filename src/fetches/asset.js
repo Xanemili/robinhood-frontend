@@ -50,6 +50,9 @@ export const getHistoricalAssetData = async (token, asset, dateRange) => {
 }
 
 export const getSearch = async(search) => {
+  if(!search){
+    return [];
+  }
   const url = `${baseUrl}/assets/search/${search}/`
   const res = await fetch(url)
 
