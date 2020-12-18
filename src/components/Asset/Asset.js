@@ -41,7 +41,6 @@ content: {
 const Asset = () => {
 
   const {token, asset, setAsset} = useContext(RobinhoodContext)
-  // const [lastPrice, setLastPrice] = useState(0)
   const {symbol} = useParams();
 
    const classes = useStyles();

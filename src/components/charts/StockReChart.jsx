@@ -11,7 +11,7 @@ import { Typography, Paper } from '@material-ui/core';
 
 
 
-const StockRechart = () => {
+const StockRechart = ({data}) => {
 
   // const [active, setActive] = useState('')
   const [dateRange, setDateRange] = useState(['2020-10-01', '2020-10-30'])
@@ -31,7 +31,7 @@ const StockRechart = () => {
         return;
       }
 
-      if((dataRes.status === 'DELAYED' || dataRes.status === 'OK') && dataRes.ticker !== undefined){
+      if(){
         let cleanData = dataRes.results.map(day => {
           let date = new Date()
           date.setTime(day.t);
@@ -63,7 +63,7 @@ const StockRechart = () => {
       }
     })();
 
-  },[dateRange, token, symbol, setAssetPrice]);
+  },[data]);
 
   const setMonth = (number) => {
     const MONTHS = {
