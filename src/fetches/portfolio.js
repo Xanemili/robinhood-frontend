@@ -63,7 +63,6 @@ export const deleteListItem = async(token, security) => {
 
 export const addItemToList = async (token, security) => {
 
-
   const res = await fetch(`${baseUrl}/watchlist/security/${security}`, {
     method: 'POST',
     headers: {

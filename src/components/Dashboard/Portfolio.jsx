@@ -25,8 +25,6 @@ const Portfolio = () => {
     })();
    }, [setPortfolio, token])
 
-
-
   if(!portfolio) {
     return null;
   }

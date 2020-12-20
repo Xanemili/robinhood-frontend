@@ -1,15 +1,17 @@
-import React, { useEffect, useContext} from 'react';
+import React, { useEffect, useContext, useState} from 'react';
 import Grid from '@material-ui/core/Grid'
 import { getAssetData } from '../../fetches/asset'
 import NavBar from '../Navbar';
 import TradePanel from './TradePanel'
 import RobinhoodContext from '../../RobinhoodContext';
+import AssetQuote from './AssetQuote'
 import StockReChart from '../charts/StockReChart';
 import CompanyInfo from './CompanyInfo';
 import CompanyNews from './CompanyNews'
 import {useParams} from 'react-router-dom';
 import Container from '@material-ui/core/Container'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import Paper from '@material-ui/core/Paper'
 import makeStyles from '@material-ui/styles/makeStyles'
 import './asset-styles.css'
 
@@ -40,24 +42,19 @@ content: {
 
 const Asset = () => {
 
-  const {token, asset, setAsset} = useContext(RobinhoodContext)
+  const {token} = useContext(RobinhoodContext)
+  const [asset, setAsset] = useState({})
   const {symbol} = useParams();
 
    const classes = useStyles();
 
   useEffect(()=> {
 
-    if(!asset.companyInfo){
-      return;
-    }
-
     (async() => {
-      if(asset.companyInfo.symbol !== symbol){
         const dataRes = await getAssetData(token, symbol);
         await setAsset(dataRes)
-      }
     })();
-  }, [asset, symbol, token, setAsset])
+  }, [symbol, setAsset, token])
 
   if(!asset){
     return null
@@ -74,13 +71,16 @@ const Asset = () => {
 
       <Grid container spacing={5} justify={'center'}>
         <Grid item xs={6}>
-          <StockReChart />
-          <CompanyInfo />
-          <CompanyNews />
+          <Paper className="chart" style={{ marginBottom: 10 }}>
+            <AssetQuote asset={asset}/>
+            <StockReChart asset={asset}/>
+          </Paper>
+          <CompanyInfo asset={asset}/>
+          <CompanyNews asset={asset}/>
         </Grid>
 
-        <Grid item xs={2}>
-          <TradePanel />
+        <Grid item xs={3}>
+          <TradePanel asset={asset}/>
         </Grid>
       </Grid>
       </Container>

@@ -32,8 +32,8 @@ export const sendTrade = async (token, data) => {
   }
 }
 
-export const getHistoricalAssetData = async (token, asset, dateRange) => {
-  const url = `${baseUrl}/assets/${asset}/historical/` + dateRange[0] + `/` + dateRange[1];
+export const getTimeSeriesData = async (token, asset, dateRange) => {
+  const url = `${baseUrl}/assets/timeseries/${asset}/${dateRange}`;
   const res = await fetch (url, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -42,9 +42,10 @@ export const getHistoricalAssetData = async (token, asset, dateRange) => {
 
   if(res.ok) {
     const data = await res.json()
+    console.log(data)
     return data
   } else {
-    return []
+    return res.errors
   }
 }
 
