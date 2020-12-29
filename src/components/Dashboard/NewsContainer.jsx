@@ -10,8 +10,8 @@ const NewsContainer = () => {
 
   useEffect(() => {
     (async () => {
-      const newNews = await getNews();
-      setNews(newNews);
+      // const newNews = await getNews();
+      // setNews(newNews);
     })();
   }, [setNews]);
 
@@ -25,7 +25,7 @@ const NewsContainer = () => {
       {news.articles.map( (article,idx) => {
         return (
             <Grid item key={idx} xs={6}>
-              <News article={article} />
+              {/* <News article={article} /> */}
             </Grid>
         )
       })}
