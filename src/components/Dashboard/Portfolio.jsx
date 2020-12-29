@@ -3,7 +3,7 @@ import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem'
 
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getPortfolio } from '../../fetches/portfolio';
 import RobinhoodContext from '../../RobinhoodContext';
@@ -16,6 +16,8 @@ import { ListSubheader } from '@material-ui/core';
 const Portfolio = () => {
 
    const {portfolio, setPortfolio, token} = useContext(RobinhoodContext);
+   //stop gap until i fix store
+   const [prices, setPrices] = useState([])
 
    useEffect(() => {
      let port;
@@ -25,7 +27,19 @@ const Portfolio = () => {
     })();
    }, [setPortfolio, token])
 
-
+   useEffect(() => {
+     if (!portfolio) return
+     (async() => {
+       let portfolioString = portfolio.filter(sec =>sec.Ticker.ticker !== 'CASH').reduce( (acc, ele) => {
+         console.log(ele)
+         return acc + ',' + ele.Ticker.ticker
+       }, "")
+       let res = await fetch(`https://sandbox.iexapis.com/stable/tops?symbols=${portfolioString}&token=Tsk_d83ce3387c9b44d99c7060e036faad15`)
+       if (res.ok) {
+         setPrices(await res.json())
+       }
+      })()
+   }, [portfolio])
 
   if(!portfolio) {
     return null;
@@ -47,9 +61,9 @@ const Portfolio = () => {
                   {stock.Ticker.ticker}
                   </Link>
                 </ListItemText>
-                <StockPrice ticker={stock.Ticker.ticker}/>
+                {console.log(stock)}
+                <StockPrice price={prices[idx]}/>
               </ListItem>
-
             )
           })}
         <Watchlist />

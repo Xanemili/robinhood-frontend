@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { NavLink, Redirect, Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -115,10 +115,6 @@ export default function NavBar() {
 
     prevOpen.current = open;
   }, [open])
-
-  const handleRoute = (event) => {
-    return <Redirect to={`/assets/${event.target.ticker}`}></Redirect>
-  }
 
   return (
     <AppBar position='absolute'>

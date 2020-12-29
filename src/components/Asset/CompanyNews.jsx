@@ -14,27 +14,26 @@ const useStyles = makeStyles({
   },
 });
 
-const CompanyNews = () => {
+const CompanyNews = ({asset: {news}}) => {
 
-  const {asset: {companyNews}} = useContext(RobinhoodContext);
   const classes = useStyles();
 
-  if(!companyNews){
+  if(!news){
     return null;
   }
   return (
     <>
       <h1>News</h1>
       <Divider />
-      {companyNews.map( story => (
+      {news.map( story => (
         <Card key={story.url}>
           <CardActionArea onClick={() => window.open(`${story.url}`)}>
               <CardMedia
                 className={classes.media}
                 image={story.image}
-                title={story.title}
+                title={story.headline}
               />
-            <h2>{story.title}</h2>
+            <h2>{story.headline}</h2>
             <CardContent>
               {story.summary}
             </CardContent>
