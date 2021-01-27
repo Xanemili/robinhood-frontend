@@ -4,23 +4,31 @@ import RobinhoodContext from '../../RobinhoodContext';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import moment from 'moment'
-import { Paper } from '@material-ui/core';
 import { getTimeSeriesData } from '../../fetches/asset'
 
 
 
-const StockRechart = ({ asset: { chart: data } }) => {
+const StockRechart = ({ asset: {company: {symbol}} }) => {
 
   const { token, } = useContext(RobinhoodContext)
-  const [chartData, setChartData] = useState(data);
+  const [chartData, setChartData] = useState([]);
+  const [range, setRange] = useState('1m')
+  const [interval, setInterval] = useState(1)
   const [color, setColor] = useState('#82ca9d')
 
   useEffect(() => {
-    if (chartData === data) {
-      return
-    }
-    setChartData(data)
-  }, [data])
+
+    (async () => {
+      let newData = await getTimeSeriesData(token, symbol, range, interval)
+      if(!newData.errors) {
+        setChartData(newData)
+      } else {
+        let error = 'error' //intiate error snackbar here
+        console.log(error)
+      }
+    })()
+    console.log(chartData)
+  }, [range, interval, symbol])
 
   const cleanChartData = (data) => {
     if (true) {
@@ -30,14 +38,9 @@ const StockRechart = ({ asset: { chart: data } }) => {
     }
   }
 
-  const handleRange = async (period) => {
-    let newData = await getTimeSeriesData(token, 'aapl', period)
-    console.log(newData)
-    if (!newData.errors) {
-      setChartData(newData)
-    } else {
-      let error = 'error' // error popup here
-    }
+  const handleRange = (range, interval) => {
+    setInterval(interval)
+    setRange(range)
   }
 
   return (
@@ -49,7 +52,7 @@ const StockRechart = ({ asset: { chart: data } }) => {
               <YAxis hide={true}
               domain={['auto', 'auto']}
               />
-              <XAxis reversed dataKey="date" name='date' tickFormatter={(unixTime) => moment(unixTime).format('MMM Do YY')} />
+              <XAxis dataKey="date" name='date' tickFormatter={(unixTime) => moment(unixTime).format('MMM Do YY')} />
               <Tooltip />
               <Line type='linear' dataKey='close' name='Close' dot={false} stroke={color} />
             </LineChart>
@@ -57,10 +60,10 @@ const StockRechart = ({ asset: { chart: data } }) => {
         </div>
         <ButtonGroup color='secondary' size='small'>
           {/* <Button onClick={handleIntraDay} value={2}>1D</Button> */}
-          <Button onClick={() => handleRange('1m')} value={3}>1M</Button>
-          <Button onClick={() => handleRange('3m')} value={4}>3M</Button>
-          <Button onClick={() => handleRange('1y')} value={5}>1Y</Button>
-          <Button onClick={() => handleRange('3y')} value={1}>3Y</Button>
+          <Button onClick={() => handleRange('1m', 1)} value={3}>1M</Button>
+          <Button onClick={() => handleRange('3m', 1)} value={4}>3M</Button>
+          <Button onClick={() => handleRange('1y', 5)} value={5}>1Y</Button>
+          <Button onClick={() => handleRange('3y', 10)} value={1}>3Y</Button>
         </ButtonGroup>
       </div>
   )

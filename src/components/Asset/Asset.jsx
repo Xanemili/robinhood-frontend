@@ -43,7 +43,7 @@ content: {
 const Asset = () => {
 
   const {token} = useContext(RobinhoodContext)
-  const [asset, setAsset] = useState({})
+  const [asset, setAsset] = useState({ company: {} })
   const {symbol} = useParams();
 
    const classes = useStyles();

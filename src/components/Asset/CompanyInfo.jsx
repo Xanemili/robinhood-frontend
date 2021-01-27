@@ -7,7 +7,7 @@ import Link from '@material-ui/core/Link'
 
 const CompanyInfo = ({ asset: {company, peers} }) => {
 
-  if (!company) {
+  if (!company || !peers) {
     return null;
   }
   return (
