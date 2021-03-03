@@ -42,11 +42,8 @@ export const getTimeSeriesData = async (token, asset, range, interval) => {
 
   if(res.ok) {
     const data = await res.json()
-    console.log(data)
     return data
-  } else {
-    return res.errors
-  }
+  } 
 }
 
 export const getSearch = async(token, search) => {

@@ -8,7 +8,7 @@ import Button from '@material-ui/core/Button';
 const CurrentBalance = (props) => {
 
   const [cashToggle, setCashToggle] = useState(false);
-  const [cash, setCash] = useState('')
+  const [cash, setCash] = useState({})
   const {token} = useContext(RobinhoodContext);
 
   useEffect(()=> {
@@ -16,13 +16,13 @@ const CurrentBalance = (props) => {
       (async()=>{
         const cashAdded = await addCash(token)
         if(cashAdded){
-          setCash({...cash, ['positionValue']: cash.positionValue + 1000})
+          setCash(cashAdded)
         }
       })();
       setCashToggle(false);
 
     }
-  }, [cashToggle])
+  }, [cashToggle, setCashToggle, cash, token])
 
   useEffect(() => {
     if (cashToggle || !cash) {
@@ -38,7 +38,7 @@ const CurrentBalance = (props) => {
     <Paper style={{padding: 5, margin: 3}}>
       <Grid container justify='space-between' spacing={3} alignItems='center'>
         <Grid item style={{margin: 4}}>
-          Balance: ${cash.positionValue}
+          Balance: ${cash.tradeTotal}
         </Grid>
         <Grid item>
           <Button onClick={()=> setCashToggle(true)} color='secondary'>
