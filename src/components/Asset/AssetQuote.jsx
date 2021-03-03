@@ -9,7 +9,6 @@ const AssetQuote = ({asset: {quote}}, symbol, color) => {
 
   return (
     <div style={{ marginLeft: 14 }}>
-      {console.log(quote)}
       <Typography variant={'h5'}>{quote.symbol}</Typography>
       <Typography variant='h5'>{quote.latestPrice}</Typography>
       <Typography style={{ color: color }}>{quote.change}</Typography>

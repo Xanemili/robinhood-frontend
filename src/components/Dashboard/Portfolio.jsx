@@ -36,8 +36,8 @@ const Portfolio = () => {
       let res = await fetch(`https://sandbox.iexapis.com/stable/tops?symbols=${portfolioString}&token=Tsk_d83ce3387c9b44d99c7060e036faad15`)
       if (res.ok) {
         let newPrices = await res.json()
+        newPrices.unshift({symbol: 'CASH'}) 
         setPrices(newPrices)
-        console.log(newPrices)
       }
     })()
   }, [portfolio])
@@ -62,7 +62,7 @@ const Portfolio = () => {
                 </Link>
               </ListItemText>
               <ListItemText>
-                qty {stock.amount}
+                {stock.amount}
               </ListItemText>
               <StockPrice price={prices[idx]} />
             </ListItem>

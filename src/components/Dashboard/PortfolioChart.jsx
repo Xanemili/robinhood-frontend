@@ -23,12 +23,10 @@ const PortfolioChart = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await getPortfolioHistory(token);
-
-      if (response) {
-        const cleanData = response.portfolio.map(day => {
+      const portfolio = await getPortfolioHistory(token);
+      if (portfolio) {
+        const cleanData = portfolio.map(day => {
           let date = new Date(Date.parse(day.updatedAt.toString()))
-
           let parsedDate = `${setMonth(date.getMonth())}, ${date.getDate()}, ${date.getFullYear()}`
 
           return ({
@@ -37,21 +35,22 @@ const PortfolioChart = () => {
             price: day.tradeTotal
           })
         });
-
-        const priceDiff = (cleanData[cleanData.length - 1].price - cleanData[0].price).toFixed(2);
-        const perc = (((cleanData[cleanData.length - 1].price / cleanData[0].price) - 1) * 100).toFixed(2);
-
-        setPortfolioChartData(cleanData)
-        setCurrentData(cleanData)
-        setCurrentPrice(new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cleanData[cleanData.length - 1].price))
-        setPercChange(perc)
-
-        if (priceDiff < 0) {
-          setColor('#ba000d')
-        } else {
-          setColor('#82ca9d')
+        if (cleanData.length > 1){
+          const priceDiff = (cleanData[cleanData.length - 1].price - cleanData[0].price).toFixed(2);
+          const perc = (((cleanData[cleanData.length - 1].price / cleanData[0].price) - 1) * 100).toFixed(2);
+          
+          setPercChange(perc)
+          
+          if (priceDiff < 0) {
+            setColor('#ba000d')
+          } else {
+            setColor('#82ca9d')
+          }
+          setPriceChange(new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(priceDiff));
         }
-        setPriceChange(new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(priceDiff));
+          setPortfolioChartData(cleanData)
+          setCurrentData(cleanData)
+          setCurrentPrice(new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cleanData[cleanData.length - 1].price))
       }
     })();
   }, [setPortfolioChartData, token])

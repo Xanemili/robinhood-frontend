@@ -1,4 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
+import {useParams} from 'react-router-dom'
 import { LineChart, Line, YAxis, Tooltip, XAxis, ResponsiveContainer } from 'recharts';
 import RobinhoodContext from '../../RobinhoodContext';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
@@ -8,9 +9,10 @@ import { getTimeSeriesData } from '../../fetches/asset'
 
 
 
-const StockRechart = ({ asset: {company: {symbol}} }) => {
+const StockRechart = () => {
 
   const { token, } = useContext(RobinhoodContext)
+  const {symbol} = useParams();
   const [chartData, setChartData] = useState([]);
   const [range, setRange] = useState('1m')
   const [interval, setInterval] = useState(1)
@@ -20,14 +22,13 @@ const StockRechart = ({ asset: {company: {symbol}} }) => {
 
     (async () => {
       let newData = await getTimeSeriesData(token, symbol, range, interval)
-      if(!newData.errors) {
+      if(newData) {
         setChartData(newData)
       } else {
         let error = 'error' //intiate error snackbar here
-        console.log(error)
+        console.error(error)
       }
     })()
-    console.log(chartData)
   }, [range, interval, symbol])
 
   const cleanChartData = (data) => {
