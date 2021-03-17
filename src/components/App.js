@@ -1,68 +1,55 @@
-import React, {useEffect, useContext,} from 'react';
+import React from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import RobinhoodContext from '../RobinhoodContext';
-
-import Login from './LoginForm'
+import Login from './Auth/LoginForm'
 import Dashboard from './Dashboard/Dashboard'
 import Asset from './Asset/Asset'
-import Signup from './Signup'
-// import Navbar from './Navbar'
+import Signup from './Auth/Signup'
+import AuthDataProvider, { useAuthDataContext } from './Auth/AuthDataContext'
+// import Profile from './Profile'
 
-const PrivateRoute = (props) => {
-  return (<Route render={() => {
-    return (
-      props.needLogin === true
-        ? <Redirect to='/login' />
-        : props.children
-      );
-    }}/>);
+const PrivateRoute = ({component, ...options}) => {
+  const {token} = useAuthDataContext()
+  let finalComponent = token ? component : Login
+  return (<Route {...options} component={finalComponent}/>);
 }
 
 
 const App = () => {
-  const { token, setToken } = useContext(RobinhoodContext)
-
-  useEffect(() => {
-    (async() => {
-      const localToken = await window.localStorage.getItem('token');
-      if(localToken) {
-        setToken(localToken)
-      }
-    })();
-
-  }, [setToken]);
-  const needLogin = !token;
-
 
   return (
     <BrowserRouter>
-      <Switch>
-        <Route
-        path='/login'
-        render={(props) => (
-          <Login {...props} />
-        )}
-        />
-        <Route
-        path='/sign-up'
-        render={(props) => (
-          <Signup {...props} />
-        )}
-        />
-        <PrivateRoute
-        path='/'
-        exact={true}
-        needLogin={needLogin}>
-          <Dashboard token={token}/>
-        </PrivateRoute>
+      <AuthDataProvider>
+        <Switch>
+          <Route
+            path='/login'
+            render={(props) => (
+              <Login {...props} />
+            )}
+          />
+          <Route
+            path='/sign-up'
+            render={(props) => (
+              <Signup {...props} />
+            )}
+          />
+          <PrivateRoute
+            path='/'
+            exact={true}
+            component={Dashboard}>
+          </PrivateRoute>
 
-        <Route
-        path='/assets/:symbol'
-        needLogin={needLogin}>
-          <Asset token={token}/>
-        </Route>
+          <PrivateRoute
+            path='/profile'
+            exact={true}>
+            {/* <Profile token={token}/> */}
+          </PrivateRoute>
 
-      </Switch>
+          <PrivateRoute
+            path='/assets/:symbol'
+            component={Asset}>
+          </PrivateRoute>
+        </Switch>
+      </AuthDataProvider>
     </BrowserRouter>
   );
 }

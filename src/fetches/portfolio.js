@@ -1,37 +1,50 @@
 import {baseUrl} from '../config';
+import {LOAD_POSITIONS_SUCCESS, LOAD_POSITIONS_FAILURE, LOAD_WATCHLIST_SUCCESS, ADD_WATCHLIST_ITEM, REMOVE_WATCHLIST_ITEM, LOAD_WATCHLIST_FAILURE, BUY_POSITION} from '../redux/actionTypes'
 
-export const getPortfolio = async (token) => {
+
+const getToken = async () => {
+  // crude implementation. using for now to ensure store works.
+  let token = await window.localStorage.getItem('token')
+  return token
+}
+
+export const getPortfolio = async (dispatch, getState) => {
+  
+  const token = await getToken()
+  console.log(token)
   const res = await fetch(`${baseUrl}/users/portfolio`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
   });
 
-  let tickerList = await res.json()
-
-  if(res.ok) {
-    return tickerList.portfolio;
-  } else {
-    return [];
+  let type = LOAD_POSITIONS_SUCCESS
+  if (!res.ok) {
+    type = LOAD_POSITIONS_FAILURE
   }
+  let tickerList = await res.json()
+  dispatch({type, payload: tickerList})
 };
 
-export const getWatchlist = async(token) => {
+export const getWatchlist = async(dispatch, getState) => {
+  // crude implementation. using for now to ensure store works.
+  const token = await getToken()
   const res = await fetch(`${baseUrl}/watchlist`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
   });
 
+  let type = LOAD_WATCHLIST_FAILURE
   if(res.ok) {
-    return res.json()
-  }  else {
-    return [];
+    type = LOAD_WATCHLIST_SUCCESS
   }
+  let watchlist = await res.json()
+  dispatch({type, payload: watchlist})
 }
 
-export const getPortfolioHistory = async(token) => {
-
+export const getPortfolioHistory = async() => {
+  const token = await getToken()
   const res = await fetch(`${baseUrl}/users/portfolio/history`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -45,8 +58,8 @@ export const getPortfolioHistory = async(token) => {
   }
 }
 
-export const deleteListItem = async(token, security) => {
-
+export const deleteListItem = (security) => async(dispatch, getState) => {
+  const token = await getToken()
   const res = await fetch(`${baseUrl}/watchlist/security/${security}`, {
     method: 'DELETE',
     headers: {
@@ -55,14 +68,13 @@ export const deleteListItem = async(token, security) => {
   });
 
   if(res.ok){
-    return res.json()
-  } else {
-    return 'There was an error'
+    dispatch({type: REMOVE_WATCHLIST_ITEM, payload: await res.json()})
   }
+  dispatch({type: LOAD_WATCHLIST_FAILURE})
 }
 
-export const addItemToList = async (token, security) => {
-
+export const addItemToList = (security) => async (dispatch, getState) => {
+  const token = await getToken()
   const res = await fetch(`${baseUrl}/watchlist/security/${security}`, {
     method: 'POST',
     headers: {
@@ -71,13 +83,14 @@ export const addItemToList = async (token, security) => {
   });
 
   if (res.ok) {
-    return res.json()
+    dispatch({type: ADD_WATCHLIST_ITEM, payload: await res.json()})
   } else {
-    return 'There was an error'
+    dispatch({type: LOAD_WATCHLIST_FAILURE})
   }
 }
 
-export const addCash = async(token) => {
+export const addCash = async (dispatch, getState) => {
+  const token = await getToken()
   const url = `${baseUrl}/trades/cash`
   const res = await fetch(url, {
     method: 'POST',
@@ -87,11 +100,8 @@ export const addCash = async(token) => {
   })
 
   if (res.ok) {
-    const data = await res.json()
-    return data;
-  } else {
-    return [];
-  }
+    dispatch({type: BUY_POSITION, payload: await res.json()})
+  } 
 }
 
 export const getCash = async(token) => {

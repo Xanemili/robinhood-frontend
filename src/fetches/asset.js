@@ -1,6 +1,14 @@
 import {baseUrl} from '../config';
+import {buyPosition} from '../redux/actions'
 
-export const getAssetData = async (token, asset) => {
+const getToken = async () => {
+  // crude implementation. using for now to ensure store works.
+  let token = await window.localStorage.getItem('token')
+  return token
+}
+
+export const getAssetData = async (asset) => {
+  const token = await getToken()
   const res = await fetch(`${baseUrl}/assets/${asset}`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -15,7 +23,8 @@ export const getAssetData = async (token, asset) => {
   }
 };
 
-export const sendTrade = async (token, data) => {
+export const sendTrade = async (data) => {
+  const token = await getToken()
   data.price = parseFloat(data.price)
   data.amount = parseFloat(data.amount)
 
@@ -28,11 +37,13 @@ export const sendTrade = async (token, data) => {
     body: JSON.stringify(data),
   });
   if(response.ok){
-    return true;
+    const position = response.json()
+    buyPosition(position)
   }
 }
 
-export const getTimeSeriesData = async (token, asset, range, interval) => {
+export const getTimeSeriesData = async (asset, range, interval) => {
+  const token = await getToken()
   const url = `${baseUrl}/assets/timeseries/${asset}/${range}/${interval}`;
   const res = await fetch (url, {
     headers: {

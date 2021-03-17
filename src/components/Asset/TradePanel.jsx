@@ -1,15 +1,15 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState,  useEffect } from 'react';
 import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import RobinhoodContext from '../../RobinhoodContext';
 import { sendTrade } from '../../fetches/asset';
 import { Divider, TextField } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 import { addItemToList, deleteListItem } from '../../fetches/portfolio';
 import ActionModal from './ActionModal';
+import {useDispatch} from 'react-redux'
 
 function NumberFormatCustom(props) {
   const { inputRef, onChange, ...other } = props;
@@ -46,7 +46,7 @@ export default function TradePanel({ asset: { quote } }) {
   const [amount, setAmount] = useState(10);
   const [price, setPrice] = useState();
   const [orderType, setOrderType] = useState('BUY');
-  const { token } = useContext(RobinhoodContext);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if (quote) {
@@ -63,8 +63,7 @@ export default function TradePanel({ asset: { quote } }) {
       amount
     }
 
-
-    const success = await sendTrade(token, payload);
+    const success = await sendTrade( payload);
     if (success) {
       alert('Trade Successful!')
     } else {
@@ -77,14 +76,12 @@ export default function TradePanel({ asset: { quote } }) {
   }
 
   const addToList = async () => {
-    let response = await addItemToList(token, quote.symbol);
-    if (response) {
-      alert(`${quote.symbol} was added to your Watchlist.`)
-    }
+    await dispatch(addItemToList(quote.symbol));
+    // alert(`${quote.symbol} was added to your Watchlist.`)
   }
 
   const removeFromList = async () => {
-    let response = await deleteListItem(token, quote.symbol);
+    let response = await deleteListItem(quote.symbol);
     return <ActionModal message={response.message} />
   }
 

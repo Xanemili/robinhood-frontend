@@ -42,7 +42,6 @@ content: {
 
 const Asset = () => {
 
-  const {token} = useContext(RobinhoodContext)
   const [asset, setAsset] = useState({ company: {} })
   const {symbol} = useParams();
 
@@ -51,10 +50,10 @@ const Asset = () => {
   useEffect(()=> {
 
     (async() => {
-        const dataRes = await getAssetData(token, symbol);
+        const dataRes = await getAssetData(symbol);
         await setAsset(dataRes)
     })();
-  }, [symbol, setAsset, token])
+  }, [symbol, setAsset])
 
   if(!asset){
     return null

@@ -6,41 +6,38 @@ import ListItem from '@material-ui/core/ListItem'
 import React, { useEffect, useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getPortfolio } from '../../fetches/portfolio';
-import RobinhoodContext from '../../RobinhoodContext';
 import Watchlist from './Watchlist'
 import Suggested from './Suggested'
 import ListItemText from '@material-ui/core/ListItemText';
 import StockPrice from './StockPrice';
 import { ListSubheader } from '@material-ui/core';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 const Portfolio = () => {
 
-  const { portfolio, setPortfolio, token } = useContext(RobinhoodContext);
   //stop gap until i fix store
-  const [prices, setPrices] = useState([])
+  const portfolio = useSelector(state => state.portfolio)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    let port;
     (async () => {
-      port = await getPortfolio(token);
-      setPortfolio(port);
+      await dispatch(getPortfolio);   
     })();
-  }, [setPortfolio, token])
+  }, [dispatch])
 
   useEffect(() => {
-    if (!portfolio) return
     (async () => {
-      let portfolioString = portfolio.filter(sec => sec.Ticker.ticker !== 'CASH').reduce((acc, ele) => {
-        return acc + ',' + ele.Ticker.ticker
+      let portfolioString = Object.keys(portfolio).filter(sec => sec !== 'CASH').reduce((acc, ele) => {
+        return acc + ',' + ele
       }, "")
       let res = await fetch(`https://sandbox.iexapis.com/stable/tops?symbols=${portfolioString}&token=Tsk_d83ce3387c9b44d99c7060e036faad15`)
       if (res.ok) {
-        let newPrices = await res.json()
-        newPrices.unshift({symbol: 'CASH'}) 
-        setPrices(newPrices)
+        let prices = await res.json()
+        console.log(prices)
       }
     })()
-  }, [portfolio])
+  }, [portfolio, dispatch])
 
   if (!portfolio) {
     return null;
@@ -53,23 +50,23 @@ const Portfolio = () => {
           Portfolio
           </ListSubheader>
         <Divider variant='middle' />
-        {portfolio.map((stock, idx) => {
+        {Object.keys(portfolio).map((stock, idx) => {
           return (
-            <ListItem alignItems='center' key={stock.Ticker.ticker} className={'sidebar__ticker-portfolio'}>
+            <ListItem alignItems='center' key={stock} className={'sidebar__ticker-portfolio'}>
               <ListItemText>
-                <Link to={`/assets/${stock.Ticker.ticker}`} className={'link-stocks'}>
-                  {stock.Ticker.ticker}
+                <Link to={`/assets/${stock}`} className={'link-stocks'}>
+                  {stock}
                 </Link>
               </ListItemText>
               <ListItemText>
-                {stock.amount}
+                {portfolio[stock].amount}
               </ListItemText>
-              <StockPrice price={prices[idx]} />
+              <StockPrice price={0} />
             </ListItem>
           )
         })}
         <Watchlist />
-        <Suggested />
+        {/* <Suggested /> */}
       </List>
     </Card>
   )

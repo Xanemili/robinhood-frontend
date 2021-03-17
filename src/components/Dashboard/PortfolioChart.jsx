@@ -1,6 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LineChart, Line, YAxis, Tooltip, XAxis, ResponsiveContainer } from 'recharts';
-import RobinhoodContext from '../../RobinhoodContext';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -14,7 +13,6 @@ const PortfolioChart = () => {
   // const [active, setActive] = useState('')
   // const [dateRange, setDateRange] = useState([])
   const [portfolioChartData, setPortfolioChartData] = useState([{ data: {} }])
-  const { token } = useContext(RobinhoodContext)
   const [priceChange, setPriceChange] = useState('')
   const [currentData, setCurrentData] = useState([{ data: {} }])
   const [currentPrice, setCurrentPrice] = useState(0.00)
@@ -23,9 +21,10 @@ const PortfolioChart = () => {
 
   useEffect(() => {
     (async () => {
-      const portfolio = await getPortfolioHistory(token);
-      if (portfolio) {
-        const cleanData = portfolio.map(day => {
+      const portfolioHistory = await getPortfolioHistory();
+
+      if (portfolioHistory) {
+        const cleanData = portfolioHistory.map(day => {
           let date = new Date(Date.parse(day.updatedAt.toString()))
           let parsedDate = `${setMonth(date.getMonth())}, ${date.getDate()}, ${date.getFullYear()}`
 
@@ -53,7 +52,7 @@ const PortfolioChart = () => {
           setCurrentPrice(new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(cleanData[cleanData.length - 1].price))
       }
     })();
-  }, [setPortfolioChartData, token])
+  }, [setPortfolioChartData])
 
   const setMonth = (number) => {
     const MONTHS = {

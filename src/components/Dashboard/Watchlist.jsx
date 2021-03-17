@@ -1,32 +1,30 @@
-import React, {useContext, useEffect} from 'react';
-import RobinhoodContext from '../../RobinhoodContext';
+import React, {useEffect} from 'react';
 import {getWatchlist} from '../../fetches/portfolio';
 import { ListSubheader, ListItem, Divider, ListItemText } from '@material-ui/core';
 import {Link} from 'react-router-dom'
 import StockPrice from './StockPrice'
-
+import { useDispatch, useSelector} from 'react-redux';
 
 const Watchlist = () => {
 
-  const {watchlist, setWatchlist, token} = useContext(RobinhoodContext)
+  const watchlist = useSelector(state => state.watchlist)
+  const dispatch = useDispatch()
   useEffect(() => {
     (async () => {
-      const currentWatchlist = await getWatchlist(token);
-      if (watchlist !== currentWatchlist) {
-        setWatchlist(currentWatchlist);
-      }
+      await dispatch(getWatchlist);
     })();
-  }, [setWatchlist, token])
-
+  }, [dispatch])
 
   return (
     <>
+    {console.log(watchlist)}
+    {console.log(Object.keys(watchlist).length)}
     <Divider variant='middle'/>
       <ListSubheader>
-        {watchlist.watchlist ? watchlist.watchlist.name : 'Watchlist'}
+        {watchlist.name ? watchlist.name : 'Watchlist'}
       </ListSubheader>
     <Divider variant='middle'/>
-      {watchlist.watchlist ? watchlist.watchlist.Tickers.map( ticker => {
+      {Object.keys(watchlist).length != 0 ? watchlist.Tickers.map( ticker => {
         return (
           <ListItem alignItems='center' key={ticker.ticker} className={'sidebar__ticker-portfolio'}>
             <ListItemText>
@@ -38,7 +36,6 @@ const Watchlist = () => {
           </ListItem>
         )
       }) : <div />}
-
     </>
   )
 }

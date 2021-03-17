@@ -25,6 +25,7 @@ const Root = () => {
     asset,
     setAsset,
   }
+  
   return (
     <RobinhoodContext.Provider value={value}>
        <ThemeProvider theme={theme}>

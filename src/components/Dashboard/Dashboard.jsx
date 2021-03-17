@@ -3,12 +3,11 @@ import Grid from '@material-ui/core/Grid'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container'
-
+import { useAuthDataContext } from '../Auth/AuthDataContext'
 
 import Portfolio from './Portfolio'
 import NavBar from '../Navbar'
 import PortfolioChart from './PortfolioChart'
-import RobinhoodContext from '../../RobinhoodContext'
 import NewsContainer from './NewsContainer';
 import CurrentBalance from './CurrentBalance'
 
@@ -39,13 +38,9 @@ const useStyles = makeStyles((theme) => ({
 
 const DashBoard = () => {
 
-   const {token} = useContext(RobinhoodContext);
-
    const classes = useStyles();
+   const {token} = useAuthDataContext()
 
-   if(!token) {
-     return null
-   }
     return(
       <div className={classes.root}>
       <CssBaseline />
@@ -57,7 +52,7 @@ const DashBoard = () => {
             <Grid item xs={6}>
               <Grid container direction='column' spacing={2}>
                 <Grid item>
-                  <PortfolioChart />
+                  <PortfolioChart token={token}/>
                 </Grid>
                 < Grid item>
                   <CurrentBalance />
@@ -69,7 +64,7 @@ const DashBoard = () => {
             </Grid>
 
             <Grid item xs={2}>
-              <Portfolio />
+              <Portfolio token={token}/>
             </Grid>
 
           </Grid>

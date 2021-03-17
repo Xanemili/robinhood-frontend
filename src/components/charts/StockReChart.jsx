@@ -11,7 +11,6 @@ import { getTimeSeriesData } from '../../fetches/asset'
 
 const StockRechart = () => {
 
-  const { token, } = useContext(RobinhoodContext)
   const {symbol} = useParams();
   const [chartData, setChartData] = useState([]);
   const [range, setRange] = useState('1m')
@@ -21,7 +20,7 @@ const StockRechart = () => {
   useEffect(() => {
 
     (async () => {
-      let newData = await getTimeSeriesData(token, symbol, range, interval)
+      let newData = await getTimeSeriesData(symbol, range, interval)
       if(newData) {
         setChartData(newData)
       } else {

@@ -7,8 +7,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import RobinhoodContext from '../RobinhoodContext';
-import {createUser} from '../fetches/authentication'
+import { useAuthDataContext} from './AuthDataContext'
+import {createUser} from '../../fetches/authentication'
 import { Redirect } from 'react-router-dom';
 
 
@@ -37,7 +37,7 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
-  const {token, setToken} = useContext(RobinhoodContext);
+  const {onLogin, user} = useAuthDataContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -53,15 +53,15 @@ export default function SignUp() {
     }
 
     const token = await createUser(body);
-    if(token){
-      setToken(token);
 
+    if(token){
+      onLogin();
     } else {
       alert('user creation failed')
     }
   }
 
-  if (token) {
+  if (user) {
     return <Redirect to='/' />;
   }
 

@@ -1,8 +1,7 @@
-import React, { useState, useContext } from 'react';
+import React, { useState} from 'react';
 import { Redirect } from 'react-router-dom';
-import { getToken } from '../fetches/authentication';
+import { getToken } from '../../fetches/authentication';
 import Button from '@material-ui/core/Button'
-import RobinhoodContext from '../RobinhoodContext'
 import Grid from '@material-ui/core/Grid'
 
 
@@ -14,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import {
   makeStyles
 } from '@material-ui/core/styles';
+import { useAuthDataContext } from './AuthDataContext';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -47,15 +47,15 @@ const useStyles = makeStyles((theme) => ({
 const LoginForm = () => {
   const [email, setEmail] = useState('demo@example.com');
   const [password, setPassword] = useState('password22');
-
-  const { token, setToken } = useContext(RobinhoodContext);
+  const {onLogin, token} = useAuthDataContext()
 
   const classes = useStyles();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = await getToken(email, password);
-    setToken(token);
+    await window.localStorage.setItem('token', token);
+    onLogin({token: token})
   }
 
   const updateEmail = (e) => {
@@ -69,6 +69,7 @@ const LoginForm = () => {
   if(token) {
     return <Redirect to='/' />;
   }
+
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />

@@ -6,9 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import RobinhoodContext from '../RobinhoodContext'
 import { AppBar, Grow, Paper,ClickAwayListener, MenuList, Popper, MenuItem } from '@material-ui/core';
 import {getSearch} from '../fetches/asset';
+import { AuthDataContext } from './Auth/AuthDataContext';
 
 
 
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NavBar() {
   const classes = useStyles();
 
-  const {token, setToken} = useContext(RobinhoodContext);
+  const {token, onLogout} = useContext(AuthDataContext);
   const [searchValue, setSearchValue] = useState('');
   const [searchResults, setSearchResults] = useState([])
   const [open, setOpen] = React.useState(false);
@@ -74,7 +74,7 @@ export default function NavBar() {
 
   const removeToken = () => {
     localStorage.removeItem('token');
-    setToken(null);
+    onLogout();
   }
 
   useEffect(() => {
@@ -165,6 +165,11 @@ export default function NavBar() {
           <Button>
             <NavLink to='/' style={{textDecoration: 'none', color: 'inherit'}}>
               Portfolio
+            </NavLink>
+          </Button>
+          <Button>
+            <NavLink to='/profile' style={{textDecoration: 'none', color: 'inherit'}}>
+              Profile
             </NavLink>
           </Button>
           <Button onClick={removeToken}>
