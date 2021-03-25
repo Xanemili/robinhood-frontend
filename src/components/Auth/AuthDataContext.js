@@ -8,8 +8,9 @@ const initialAuthData = {}
 const AuthDataProvider = props => {
   const [authData, setAuthData] = useState(initialAuthData)
 
-  useEffect(async () => {
-    const token = await window.localStorage.getItem('token')
+  useEffect(() => {
+    (() =>{
+      const token = window.localStorage.getItem('token')
     const user = 'user' //ADD ASYNC USER FETCH HERE
     const currentAuthData = {
       token,
@@ -18,6 +19,7 @@ const AuthDataProvider = props => {
     if (currentAuthData) {
       setAuthData(currentAuthData)
     }
+    })()
   }, [])
 
   const onLogout = () => setAuthData(initialAuthData)

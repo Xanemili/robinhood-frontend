@@ -1,6 +1,6 @@
 // https://read.reduxbook.com/markdown/part2/13-authenticated-requests.html
 
-export default onAuthFailure => (url, opts) => {
+const auth =  onAuthFailure => (url, opts) => {
   const headers = {
     token: getTokenFromLocalStorage()
   }
@@ -30,6 +30,8 @@ export default onAuthFailure => (url, opts) => {
 export const getTokenFromLocalStorage = async () => {
   return window.localStorage.getItem('token')
 }
+
+export default auth;
 
 // export const doLogout = (broadcast = true) => ({ dispatch }) => {
 //   dispatch({ type: actions.DO_LOGOUT })

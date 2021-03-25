@@ -11,7 +11,6 @@ const getToken = async () => {
 export const getPortfolio = async (dispatch, getState) => {
   
   const token = await getToken()
-  console.log(token)
   const res = await fetch(`${baseUrl}/users/portfolio`, {
     headers: {
       Authorization: `Bearer ${token}`

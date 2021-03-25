@@ -17,14 +17,12 @@ const Watchlist = () => {
 
   return (
     <>
-    {console.log(watchlist)}
-    {console.log(Object.keys(watchlist).length)}
     <Divider variant='middle'/>
       <ListSubheader>
         {watchlist.name ? watchlist.name : 'Watchlist'}
       </ListSubheader>
     <Divider variant='middle'/>
-      {Object.keys(watchlist).length != 0 ? watchlist.Tickers.map( ticker => {
+      {Object.keys(watchlist).length !== 0 ? watchlist.Tickers.map( ticker => {
         return (
           <ListItem alignItems='center' key={ticker.ticker} className={'sidebar__ticker-portfolio'}>
             <ListItemText>

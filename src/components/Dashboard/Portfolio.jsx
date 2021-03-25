@@ -1,13 +1,10 @@
 import Divider from '@material-ui/core/Divider';
-import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem'
-
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { getPortfolio } from '../../fetches/portfolio';
 import Watchlist from './Watchlist'
-import Suggested from './Suggested'
 import ListItemText from '@material-ui/core/ListItemText';
 import StockPrice from './StockPrice';
 import { ListSubheader } from '@material-ui/core';
@@ -44,7 +41,6 @@ const Portfolio = () => {
   }
 
   return (
-    <Card>
       <List>
         <ListSubheader>
           Portfolio
@@ -68,7 +64,6 @@ const Portfolio = () => {
         <Watchlist />
         {/* <Suggested /> */}
       </List>
-    </Card>
   )
 };
 

@@ -10,8 +10,8 @@ const NewsContainer = () => {
 
   useEffect(() => {
     (async () => {
-      // const newNews = await getNews();
-      // setNews(newNews);
+      const newNews = await getNews();
+      setNews(newNews);
     })();
   }, [setNews]);
 

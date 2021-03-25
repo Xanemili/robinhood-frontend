@@ -1,7 +1,6 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useParams} from 'react-router-dom'
 import { LineChart, Line, YAxis, Tooltip, XAxis, ResponsiveContainer } from 'recharts';
-import RobinhoodContext from '../../RobinhoodContext';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import moment from 'moment'
@@ -18,7 +17,6 @@ const StockRechart = () => {
   const [color, setColor] = useState('#82ca9d')
 
   useEffect(() => {
-
     (async () => {
       let newData = await getTimeSeriesData(symbol, range, interval)
       if(newData) {
@@ -29,14 +27,6 @@ const StockRechart = () => {
       }
     })()
   }, [range, interval, symbol])
-
-  const cleanChartData = (data) => {
-    if (true) {
-      setColor('#ba000d')
-    } else {
-      setColor('#82ca9d')
-    }
-  }
 
   const handleRange = (range, interval) => {
     setInterval(interval)

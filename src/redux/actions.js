@@ -1,4 +1,4 @@
-import {BUY_POSITION, SELL_POSITION, LOAD_POSITIONS_SUCCESS, LOAD_PORTFOLIO_HISTORY} from './actionTypes'
+import {BUY_POSITION, LOAD_POSITIONS_SUCCESS, LOAD_PORTFOLIO_HISTORY} from './actionTypes'
 
 export const buyPosition = asset => ({
   type: BUY_POSITION,

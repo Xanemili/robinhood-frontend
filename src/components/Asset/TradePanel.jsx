@@ -8,7 +8,6 @@ import { Divider, TextField } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 import { addItemToList, deleteListItem } from '../../fetches/portfolio';
-import ActionModal from './ActionModal';
 import {useDispatch} from 'react-redux'
 
 function NumberFormatCustom(props) {
@@ -81,8 +80,7 @@ export default function TradePanel({ asset: { quote } }) {
   }
 
   const removeFromList = async () => {
-    let response = await deleteListItem(quote.symbol);
-    return <ActionModal message={response.message} />
+    await dispatch(deleteListItem(quote.symbol))
   }
 
   if (!quote) {

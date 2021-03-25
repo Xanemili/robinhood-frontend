@@ -1,7 +1,6 @@
 import {BUY_POSITION, SELL_POSITION, LOAD_POSITIONS_SUCCESS, UPDATE_PRICES} from '../actionTypes'
 
 const portfolioReducer = (state = {}, action) => {
-  console.log(action)
   let state_copy = {...state}
   switch (action.type) {
     case BUY_POSITION:
