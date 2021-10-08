@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -7,10 +7,10 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import RobinhoodContext from '../RobinhoodContext';
 import {createUser} from '../fetches/authentication'
 import { Redirect } from 'react-router-dom';
-
+import { useAppSelector, useAppDispatch } from '../hooks';
+import { selectToken, loadToken } from '../store/userSlice';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,7 +37,8 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
 
-  const {token, setToken} = useContext(RobinhoodContext);
+  const token = useAppSelector(selectToken)
+  const dispatch = useAppDispatch()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,7 +55,7 @@ export default function SignUp() {
 
     const token = await createUser(body);
     if(token){
-      setToken(token);
+      dispatch(loadToken(token))
 
     } else {
       alert('user creation failed')

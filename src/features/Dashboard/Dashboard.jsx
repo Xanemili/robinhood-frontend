@@ -1,16 +1,15 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import Grid from '@material-ui/core/Grid'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container'
-
-
 import Portfolio from './Portfolio'
 import NavBar from '../Navbar'
 import PortfolioChart from './PortfolioChart'
-import RobinhoodContext from '../../RobinhoodContext'
 import NewsContainer from './NewsContainer';
 import CurrentBalance from './CurrentBalance'
+import { useAppSelector } from '../../hooks';
+import { selectToken } from '../../store/userSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
   },
   appBarSpacer: {...theme.mixins.toolbar},
   content: {
-      flexGrow: 1,
-      height: '100vh',
+    flexGrow: 1,
+    height: '100vh',
       overflow: 'auto',
     },
     container: {
@@ -35,11 +34,11 @@ const useStyles = makeStyles((theme) => ({
     fixedHeight: {
       height: 240,
     },
-}));
+  }));
 
-const DashBoard = () => {
+  const DashBoard = () => {
 
-   const {token} = useContext(RobinhoodContext);
+   const token = useAppSelector(selectToken)
 
    const classes = useStyles();
 

@@ -1,6 +1,5 @@
 import React, {useState, useContext, useEffect} from 'react';
 import {LineChart, Line, YAxis, Tooltip, XAxis, ResponsiveContainer} from 'recharts';
-import RobinhoodContext from '../../RobinhoodContext';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -8,25 +7,24 @@ import Paper from '@material-ui/core/Paper'
 import {getPortfolioHistory} from '../../fetches/portfolio'
 // import moment from 'moment'
 import Divider from '@material-ui/core/Divider'
+import { useAppSelector } from '../../hooks';
+import { selectToken } from '../../store/userSlice';
 
 const PortfolioChart = () => {
 
-  // const [active, setActive] = useState('')
-  // const [dateRange, setDateRange] = useState([])
   const [portfolioChartData, setPortfolioChartData] = useState([{data: {}}])
-  const {token} = useContext(RobinhoodContext)
+  const token = useAppSelector(selectToken)
   const [priceChange, setPriceChange] = useState('')
   const [currentData, setCurrentData] =useState([{data: {}}])
   const [currentPrice, setCurrentPrice] = useState(0.00)
   const [percChange, setPercChange] = useState(0);
-    const [color, setColor] = useState('#82ca9d')
+  const [color, setColor] = useState('#82ca9d')
 
   useEffect(()=> {
     (async() => {
       const response = await getPortfolioHistory(token);
 
-      if(response){
-
+      if(response.ok){
         const cleanData = response.portfolio.map(day => {
           let date = new Date(Date.parse(day.updatedAt.toString()))
 

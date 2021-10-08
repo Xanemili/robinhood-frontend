@@ -3,13 +3,14 @@ import Card from '@material-ui/core/Card';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import RobinhoodContext from '../../RobinhoodContext';
 import { sendTrade } from '../../fetches/asset';
 import { Divider, TextField } from '@material-ui/core';
 import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
 import { addItemToList, deleteListItem } from '../../fetches/portfolio';
 import ActionModal from './ActionModal';
+import { useAppSelector } from '../../hooks';
+import { selectToken } from '../../store/userSlice';
 
 function NumberFormatCustom(props) {
   const { inputRef, onChange, ...other } = props;
@@ -46,7 +47,7 @@ export default function TradePanel({ asset: { quote } }) {
   const [amount, setAmount] = useState(10);
   const [price, setPrice] = useState();
   const [orderType, setOrderType] = useState('BUY');
-  const { token } = useContext(RobinhoodContext);
+  const token = useAppSelector(selectToken)
 
   useEffect(() => {
     if (quote) {

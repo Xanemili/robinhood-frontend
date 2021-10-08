@@ -1,19 +1,18 @@
-import React, { useEffect, useContext, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import Grid from '@material-ui/core/Grid'
 import { getAssetData } from '../../fetches/asset'
 import NavBar from '../Navbar';
 import TradePanel from './TradePanel'
-import RobinhoodContext from '../../RobinhoodContext';
 import AssetQuote from './AssetQuote'
 import StockReChart from '../charts/StockReChart';
 import CompanyInfo from './CompanyInfo';
 import CompanyNews from './CompanyNews'
 import {useParams} from 'react-router-dom';
 import Container from '@material-ui/core/Container'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import Paper from '@material-ui/core/Paper'
 import makeStyles from '@material-ui/styles/makeStyles'
-import './asset-styles.css'
+import { useAppSelector } from '../../hooks';
+import { selectToken } from '../../store/userSlice';
 
 const useStyles = makeStyles((theme) => ({
 root: {
@@ -42,7 +41,7 @@ content: {
 
 const Asset = () => {
 
-  const {token} = useContext(RobinhoodContext)
+  const token = useAppSelector(selectToken)
   const [asset, setAsset] = useState({})
   const {symbol} = useParams();
 
@@ -52,7 +51,7 @@ const Asset = () => {
 
     (async() => {
         const dataRes = await getAssetData(token, symbol);
-        await setAsset(dataRes)
+        setAsset(dataRes)
     })();
   }, [symbol, setAsset, token])
 
@@ -62,11 +61,9 @@ const Asset = () => {
 
   return(
     <div className={classes.root}>
-      <CssBaseline />
       <NavBar/>
        <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        {/* {!asset.companyInfo ? <div> Asset was not found </div> : asset.companyInfo.error ? <div> Asset was not found </div> : */}
       <Container maxWidth={'xl'} className={classes.container}>
 
       <Grid container spacing={5} justify={'center'}>
@@ -84,7 +81,6 @@ const Asset = () => {
         </Grid>
       </Grid>
       </Container>
-        {/* } */}
       </main>
     </div>
   )

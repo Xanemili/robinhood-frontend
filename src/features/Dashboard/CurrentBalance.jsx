@@ -1,15 +1,16 @@
 import React, {useContext, useState, useEffect} from 'react';
-import RobinhoodContext from '../../RobinhoodContext';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import {addCash, getCash} from '../../fetches/portfolio';
 import Button from '@material-ui/core/Button';
+import { useAppSelector } from '../../hooks';
+import { selectToken } from '../../store/userSlice';
 
 const CurrentBalance = (props) => {
 
   const [cashToggle, setCashToggle] = useState(false);
   const [cash, setCash] = useState('')
-  const {token} = useContext(RobinhoodContext);
+  const token = useAppSelector(selectToken)
 
   useEffect(()=> {
     if(cashToggle){

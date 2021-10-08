@@ -1,19 +1,16 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, } from 'react';
 import { Redirect } from 'react-router-dom';
 import { getToken } from '../fetches/authentication';
 import Button from '@material-ui/core/Button'
-import RobinhoodContext from '../RobinhoodContext'
 import Grid from '@material-ui/core/Grid'
-
-
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
-import {
-  makeStyles
-} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
+import { useAppSelector, useAppDispatch } from '../hooks';
+import { selectToken, loadToken } from '../store/userSlice';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,14 +45,15 @@ const LoginForm = () => {
   const [email, setEmail] = useState('demo@example.com');
   const [password, setPassword] = useState('password22');
 
-  const { token, setToken } = useContext(RobinhoodContext);
+  const token = useAppSelector(selectToken)
+  const dispatch = useAppDispatch()
 
   const classes = useStyles();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const token = await getToken(email, password);
-    setToken(token);
+    dispatch(loadToken(token))
   }
 
   const updateEmail = (e) => {
@@ -72,7 +70,7 @@ const LoginForm = () => {
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
+      {/* <Grid item xs={false} sm={4} md={7} className={classes.image} /> */}
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <div className={classes.paper}>
           <Typography component="h1" variant="h5">

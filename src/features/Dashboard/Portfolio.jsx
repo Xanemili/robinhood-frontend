@@ -3,20 +3,24 @@ import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem'
 
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getPortfolio } from '../../fetches/portfolio';
-import RobinhoodContext from '../../RobinhoodContext';
 import Watchlist from './Watchlist'
 import Suggested from './Suggested'
 import ListItemText from '@material-ui/core/ListItemText';
 import StockPrice from './StockPrice';
 import { ListSubheader } from '@material-ui/core';
+import { useAppSelector } from '../../hooks';
+import { selectToken } from '../../store/userSlice';
 
 const Portfolio = () => {
 
-   const {portfolio, setPortfolio, token} = useContext(RobinhoodContext);
-   //stop gap until i fix store
+
+  const [ portfolio, setPortfolio ] = useState()
+  const token = useAppSelector(selectToken)
+
+  //stop gap until i fix store
    const [prices, setPrices] = useState([])
 
    useEffect(() => {
@@ -25,7 +29,7 @@ const Portfolio = () => {
       port = await getPortfolio(token);
       setPortfolio(port);
     })();
-   }, [setPortfolio, token])
+   }, [token])
 
    useEffect(() => {
      if (!portfolio) return

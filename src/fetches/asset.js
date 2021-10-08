@@ -1,6 +1,7 @@
 import {baseUrl} from '../config';
 
 export const getAssetData = async (token, asset) => {
+
   const res = await fetch(`${baseUrl}/assets/${asset}`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -27,6 +28,7 @@ export const sendTrade = async (token, data) => {
     },
     body: JSON.stringify(data),
   });
+  console.log(response)
   if(response.ok){
     return true;
   }

@@ -17,7 +17,7 @@ export const getPortfolio = async (token) => {
 };
 
 export const getWatchlist = async(token) => {
-  const res = await fetch(`${baseUrl}/watchlist`, {
+  const res = await fetch(`${baseUrl}/list`, {
     headers: {
       Authorization: `Bearer ${token}`
     }

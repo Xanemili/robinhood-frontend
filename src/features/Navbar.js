@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useEffect, useState} from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -6,11 +6,9 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import RobinhoodContext from '../RobinhoodContext'
 import { AppBar, Grow, Paper,ClickAwayListener, MenuList, Popper, MenuItem } from '@material-ui/core';
 import {getSearch} from '../fetches/asset';
-
-
+import { useAppDispatch } from '../hooks';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 export default function NavBar() {
   const classes = useStyles();
 
-  const {token, setToken} = useContext(RobinhoodContext);
+  const dispatch = useAppDispatch()
   const [searchValue, setSearchValue] = useState('');
   const [searchResults, setSearchResults] = useState([])
   const [open, setOpen] = React.useState(false);
@@ -74,12 +72,11 @@ export default function NavBar() {
 
   const removeToken = () => {
     localStorage.removeItem('token');
-    setToken(null);
+    dispatch(removeToken)
   }
 
   useEffect(() => {
     (async() => {
-
         let searchArray = await getSearch(searchValue)
         if(searchArray.status === 'OK'){
           setSearchResults(searchArray.tickers)
@@ -121,7 +118,7 @@ export default function NavBar() {
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             <NavLink to='/' style={{textDecoration: 'none', color: 'inherit'}}>
-            RobinTrades
+            Portfolio Watch
             </NavLink>
           </Typography>
           <div className={classes.search}>
@@ -171,11 +168,6 @@ export default function NavBar() {
           <Button onClick={removeToken}>
             Logout
           </Button>
-          {/* <Button color="inherit">
-            <NavLink to='/account'>
-              Account
-            </NavLink>
-          </Button> */}
         </Toolbar>
       </AppBar>
   );

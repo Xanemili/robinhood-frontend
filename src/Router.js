@@ -1,12 +1,12 @@
-import React, {useEffect, useContext,} from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
-import RobinhoodContext from '../RobinhoodContext';
+import React, {useEffect,} from 'react'
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
+import { useAppDispatch, useAppSelector } from './hooks'
+import { loadToken, selectToken, } from './store/userSlice'
 
-import Login from './LoginForm'
-import Dashboard from './Dashboard/Dashboard'
-import Asset from './Asset/Asset'
-import Signup from './Signup'
-// import Navbar from './Navbar'
+import Login from './features/LoginForm'
+import Dashboard from './features/Dashboard/Dashboard'
+import Asset from './features/Asset/Asset'
+import Signup from './features/Signup'
 
 const PrivateRoute = (props) => {
   return (<Route render={() => {
@@ -20,19 +20,19 @@ const PrivateRoute = (props) => {
 
 
 const App = () => {
-  const { token, setToken } = useContext(RobinhoodContext)
+  const dispatch = useAppDispatch()
+  const token = useAppSelector(selectToken)
 
   useEffect(() => {
     (async() => {
       const localToken = await window.localStorage.getItem('token');
       if(localToken) {
-        setToken(localToken)
+        dispatch(loadToken(localToken))
       }
     })();
 
-  }, [setToken]);
+  }, [dispatch]);
   const needLogin = !token;
-
 
   return (
     <BrowserRouter>

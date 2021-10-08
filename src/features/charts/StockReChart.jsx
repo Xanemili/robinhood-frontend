@@ -1,19 +1,17 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { LineChart, Line, YAxis, Tooltip, XAxis, ResponsiveContainer } from 'recharts';
-import RobinhoodContext from '../../RobinhoodContext';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Button from '@material-ui/core/Button';
 import moment from 'moment'
-import { Paper } from '@material-ui/core';
 import { getTimeSeriesData } from '../../fetches/asset'
-
-
+import { useAppSelector } from '../../hooks';
+import { selectToken } from '../../store/userSlice';
 
 const StockRechart = ({ asset: { chart: data } }) => {
 
-  const { token, } = useContext(RobinhoodContext)
   const [chartData, setChartData] = useState(data);
   const [color, setColor] = useState('#82ca9d')
+  const token = useAppSelector(selectToken)
 
   useEffect(() => {
     if (chartData === data) {
