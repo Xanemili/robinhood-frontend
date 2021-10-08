@@ -104,10 +104,10 @@ export default function TradePanel({ asset: { quote } }) {
             </Typography>
           </Grid>
           <Grid item xs={8}>
-            <Button onClick={() => setOrderType('BUY')} color='secondary'>
+            <Button onClick={() => setOrderType('BUY')} color='secondary' variant={orderType === 'BUY' ? 'outlined' : null}>
               Buy
           </Button>
-            <Button onClick={() => setOrderType('SELL')}>
+            <Button onClick={() => setOrderType('SELL')} color='inherit' variant={orderType === 'SELL' ? 'outlined' : null}>
               Sell
           </Button>
           </Grid>

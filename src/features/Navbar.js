@@ -77,9 +77,9 @@ export default function NavBar() {
 
   useEffect(() => {
     (async() => {
-        let searchArray = await getSearch(searchValue)
-        if(searchArray.status === 'OK'){
-          setSearchResults(searchArray.tickers)
+        let searchArray = await getSearch(token, searchValue)
+        if(searchArray){
+          setSearchResults(searchArray)
         }
 
     })()
@@ -148,8 +148,8 @@ export default function NavBar() {
                   <MenuList id="menu-list-grow" onKeyDown={handleListKeyDown}>
                     {searchResults.map( ticker => {
                       return (
-                        <MenuItem key={ticker.ticker} value={ticker.ticker}>
-                          <Link to={`/assets/${ticker.ticker}`}> {ticker.ticker}</Link>
+                        <MenuItem key={ticker.symbol} value={ticker.symbol}>
+                          <Link to={`/assets/${ticker.symbol}`}> {ticker.symbol}</Link>
                         </MenuItem>
                       )
                     })}

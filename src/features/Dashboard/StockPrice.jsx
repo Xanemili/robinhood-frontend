@@ -7,8 +7,8 @@ const StockPrice = ({price}) => {
   // temporary stop gap to show stock price data. will be swapped to a socket for entire portfolio.
 
   return (
-    <>
-    {console.log(price)}
+    <div>
+      
     {price ?
       <ListItemText
       primary={price.lastSalePrice ? `$ ${(price.lastSalePrice).toFixed(2)}` : 0}
@@ -17,7 +17,7 @@ const StockPrice = ({price}) => {
       >
       </ListItemText> : <></>
     }
-    </>
+    </div>
   )
 }
 
