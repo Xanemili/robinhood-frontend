@@ -1,11 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useParams} from 'react-router-dom'
 import { LineChart, Line, YAxis, Tooltip, XAxis, ResponsiveContainer } from 'recharts';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Button from '@material-ui/core/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Button from '@mui/material/Button';
 import moment from 'moment'
 import { getTimeSeriesData } from '../../fetches/asset'
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
 
 const StockRechart = () => {
@@ -29,14 +29,6 @@ const StockRechart = () => {
       }
     })()
   }, [range, interval, symbol])
-
-  const cleanChartData = (data) => {
-    if (true) {
-      setColor('#ba000d')
-    } else {
-      setColor('#82ca9d')
-    }
-  }
 
   const handleRange = (range, interval) => {
     setInterval(interval)

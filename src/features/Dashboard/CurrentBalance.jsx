@@ -1,9 +1,9 @@
 import React, {useContext, useState, useEffect} from 'react';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 import {addCash, getCash} from '../../fetches/portfolio';
-import Button from '@material-ui/core/Button';
-import { useAppSelector } from '../../hooks';
+import Button from '@mui/material/Button';
+import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
 
 const CurrentBalance = (props) => {
@@ -35,21 +35,21 @@ const CurrentBalance = (props) => {
     }
   })
 
-    return(
-    <Paper style={{padding: 5, margin: 3}}>
-      <Grid container justify='space-between' spacing={3} alignItems='center'>
-        <Grid item style={{margin: 4}}>
-          Balance: ${cash.tradeTotal}
-        </Grid>
-        <Grid item>
-          <Button onClick={()=> setCashToggle(true)} color='secondary'>
-            Add Cash: Free for a Limited Time
-          </Button>
+    return (
+      <Paper style={{padding: 5, margin: 3}}>
+        <Grid container justifyContent='space-between' spacing={3} alignItems='center'>
+          <Grid item style={{margin: 4}}>
+            Balance: ${cash.tradeTotal}
+          </Grid>
+          <Grid item>
+            <Button onClick={()=> setCashToggle(true)} color='secondary'>
+              Add Cash: Free for a Limited Time
+            </Button>
 
+          </Grid>
         </Grid>
-      </Grid>
-    </Paper>
-  )
+      </Paper>
+    );
 }
 
 export default CurrentBalance;

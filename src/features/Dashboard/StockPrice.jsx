@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ListItemText } from '@material-ui/core'
+import { ListItemText } from '@mui/material'
 
 
 const StockPrice = ({price}) => {

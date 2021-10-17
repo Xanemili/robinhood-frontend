@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import News from './News'
 import {getNews} from '../../fetches/news';
-import Grid from '@material-ui/core/Grid';
-import { Typography } from '@material-ui/core';
+import Grid from '@mui/material/Grid';
+import { Typography } from '@mui/material';
 
 const NewsContainer = () => {
 

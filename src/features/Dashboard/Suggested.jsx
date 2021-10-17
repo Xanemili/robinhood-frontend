@@ -1,5 +1,5 @@
 import React, { useState, } from 'react';
-import { ListSubheader, ListItem, Divider, ListItemText } from '@material-ui/core';
+import { ListSubheader, ListItem, Divider, ListItemText } from '@mui/material';
 import { Link } from 'react-router-dom'
 import StockPrice from './StockPrice'
 

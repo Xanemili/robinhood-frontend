@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import Grid from '@material-ui/core/Grid'
+import Grid from '@mui/material/Grid'
 import { getAssetData } from '../../fetches/asset'
 import NavBar from '../Navbar';
 import TradePanel from './TradePanel'
@@ -8,10 +8,10 @@ import StockReChart from '../charts/StockReChart';
 import CompanyInfo from './CompanyInfo';
 import CompanyNews from './CompanyNews'
 import {useParams} from 'react-router-dom';
-import Container from '@material-ui/core/Container'
-import Paper from '@material-ui/core/Paper'
-import makeStyles from '@material-ui/styles/makeStyles'
-import { useAppSelector } from '../../hooks';
+import Container from '@mui/material/Container'
+import Paper from '@mui/material/Paper'
+import makeStyles from '@mui/styles/makeStyles'
+import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,14 +59,14 @@ const Asset = () => {
     return null
   }
 
-  return(
+  return (
     <div className={classes.root}>
       <NavBar/>
        <main className={classes.content}>
         <div className={classes.appBarSpacer} />
       <Container maxWidth={'xl'} className={classes.container}>
 
-      <Grid container spacing={5} justify={'center'}>
+      <Grid container spacing={5} justifyContent={'center'}>
         <Grid item xs={6}>
           <Paper className="chart" style={{ marginBottom: 10 }}>
             <AssetQuote asset={asset}/>
@@ -83,7 +83,7 @@ const Asset = () => {
       </Container>
       </main>
     </div>
-  )
+  );
 
 }
 

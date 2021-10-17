@@ -19,5 +19,5 @@ export const alertSlice = createSlice({
   }
 })
 
-export const { createAlert } =  alertSlice.actions
+export const { createAlert, removeAlert } =  alertSlice.actions
 export default alertSlice.reducer

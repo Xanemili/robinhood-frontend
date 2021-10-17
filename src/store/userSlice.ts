@@ -9,11 +9,11 @@ export const userSlice = createSlice({
     },
     reducers: {
         loadToken: (state, action) => { state.token = action.payload },
-        removeToken: state => { state.token = null}
+        resetToken: state => { state.token = null}
     }
 })
 
-export const { loadToken, removeToken } = userSlice.actions
+export const { loadToken, resetToken } = userSlice.actions
 
 export const selectToken = (state: RootState) => state.user.token
 

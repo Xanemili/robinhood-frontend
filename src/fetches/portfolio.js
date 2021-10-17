@@ -16,20 +16,6 @@ export const getPortfolio = async (token) => {
   }
 };
 
-export const getWatchlist = async(token) => {
-  const res = await fetch(`${baseUrl}/list`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  if(res.ok) {
-    return res.json()
-  }  else {
-    return [];
-  }
-}
-
 export const getPortfolioHistory = async(token) => {
 
   const res = await fetch(`${baseUrl}/users/portfolio/history`, {
@@ -45,37 +31,6 @@ export const getPortfolioHistory = async(token) => {
   }
 }
 
-export const deleteListItem = async(token, security) => {
-
-  const res = await fetch(`${baseUrl}/watchlist/security/${security}`, {
-    method: 'DELETE',
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  if(res.ok){
-    return res.json()
-  } else {
-    return 'There was an error'
-  }
-}
-
-export const addItemToList = async (token, security) => {
-
-  const res = await fetch(`${baseUrl}/watchlist/security/${security}`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  if (res.ok) {
-    return res.json()
-  } else {
-    return 'There was an error'
-  }
-}
 
 export const addCash = async(token) => {
   const url = `${baseUrl}/trades/cash`

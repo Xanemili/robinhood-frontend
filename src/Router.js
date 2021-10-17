@@ -1,6 +1,6 @@
-import React, {useEffect,} from 'react'
+import { useEffect } from 'react'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from './hooks'
+import { useAppDispatch, useAppSelector } from './store/hooks'
 import { loadToken, selectToken, } from './store/userSlice'
 
 import Login from './features/LoginForm'
@@ -19,7 +19,7 @@ const PrivateRoute = (props) => {
 }
 
 
-const App = () => {
+const Router = () => {
   const dispatch = useAppDispatch()
   const token = useAppSelector(selectToken)
 
@@ -67,4 +67,4 @@ const App = () => {
   );
 }
 
-export default App;
+export default Router;

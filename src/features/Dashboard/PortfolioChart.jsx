@@ -1,13 +1,13 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {LineChart, Line, YAxis, Tooltip, XAxis, ResponsiveContainer} from 'recharts';
-import ButtonGroup from '@material-ui/core/ButtonGroup';
-import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper'
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper'
 import { getPortfolioHistory } from '../../fetches/portfolio'
 // import moment from 'moment'
-import Divider from '@material-ui/core/Divider'
-import { useAppSelector } from '../../hooks';
+import Divider from '@mui/material/Divider'
+import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
 
 const PortfolioChart = () => {
@@ -93,22 +93,21 @@ const PortfolioChart = () => {
 
   return (
 
-    <Paper spacing={2}>
-      <div margin={{ left: 5, top: 5 }}>
-        <Typography variant='h5' style={{ marginTop: 14, marginLeft: 14 }}>
-          Portfolio
-          </Typography>
-        <Divider variant='middle' />
-        <Typography variant='h5' style={{ marginLeft: 14 }}>
-          {currentPrice}
+    <Paper>
+      <Typography variant='h5'>
+        Portfolio
         </Typography>
-        <Typography style={{ marginLeft: 14, color: color }}>
-          {priceChange}
-        </Typography>
-        <Typography style={{ marginLeft: 14, color: color }}>
-          {percChange}%
-          </Typography>
-      </div>
+      <Divider variant='middle' />
+      <Typography variant='h5' style={{ marginLeft: 14 }}>
+        {currentPrice}
+      </Typography>
+      <Typography style={{ marginLeft: 14, color: color }}>
+        {priceChange}
+      </Typography>
+      <Typography style={{ marginLeft: 14, color: color }}>
+        {percChange}%
+      </Typography>
+
       <div style={{ width: '100%', height: 300 }}>
         <ResponsiveContainer>
           <LineChart data={currentData}

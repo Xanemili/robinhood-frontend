@@ -1,83 +1,49 @@
-import React from 'react';
-import Grid from '@material-ui/core/Grid'
-import CssBaseline from '@material-ui/core/CssBaseline'
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container'
+import Grid from '@mui/material/Grid'
+import CssBaseline from '@mui/material/CssBaseline'
+import Box from '@mui/material/Box'
+import Container from '@mui/material/Container'
 import Portfolio from './Portfolio'
 import NavBar from '../Navbar'
 import PortfolioChart from './PortfolioChart'
 import NewsContainer from './NewsContainer';
 import CurrentBalance from './CurrentBalance'
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex'
-  },
-  appBarSpacer: {...theme.mixins.toolbar},
-  content: {
-    flexGrow: 1,
-    height: '100vh',
-      overflow: 'auto',
-    },
-    container: {
-      paddingTop: theme.spacing(2),
-      paddingBottom: theme.spacing(4),
-    },
-    paper: {
-      padding: theme.spacing(2),
-      display: 'flex',
-      overflow: 'auto',
-      flexDirection: 'column',
-    },
-    fixedHeight: {
-      height: 240,
-    },
-  }));
+import ListSection from '../Lists/ListSection';
+import { Toolbar } from '@mui/material'
 
   const DashBoard = () => {
 
    const token = useAppSelector(selectToken)
 
-   const classes = useStyles();
-
    if(!token) {
      return null
    }
-    return(
-      <div className={classes.root}>
-      <CssBaseline />
-      <NavBar/>
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-          <Container maxWidth={'xl'} className={classes.container}>
-          <Grid container spacing={5} justify='center'>
-            <Grid item xs={6}>
-              <Grid container direction='column' spacing={2}>
-                <Grid item>
-                  <PortfolioChart />
-                </Grid>
-                < Grid item>
-                  <CurrentBalance />
-                </Grid>
-                < Grid item>
-                  <NewsContainer />
-                </Grid>
+    return (
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <NavBar />
+        { /*implement drawer as portfolio? */  }
+        <Box component="main" sx={{ flexGrow: 1, height: '100vh', overflow: 'auto'}}>
+          <Toolbar />
+          <Container maxWidth="xl" sx={{ mt: 4, mb: 4}}>
+            <Grid container spacing={3} justifyContent='center'>
+              <Grid item xs={2}>
+                {/* <Portfolio /> */}
+              </Grid>
+              <Grid item xs={8}>
+                {/* <PortfolioChart /> */}
+                {/* <CurrentBalance /> */}
+                {/* <NewsContainer /> */}
+              </Grid>
+              <Grid item xs={2}>
+                <ListSection />
               </Grid>
             </Grid>
-
-            <Grid item xs={2}>
-              <Portfolio />
-            </Grid>
-
-          </Grid>
           </Container>
-      </main>
-
-    </div>
-    )
+        </Box>
+      </Box>
+    );
 }
-
 
 export default DashBoard;

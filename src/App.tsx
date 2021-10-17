@@ -1,7 +1,6 @@
 import Router from './Router';
-import theme from './muitheme'
-import {ThemeProvider} from '@material-ui/core'
-
+import theme from './theme/muitheme'
+import { ThemeProvider } from '@mui/material';
 
 const App = () => {
 

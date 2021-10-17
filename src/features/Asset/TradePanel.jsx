@@ -1,15 +1,15 @@
-import React, { useState, useContext, useEffect } from 'react';
-import Card from '@material-ui/core/Card';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
+import React, { useState, useEffect } from 'react';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
 import { sendTrade } from '../../fetches/asset';
-import { Divider, TextField } from '@material-ui/core';
+import { Divider, TextField } from '@mui/material';
 import NumberFormat from 'react-number-format';
 import PropTypes from 'prop-types';
-import { addItemToList, deleteListItem } from '../../fetches/portfolio';
+import { addListItem, deleteListItem } from '../../fetches/list';
 import ActionModal from './ActionModal';
-import { useAppSelector } from '../../hooks';
+import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
 
 function NumberFormatCustom(props) {
@@ -78,7 +78,7 @@ export default function TradePanel({ asset: { quote } }) {
   }
 
   const addToList = async () => {
-    let response = await addItemToList(token, quote.symbol);
+    let response = await addListItem(token, quote.symbol);
     if (response) {
       alert(`${quote.symbol} was added to your Watchlist.`)
     }
@@ -97,7 +97,7 @@ export default function TradePanel({ asset: { quote } }) {
   return (
     <Card>
       <form onSubmit={handleOrder} padding={2}>
-        <Grid container justify='space-between' direction='column' alignItems='center' spacing={2}>
+        <Grid container justifyContent='space-between' direction='column' alignItems='center' spacing={2}>
           <Grid item xs={8} style={{ padding: 14 }}>
             <Typography variant='h3'>
               {quote.symbol}
@@ -148,7 +148,7 @@ export default function TradePanel({ asset: { quote } }) {
         </Grid>
       </form>
       <Divider variant='middle' />
-      <Grid container justify='center' style={{ padding: 12 }}>
+      <Grid container justifyContent='center' style={{ padding: 12 }}>
         <Button onClick={addToList} >
           Add To List
         </Button>
@@ -158,6 +158,5 @@ export default function TradePanel({ asset: { quote } }) {
       </Grid>
 
     </Card>
-
-  )
+  );
 }

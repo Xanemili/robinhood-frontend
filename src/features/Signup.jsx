@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import makeStyles from '@mui/styles/makeStyles';
+import Container from '@mui/material/Container';
 import {createUser} from '../fetches/authentication'
 import { Redirect } from 'react-router-dom';
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { selectToken, loadToken } from '../store/userSlice';
 
 const useStyles = makeStyles((theme) => ({
@@ -152,7 +152,7 @@ export default function SignUp() {
           >
             Sign Up
           </Button>
-          <Grid container justify="center">
+          <Grid container justifyContent="center">
             <Grid item>
               <Link href="/login" variant="body2" color='secondary'>
                 Already have an account? Sign in

@@ -1,9 +1,9 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import { Container, Divider, Typography } from '@material-ui/core';
-import Link from '@material-ui/core/Link'
+import Grid from '@mui/material/Grid';
+import Button from '@mui/material/Button';
+import Paper from '@mui/material/Paper';
+import { Container, Divider, Typography } from '@mui/material';
+import Link from '@mui/material/Link'
 
 const CompanyInfo = ({ asset: {company, peers} }) => {
 
@@ -14,7 +14,7 @@ const CompanyInfo = ({ asset: {company, peers} }) => {
     <Container style={{ margin: 10 }}>
 
       <Paper elevation={0} >
-        <Grid container spacing={2} direction="column" justify='space-evenly' >
+        <Grid container spacing={2} direction="column" justifyContent='space-evenly' >
 
           <Grid item >
             <Paper elevation={0} style={{ marginLeft: 10 }}>
@@ -74,8 +74,7 @@ const CompanyInfo = ({ asset: {company, peers} }) => {
         </Grid>
       </Paper>
     </Container>
-
-  )
+  );
 }
 
 export default CompanyInfo;
