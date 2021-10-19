@@ -1,10 +1,12 @@
 import { baseUrl } from '../config'
 import {Ticker, AssetListType} from '../store/listSlice'
 import store from '../store/store'
-import { loadLists } from '../store/listSlice'
+import { loadLists, loadListFailure, resetLists, loadingLists, addList } from '../store/listSlice'
 import { createAlert } from '../store/alertSlice'
 
 export const getLists = async (token: string) => {
+
+  store.dispatch(loadingLists())
 
   const res = await fetch(`${baseUrl}/list`, {
     headers: {
@@ -14,10 +16,15 @@ export const getLists = async (token: string) => {
 
   if (res.ok) {
     const lists = await res.json()
-    store.dispatch(loadLists(lists))
-    store.dispatch(createAlert({payload: { id: 10, message: 'New List Successful', type: 'success'}}))
+
+    if (Array.isArray(lists) && lists.length > 0) {
+      store.dispatch(loadLists(lists))
+      store.dispatch(createAlert({payload: { id: 10, message: 'New List Successful', type: 'success'}}))
+    } else {
+      store.dispatch(resetLists())
+    }
   } else {
-    return [];
+    store.dispatch(loadListFailure())
   }
 }
 
@@ -53,18 +60,23 @@ export const addListItem = async (token: string, id: string, security: Ticker) =
   }
 }
 
-export const createList = async (token: string, data: AssetListType) => {
+export const createList = async (data: AssetListType) => {
+
+  const token = localStorage.getItem('token')
+
   const res = await fetch(`${baseUrl}/list/new`, {
     method: 'POST',
     headers: {
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`
     },
     body: JSON.stringify(data)
   })
 
   if (res.ok) {
-    return res.json()
+    const newList = await res.json()
+    store.dispatch(addList(newList))
   } else {
-    return 'There was an error'
+    store.dispatch(loadListFailure())
   }
 }

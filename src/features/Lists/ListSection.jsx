@@ -25,12 +25,14 @@ const ListSection = () => {
       (async () => { await getLists(token) })()
   }, [ token, dispatch ])
 
-  if(!lists || Object.keys(lists).length === 0) {
+  if(lists.status === 'loading') {
     return <CircularProgress />
   }
 
+  console.log(lists.data)
+
   return (
-    <ErrorBoundary fallback={<h2>Could not fetch watchlist </h2>}>
+    <ErrorBoundary fallback={<h2>Could not fetch watchlist</h2>}>
       <Paper variant="outlined">
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Typography variant="h2" sx={{ p:2 }}>
@@ -42,9 +44,7 @@ const ListSection = () => {
         </Box>
         <Divider sx={{ borderColor: 'info.main' }}/>
         {isNewList && <NewAssetList setIsNewList={setIsNewList} />}
-        {Object.entries(lists).map( ([id, list]) => {
-          return <AssetList {...list} key={id}/>})
-        }
+        {Object.entries(lists.data).map( ([id, list]) => (<AssetList {...list} key={id}/>))}
       </Paper>
     </ErrorBoundary>
   )
