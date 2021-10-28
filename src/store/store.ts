@@ -9,7 +9,7 @@ const store = configureStore({
         alerts: alertReducer,
         lists: listReducer,
     }
-})
+}, )
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

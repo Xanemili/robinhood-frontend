@@ -33,7 +33,13 @@ const NewAssetList = ({setIsNewList}: NewAssetListProps) => {
         <Button color="info" onClick={() => setIsNewList(false)}>
           Cancel
         </Button>
-        <Button color="success" onClick={() => createList({name: name})}>
+        {
+          // TO DO: Fix the Ids for the types
+        }
+        <Button color="success" onClick={() => {
+          createList({id: 0, name: name})
+          setIsNewList(false)
+        }}>
           Create
         </Button>
       </Box>

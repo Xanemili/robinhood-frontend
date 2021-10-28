@@ -1,5 +1,6 @@
 import { baseUrl } from '../config'
-import {Ticker, AssetListType} from '../store/listSlice'
+import {Ticker, AssetListType, removeList} from '../store/listSlice'
+import { createAsyncThunk } from '@reduxjs/toolkit'
 import store from '../store/store'
 import { loadLists, loadListFailure, resetLists, loadingLists, addList } from '../store/listSlice'
 import { createAlert } from '../store/alertSlice'
@@ -76,7 +77,48 @@ export const createList = async (data: AssetListType) => {
   if (res.ok) {
     const newList = await res.json()
     store.dispatch(addList(newList))
+    store.dispatch(createAlert({message: 'Success: List was created', alertType: 'success'}))
   } else {
     store.dispatch(loadListFailure())
+  }
+}
+
+
+// TO DO: Implement as a thunk!
+export const deleteList = async (id: number) => {
+  const token = localStorage.getItem('token')
+
+  const res = await fetch(`${baseUrl}/list/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  if(res.ok) {
+    store.dispatch(removeList(id))
+  } else {
+    store.dispatch(loadListFailure())
+  }
+}
+
+export const deleteListById = createAsyncThunk('lists/deleteListById', async (listId: number, thunkAPI) => {
+  const response = await deleteList(listId)
+})
+
+export const getMovers = async() => {
+  const token = localStorage.getItem('token')
+
+  const res = await fetch(`${baseUrl}/assets/movers`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+
+  if(res.ok) {
+    const data = await res.json()
+    return data
+  } else {
+    return
   }
 }

@@ -6,6 +6,7 @@ export type AssetListData = {
 }
 
 export type AssetListType = {
+  id: number,
   name?: string,
   description?: string,
   Tickers?: Array<Ticker>
@@ -20,7 +21,8 @@ type AssetListSlice = {
 
 export type Ticker = {
   id: number,
-  ticker: string,
+  symbol: string,
+  latestClose?: number,
 }
 
 const initialState: AssetListSlice = { status: 'setup', data: {}}
@@ -35,14 +37,11 @@ export const listSlice = createSlice({
       return state
     },
     removeList: (state: AssetListSlice, action) => {
-      delete state.data[action.payload.id]
-      return state
+      delete state.data[action.payload]
     },
     addList: (state: AssetListSlice, action) => {
-      console.log(action.payload)
       const {id, name, description, Tickers } = action.payload
-      state.data[id] = {name, description, Tickers}
-      return state
+      state.data[id] = {id, name, description, Tickers}
     },
     resetLists: (state: AssetListSlice) => {
       return initialState
@@ -58,7 +57,7 @@ export const listSlice = createSlice({
       state.status = 'failure'
       return state
     }
-  }
+  },
 })
 
 export const { loadLists, removeList, addList, loadListFailure, resetLists, loadingLists, } = listSlice.actions

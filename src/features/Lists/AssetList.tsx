@@ -1,10 +1,12 @@
-import {List, ListSubheader, Divider, ListItem, ListItemText, Button, Menu } from '@mui/material'
-import { Link } from 'react-router-dom'
+import {List, ListSubheader, Divider, Button, Menu, } from '@mui/material'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ListIconMenu from './ListIconMenu'
 import {AssetListType} from '../../store/listSlice'
+import SymbolItem from './SymbolItem';
 import React from 'react'
 
-const AssetList = ({Tickers, name}: AssetListType) => {
+const AssetList = (props: AssetListType) => {
+  const {Tickers, name, id} = props
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -14,28 +16,28 @@ const AssetList = ({Tickers, name}: AssetListType) => {
     setAnchorEl(null);
   };
 
+  console.log(Tickers)
+
 return (
-  <List>
-    <ListSubheader>{name}</ListSubheader>
+  <List
+    subheader={
+    <ListSubheader sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+      {name}
+      <Button
+        id="list-controls"
+        aria-haspopup="true"
+        onClick={handleClick}
+        color='secondary'>
+      <MoreHorizIcon />
+      </Button>
+    </ListSubheader>}
+  >
     <Divider />
-    <Button
-    id="list-controls"
-    aria-haspopup="true"
-    onClick={handleClick}>
-      open
-    </Button>
     <Menu id='list-control-menu' open={open} anchorEl={anchorEl} onClose={handleClose}>
-      <ListIconMenu />
+      <ListIconMenu id={id}/>
     </Menu>
     {Tickers && Tickers.map(asset => (
-      <ListItem alignItems='center' key={asset.ticker}>
-        <ListItemText>
-          <Link to={`/assets/${asset.ticker}`} className={'link-stocks'}>
-            {asset.ticker}
-          </Link>
-        </ListItemText>
-        {/* <StockPrice ticker={asset.ticker} /> */}
-      </ListItem>
+      <SymbolItem asset={asset}/>
     ))}
   </List>
 )}

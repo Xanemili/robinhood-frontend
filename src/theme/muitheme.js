@@ -80,6 +80,15 @@ const theme = createTheme(baseTheme, {
           props: {vairant: 'border'}
         }
       ]
+    },
+    MuiLink: {
+      root: {
+
+      },
+      defaultProps: {
+        underline: 'hover',
+        color: 'secondary'
+      }
     }
   }
 })

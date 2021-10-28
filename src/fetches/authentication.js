@@ -8,9 +8,14 @@ export const getToken = async (email, password) => {
   });
 
   if(response.ok) {
-    const {token} = await response.json();
+    const { token, expiration } = await response.json();
     window.localStorage.setItem('token', token)
+    window.localStorage.setItem('expiration', expiration)
     return token;
+  }
+
+  if(response.status === 403) {
+    window.localStorage.removeItem('token')
   }
 }
 
@@ -26,8 +31,9 @@ export const createUser = async (body) => {
 
 
   if(response.ok) {
-    const {token} = await response.json();
+    const {token, expiration} = await response.json();
     window.localStorage.setItem('token', token)
+    window.localStorage.setItem('expiration', expiration)
     return token;
   } else {
     return;

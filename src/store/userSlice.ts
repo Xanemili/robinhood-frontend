@@ -4,12 +4,12 @@ import { RootState } from './store'
 export const userSlice = createSlice({
     name: 'user',
     initialState: {
-        token: null,
+        token: '',
         status: 'idle',
     },
     reducers: {
         loadToken: (state, action) => { state.token = action.payload },
-        resetToken: state => { state.token = null}
+        resetToken: state => { state.token = ''}
     }
 })
 

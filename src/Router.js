@@ -24,12 +24,18 @@ const Router = () => {
   const token = useAppSelector(selectToken)
 
   useEffect(() => {
-    (async() => {
-      const localToken = await window.localStorage.getItem('token');
-      if(localToken) {
-        dispatch(loadToken(localToken))
-      }
-    })();
+
+    // check if token is still valid based on age
+    const expiration = window.localStorage.getItem('expiration')
+    if(expiration <= Math.floor(Date.now() /1000)) {
+      window.localStorage.removeItem('expiration')
+      window.localStorage.removeItem('token')
+    }
+
+    const localToken = window.localStorage.getItem('token');
+    if(localToken) {
+      dispatch(loadToken(localToken))
+    }
 
   }, [dispatch]);
   const needLogin = !token;
