@@ -27,7 +27,7 @@ const DashBoard = () => {
       { /*implement drawer as portfolio? */}
       <Box component="main" sx={{ flexGrow: 1, height: '100vh', overflow: 'auto' }}>
         <Toolbar />
-        <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
+        <Container maxWidth="" sx={{ mt: 4, mb: 4 }}>
           <SimpleConfirm open={dialog.open}/>
           <Grid container spacing={3} justifyContent='center'>
             <Grid item xs={2}>
@@ -36,6 +36,9 @@ const DashBoard = () => {
             <Grid item xs={8}>
               {/* <PortfolioChart /> */}
               {/* <CurrentBalance /> */}
+              {
+                // NEWS CONTAINER FUNCTIONAL
+              }
               {/* <NewsContainer /> */}
             </Grid>
             <Grid item xs={2}>

@@ -18,7 +18,6 @@ const PrivateRoute = (props) => {
     }}/>);
 }
 
-
 const Router = () => {
   const dispatch = useAppDispatch()
   const token = useAppSelector(selectToken)
@@ -27,6 +26,7 @@ const Router = () => {
 
     // check if token is still valid based on age
     const expiration = window.localStorage.getItem('expiration')
+    console.log(expiration, Math.floor(Date.now() / 1000))
     if(expiration <= Math.floor(Date.now() /1000)) {
       window.localStorage.removeItem('expiration')
       window.localStorage.removeItem('token')
