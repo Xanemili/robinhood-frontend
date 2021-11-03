@@ -4,16 +4,7 @@ import CardContent from '@mui/material/CardContent';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardMedia from '@mui/material/CardMedia'
 import { Typography } from '@mui/material';
-
-interface NewsApiArticle {
-  author: string,
-  title: string,
-  description: string,
-  url: URL,
-  urlToImage: string,
-  publishedAt: string,
-  content: string
-}
+import { NewsApiArticle } from '../../api-types'
 
 interface NewsApiArticleProps {
   article: NewsApiArticle
