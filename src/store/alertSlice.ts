@@ -22,7 +22,7 @@ export interface AlertState {
 }
 
 const initialState: AlertState = {
-  snackbar: [{ id: 1, message: '', alertType: 'success' }],
+  snackbar: [],
   dialog: { open: false, title: '', description: '', action: '', targetId: 0 }
 }
 
@@ -32,7 +32,8 @@ export const alertSlice = createSlice({
   reducers: {
     createAlert: (state, action) => {
 
-      const id = state.snackbar[state.snackbar.length - 1].id + 1
+      // Set id to be 1 if there are no current alerts.
+      const id = state.snackbar.length === 0 ? 1 : state.snackbar[state.snackbar.length - 1].id + 1
 
       state.snackbar.push({
         id,

@@ -16,8 +16,6 @@ const AssetList = (props: AssetListType) => {
     setAnchorEl(null);
   };
 
-  console.log(Tickers)
-
 return (
   <List
     subheader={

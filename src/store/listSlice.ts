@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { IexAsset } from '../api-types'
 import { RootState } from './store'
 
 export type AssetListData = {
@@ -9,7 +10,7 @@ export type AssetListType = {
   id: number,
   name?: string,
   description?: string,
-  Tickers?: Array<Ticker>
+  Tickers?: Array<IexAsset>
 }
 
 type Status = 'loading' | 'failure' | 'success' | 'setup'
@@ -17,12 +18,6 @@ type Status = 'loading' | 'failure' | 'success' | 'setup'
 type AssetListSlice = {
   data: AssetListData,
   status: Status
-}
-
-export type Ticker = {
-  id: number,
-  symbol: string,
-  latestClose?: number,
 }
 
 const initialState: AssetListSlice = { status: 'setup', data: {}}

@@ -5,11 +5,12 @@ import Paper from '@mui/material/Paper';
 import { Container, Divider, Typography } from '@mui/material';
 import Link from '@mui/material/Link'
 
-const CompanyInfo = ({ asset: {company, peers} }) => {
+const CompanyInfo = ({ asset: {company} }) => {
 
-  if (!company || !peers) {
+  if (!company) {
     return null;
   }
+
   return (
     <Container style={{ margin: 10 }}>
 
@@ -60,15 +61,6 @@ const CompanyInfo = ({ asset: {company, peers} }) => {
                 Related Tickers:
         </Typography>
               <Divider />
-              {peers.map(ticker => {
-                return (
-                  <Link href={`/assets/${ticker}`} onClick={(e) => e.preventDefault} key={ticker}>
-                    <Button>
-                      {ticker}
-                    </Button>
-                  </Link>
-                )
-              })}
             </Paper>
           </Grid>
         </Grid>

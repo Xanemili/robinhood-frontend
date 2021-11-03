@@ -1,9 +1,10 @@
 import { baseUrl } from '../config'
-import {Ticker, AssetListType, removeList} from '../store/listSlice'
+import {AssetListType, removeList} from '../store/listSlice'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import store from '../store/store'
 import { loadLists, loadListFailure, resetLists, loadingLists, addList } from '../store/listSlice'
 import { createAlert } from '../store/alertSlice'
+import { IexAsset } from '../api-types'
 
 export const getLists = async (token: string) => {
 
@@ -29,7 +30,7 @@ export const getLists = async (token: string) => {
   }
 }
 
-export const deleteListItem = async (token: string, id: Number, security: Ticker) => {
+export const deleteListItem = async (token: string, id: Number, security: IexAsset) => {
 
   const res = await fetch(`${baseUrl}/list/${id}/security/${security}`, {
     method: 'DELETE',
@@ -45,7 +46,7 @@ export const deleteListItem = async (token: string, id: Number, security: Ticker
   }
 }
 
-export const addListItem = async (token: string, id: string, security: Ticker) => {
+export const addListItem = async (token: string, id: string, security: IexAsset) => {
 
   const res = await fetch(`${baseUrl}/list/${id}/security/${security}`, {
     method: 'PUT',

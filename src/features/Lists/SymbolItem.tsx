@@ -2,14 +2,10 @@ import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import {Link} from 'react-router-dom'
 import MLink from '@mui/material/Link'
+import {IexAsset} from '../../api-types'
 
 interface SymbolItemProps {
-  asset: Asset
-}
-
-type Asset = {
-  symbol: string
-  latestPrice?: number
+  asset: IexAsset
 }
 
 const SymbolItem = (props: SymbolItemProps) => {

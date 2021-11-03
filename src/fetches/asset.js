@@ -1,7 +1,8 @@
 import {baseUrl} from '../config';
 
-export const getAssetData = async (token, asset) => {
+export const getAssetData = async (asset) => {
 
+  const token = localStorage.getItem('token')
   const res = await fetch(`${baseUrl}/assets/${asset}`, {
     headers: {
       Authorization: `Bearer ${token}`
@@ -45,7 +46,7 @@ export const getTimeSeriesData = async (token, asset, range, interval) => {
   if(res.ok) {
     const data = await res.json()
     return data
-  } 
+  }
 }
 
 export const getSearch = async(token, search) => {

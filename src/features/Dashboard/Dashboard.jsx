@@ -1,9 +1,7 @@
 import Grid from '@mui/material/Grid'
-import CssBaseline from '@mui/material/CssBaseline'
 import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Portfolio from './Portfolio'
-import NavBar from '../Navbar'
 import PortfolioChart from './PortfolioChart'
 import NewsContainer from './NewsContainer';
 import CurrentBalance from './CurrentBalance'
@@ -21,32 +19,27 @@ const DashBoard = () => {
     return null
   }
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <NavBar />
-      { /*implement drawer as portfolio? */}
-      <Box component="main" sx={{ flexGrow: 1, height: '100vh', overflow: 'auto' }}>
-        <Toolbar />
-        <Container maxWidth="" sx={{ mt: 4, mb: 4 }}>
-          <SimpleConfirm open={dialog.open}/>
-          <Grid container spacing={3} justifyContent='center'>
-            <Grid item xs={2}>
-              {/* <Portfolio /> */}
-            </Grid>
-            <Grid item xs={8}>
-              {/* <PortfolioChart /> */}
-              {/* <CurrentBalance /> */}
-              {
-                // NEWS CONTAINER FUNCTIONAL
-              }
-              {/* <NewsContainer /> */}
-            </Grid>
-            <Grid item xs={2}>
-              <ListSection />
-            </Grid>
+    <Box component="main" sx={{ flexGrow: 1, height: '100vh', overflow: 'auto' }}>
+      <Toolbar />
+      <Container maxWidth="" sx={{ mt: 4, mb: 4 }}>
+        <SimpleConfirm open={dialog.open}/>
+        <Grid container spacing={3} justifyContent='center'>
+          <Grid item xs={2}>
+            {/* <Portfolio /> */}
           </Grid>
-        </Container>
-      </Box>
+          <Grid item xs={8}>
+            {/* <PortfolioChart /> */}
+            {/* <CurrentBalance /> */}
+            {
+              // NEWS CONTAINER FUNCTIONAL
+            }
+            {/* <NewsContainer /> */}
+          </Grid>
+          <Grid item xs={2}>
+            <ListSection />
+          </Grid>
+        </Grid>
+      </Container>
     </Box>
   );
 }
