@@ -59,7 +59,7 @@ export default function TradePanel({ asset: { quote } }) {
     e.preventDefault();
     const payload = {
       orderType,
-      ticker: quote.symbol,
+      symbol: quote.symbol,
       price: quote.latestPrice,
       amount
     }

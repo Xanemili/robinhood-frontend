@@ -21,7 +21,7 @@ export const getToken = async (email, password) => {
 
 export const createUser = async (body) => {
 
-  const response = await fetch(`${baseUrl}/users`, {
+  const response = await fetch(`${baseUrl}/users/new`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

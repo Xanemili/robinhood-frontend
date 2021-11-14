@@ -1,9 +1,0 @@
-/* TODO Add site wide styles */
-.sidebar__ticker-portfolio {
-  display: flex;
-  justify-content: space-between;
-}
-
-.link-stocks {
-  text-decoration: none;
-}

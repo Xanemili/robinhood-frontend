@@ -13,15 +13,15 @@ const Suggested = () => {
         Suggested
       </ListSubheader>
       <Divider variant='middle' />
-      {suggested.map( (ticker, idx) => {
+      {suggested.map( (symbol, idx) => {
         return (
-          <ListItem alignItems='center' key={ticker} className={'sidebar__ticker-portfolio'}>
+          <ListItem alignItems='center' key={symbol}>
             <ListItemText>
-              <Link to={`/assets/${ticker}`} className={'link-stocks'} style={{textDecoration: 'none', color: 'inherit'}}>
-                {ticker}
+              <Link to={`/assets/${symbol}`} className={'link-stocks'} style={{textDecoration: 'none', color: 'inherit'}}>
+                {symbol}
               </Link>
             </ListItemText>
-              <StockPrice ticker={ticker} />
+              <StockPrice symbol={symbol} />
           </ListItem>
         )
       })}

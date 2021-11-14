@@ -120,6 +120,6 @@ export const getMovers = async() => {
     const data = await res.json()
     return data
   } else {
-    return
+    return { gainers: [], losers: []}
   }
 }
