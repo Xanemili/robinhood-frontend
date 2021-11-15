@@ -19,10 +19,10 @@ export const getAssetData = async (asset) => {
 
 export const sendTrade = async (token, data) => {
   data.price = parseFloat(data.price)
-  data.amount = parseFloat(data.amount)
+  data.quantity = parseFloat(data.quantity)
 
-  const response = await fetch (`${baseUrl}/trades/${data.ticker}/${data.orderType}`, {
-    method: 'Post',
+  const response = await fetch (`${baseUrl}/trades/${data.orderType}`, {
+    method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,

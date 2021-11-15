@@ -7,10 +7,10 @@ export const getPortfolio = async (token) => {
     }
   });
 
-  let tickerList = await res.json()
 
   if(res.ok) {
-    return tickerList.portfolio;
+    let portfolio = await res.json()
+    return portfolio;
   } else {
     return [];
   }
@@ -25,9 +25,10 @@ export const getPortfolioHistory = async(token) => {
   });
 
   if(res.ok) {
-    return res.json()
+    const data = await res.json()
+    return data
   } else {
-    return [];
+    return;
   }
 }
 

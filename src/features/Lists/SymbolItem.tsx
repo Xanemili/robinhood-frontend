@@ -1,21 +1,22 @@
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import {Link} from 'react-router-dom'
-import MLink from '@mui/material/Link'
+import MaterialLink from '@mui/material/Link'
 import {IexAsset} from '../../api-types'
 
 interface SymbolItemProps {
   asset: IexAsset
 }
 
+
 const SymbolItem = (props: SymbolItemProps) => {
   const { asset } = props
   return (
     <ListItem alignItems='center' key={asset.symbol}>
       <ListItemText>
-        <Link component={MLink} to={`/assets/${asset.symbol}`} className={'link-stocks'}>
+        <MaterialLink component={Link} to={`/assets/${asset.symbol}`}>
           {asset.symbol}
-        </Link>
+        </MaterialLink>
       </ListItemText>
       <div>
         {asset.latestPrice}

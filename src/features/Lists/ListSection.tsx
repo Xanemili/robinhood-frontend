@@ -63,7 +63,7 @@ const ListSection = () => {
         </Typography>
         <List>
           <Divider />
-          {gainers.map( (asset: iexAsset) => <SymbolItem asset={asset}/>)}
+          {gainers.map( (asset: iexAsset) => <SymbolItem key={asset.symbol} asset={asset}/>)}
         </List>
       </Paper>
       <Paper>
@@ -72,7 +72,7 @@ const ListSection = () => {
         </Typography>
         <List>
           <Divider />
-          {losers.map( (asset: iexAsset) => <SymbolItem asset={asset}/>)}
+          {losers.map( (asset: iexAsset) => <SymbolItem key={asset.symbol} asset={asset}/>)}
         </List>
       </Paper>
     </>

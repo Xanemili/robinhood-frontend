@@ -8,6 +8,7 @@ import { getTimeSeriesData } from '../../fetches/asset'
 import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
 import Box from '@mui/system/Box';
+import { Typography } from '@mui/material';
 
 const StockRechart = () => {
 
@@ -48,13 +49,18 @@ const StockRechart = () => {
             <Line type='linear' dataKey='close' name='Close' dot={false} stroke={color} />
           </LineChart>
         </ResponsiveContainer>
-        <ButtonGroup color='secondary' size='small'>
-          {/* <Button onClick={handleIntraDay} value={2}>1D</Button> */}
-          <Button onClick={() => handleRange('1m', 1)} value={3}>1M</Button>
-          <Button onClick={() => handleRange('3m', 1)} value={4}>3M</Button>
-          <Button onClick={() => handleRange('1y', 5)} value={5}>1Y</Button>
-          <Button onClick={() => handleRange('3y', 10)} value={1}>3Y</Button>
-        </ButtonGroup>
+        <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+          <ButtonGroup color='secondary' size='small'>
+            {/* <Button onClick={handleIntraDay} value={2}>1D</Button> */}
+            <Button onClick={() => handleRange('1m', 1)} value={3}>1M</Button>
+            <Button onClick={() => handleRange('3m', 1)} value={4}>3M</Button>
+            <Button onClick={() => handleRange('1y', 5)} value={5}>1Y</Button>
+            <Button onClick={() => handleRange('3y', 10)} value={1}>3Y</Button>
+          </ButtonGroup>
+          <Typography variant={'body2'}>
+            prices shown are delayed by 15mins
+          </Typography>
+        </Box>
       </Box>
   )
 }

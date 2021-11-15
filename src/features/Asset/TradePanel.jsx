@@ -1,50 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { sendTrade } from '../../fetches/asset';
 import { Divider, TextField } from '@mui/material';
-import NumberFormat from 'react-number-format';
-import PropTypes from 'prop-types';
 import { addListItem, deleteListItem } from '../../fetches/list';
 import ActionModal from './ActionModal';
 import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
 
-function NumberFormatCustom(props) {
-  const { inputRef, onChange, ...other } = props;
-
-  return (
-    <NumberFormat
-      {...other}
-      getInputRef={inputRef}
-      onValueChange={(values) => {
-        onChange({
-          target: {
-            name: props.name,
-            value: values.value,
-          },
-        });
-      }}
-      thousandSeparator
-      isNumericString
-      prefix=""
-    />
-  );
-}
-
-NumberFormatCustom.propTypes = {
-  inputRef: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
-
-
-
 export default function TradePanel({ asset: { quote } }) {
 
-  const [amount, setAmount] = useState(10);
+  const [quantity, setQuantity] = useState(10);
   const [price, setPrice] = useState();
   const [orderType, setOrderType] = useState('BUY');
   const token = useAppSelector(selectToken)
@@ -61,7 +29,7 @@ export default function TradePanel({ asset: { quote } }) {
       orderType,
       symbol: quote.symbol,
       price: quote.latestPrice,
-      amount
+      quantity
     }
 
 
@@ -98,7 +66,7 @@ export default function TradePanel({ asset: { quote } }) {
     <Card>
       <form onSubmit={handleOrder} padding={2}>
         <Grid container justifyContent='space-between' direction='column' alignItems='center' spacing={2}>
-          <Grid item xs={8} style={{ padding: 14 }}>
+          <Grid item xs={8}>
             <Typography variant='h3'>
               {quote.symbol}
             </Typography>
@@ -116,13 +84,10 @@ export default function TradePanel({ asset: { quote } }) {
               label="# Shares"
               name="numberformat"
               id="formatted-numberformat-input"
-              InputProps={{
-                inputComponent: NumberFormatCustom,
-              }}
               required
               variant="outlined"
-              value={amount}
-              onChange={updateProperty(setAmount)} />
+              value={quantity}
+              onChange={updateProperty(setQuantity)} />
           </Grid>
           <Grid item xs={8}>
             <TextField
@@ -137,25 +102,29 @@ export default function TradePanel({ asset: { quote } }) {
               label="Trade Total"
               disabled
               variant='standard'
-              value={`${new Intl.NumberFormat('en-us', { style: 'currency', currency: 'USD' }).format(amount * price)}`}
+              value={`${new Intl.NumberFormat('en-us', { style: 'currency', currency: 'USD' }).format(quantity * price)}`}
             />
           </Grid>
           <Grid item xs={8} >
-            <Button type='submit' size='large' style={{ padding: 12 }}>
+            <Button color='secondary' type='submit' size='large'>
               Confirm Trade
         </Button>
           </Grid>
         </Grid>
       </form>
       <Divider variant='middle' />
-      <Grid container justifyContent='center' style={{ padding: 12 }}>
-        <Button onClick={addToList} >
-          Add To List
-        </Button>
-        <Button onClick={removeFromList}>
-          Remove From List
-        </Button>
-      </Grid>
+
+      {
+        // needs to be reworked, multiple lists now available.
+      // <Grid container justifyContent='center' style={{ padding: 12 }}>
+      //   <Button onClick={addToList} >
+      //     Add To List
+      //   </Button>
+      //   <Button onClick={removeFromList}>
+      //     Remove From List
+      //   </Button>
+      // </Grid>
+      }
 
     </Card>
   );

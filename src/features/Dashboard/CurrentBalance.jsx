@@ -25,21 +25,11 @@ const CurrentBalance = (props) => {
     }
   }, [cashToggle, setCashToggle, cash, token])
 
-  useEffect(() => {
-    if (cashToggle || !cash) {
-      (async () => {
-        const newcash = await getCash(token)
-        setCash(newcash)
-      })();
-      setCashToggle(false);
-    }
-  })
-
     return (
       <Paper style={{padding: 5, margin: 3}}>
         <Grid container justifyContent='space-between' spacing={3} alignItems='center'>
           <Grid item style={{margin: 4}}>
-            Balance: ${cash.tradeTotal}
+            Balance:
           </Grid>
           <Grid item>
             <Button onClick={()=> setCashToggle(true)} color='secondary'>

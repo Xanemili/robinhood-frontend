@@ -4,8 +4,8 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper'
+import Box from '@mui/material/Box'
 import { getPortfolioHistory } from '../../fetches/portfolio'
-// import moment from 'moment'
 import Divider from '@mui/material/Divider'
 import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
@@ -22,10 +22,10 @@ const PortfolioChart = () => {
 
   useEffect(()=> {
     (async() => {
-      const response = await getPortfolioHistory(token);
+      const data = await getPortfolioHistory(token);
 
-      if(response.ok){
-        const cleanData = response.portfolio.map(day => {
+      if(data){
+        const cleanData = data.map(day => {
           let date = new Date(Date.parse(day.updatedAt.toString()))
           let parsedDate = `${setMonth(date.getMonth())}, ${date.getDate()}, ${date.getFullYear()}`
 
@@ -93,20 +93,22 @@ const PortfolioChart = () => {
 
   return (
 
-    <Paper>
-      <Typography variant='h5'>
-        Portfolio
+    <Paper sx={{ padding: '7px 14px 0px 14px'}}>
+      <Box >
+        <Typography variant='h5'>
+          Portfolio
+          </Typography>
+        <Divider variant='middle' />
+        <Typography variant='h5' >
+          {currentPrice}
         </Typography>
-      <Divider variant='middle' />
-      <Typography variant='h5' style={{ marginLeft: 14 }}>
-        {currentPrice}
-      </Typography>
-      <Typography style={{ marginLeft: 14, color: color }}>
-        {priceChange}
-      </Typography>
-      <Typography style={{ marginLeft: 14, color: color }}>
-        {percChange}%
-      </Typography>
+        <Typography sx={{ color: color }}>
+          {priceChange}
+        </Typography>
+        <Typography sx={{ color: color }}>
+          {percChange}%
+        </Typography>
+      </Box>
 
       <div style={{ width: '100%', height: 300 }}>
         <ResponsiveContainer>

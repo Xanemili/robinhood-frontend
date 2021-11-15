@@ -12,6 +12,7 @@ import SearchPopper from './SearchPopper'
 import { getSearch } from '../fetches/asset';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { selectToken, resetToken } from '../store/userSlice';
+import { ButtonGroup } from '@mui/material';
 
 export default function NavBar() {
 
@@ -61,30 +62,34 @@ export default function NavBar() {
   return (
     <Box>
       <AppBar position='fixed'>
-        <Toolbar>
+        <Toolbar sx={{display: 'flex', justifyContent: 'space-between'}}>
           <Typography variant="h6" noWrap component='div'>
             <NavLink to='/' style={{textDecoration: 'none', color: 'inherit'}}>
             Portfolio Watch
             </NavLink>
           </Typography>
-            <SearchIcon />
-          <InputBase
-            placeholder="Search…"
-            inputProps={{ 'aria-label': 'search' }}
-            value={searchValue}
-            ref={anchorRef}
-            onChange={(e)=> setSearchValue(e.target.value)}
-            onFocus={(e)=> handleToggle(e)}
-            />
-          <SearchPopper />
-          <Button>
-            <NavLink to='/'>
-              Portfolio
-            </NavLink>
-          </Button>
-          <Button variant='info' onClick={removeToken}>
-            Logout
-          </Button>
+          <Box sx={{ alignItems: 'center', display: 'flex', padding: '1px 1px 1px 1px'}}>
+            <SearchIcon sx={{padding: '4px 0 5px 0'}}/>
+            <InputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+              value={searchValue}
+              ref={anchorRef}
+              onChange={(e)=> setSearchValue(e.target.value)}
+              onFocus={(e)=> handleToggle(e)}
+              />
+            <SearchPopper />
+          </Box>
+          <ButtonGroup>
+            <Button>
+              <NavLink to='/'>
+                Portfolio
+              </NavLink>
+            </Button>
+            <Button variant='info' onClick={removeToken}>
+              Logout
+            </Button>
+          </ButtonGroup>
         </Toolbar>
       </AppBar>
     </Box>

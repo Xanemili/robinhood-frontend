@@ -23,9 +23,8 @@ const Portfolio = () => {
    const [prices, setPrices] = useState([])
 
    useEffect(() => {
-     let port;
     (async() => {
-      port = await getPortfolio(token);
+      let port = await getPortfolio(token);
       setPortfolio(port);
     })();
    }, [token])
@@ -33,9 +32,9 @@ const Portfolio = () => {
    useEffect(() => {
      if (!portfolio) return
      (async() => {
-       let portfolioString = portfolio.filter(sec =>sec.Ticker.ticker !== 'CASH').reduce( (acc, ele) => {
+       let portfolioString = portfolio.filter(position => position !== 'CASH').reduce( (acc, ele) => {
          console.log(ele)
-         return acc + ',' + ele.Ticker.ticker
+         return acc + ',' + ele.symbol
        }, "")
        let res = await fetch(`https://sandbox.iexapis.com/stable/tops?symbols=${portfolioString}&token=Tsk_d83ce3387c9b44d99c7060e036faad15`)
        if (res.ok) {
@@ -55,17 +54,15 @@ const Portfolio = () => {
             Portfolio
           </ListSubheader>
           <Divider variant='middle' />
-          {portfolio.filter(sec =>sec.Ticker.ticker !== 'CASH').map( (stock, idx)=> {
+          {portfolio.map( (position, idx)=> {
             return(
-
-              <ListItem alignItems='center' key={stock.Ticker.ticker} className={'sidebar__ticker-portfolio'}>
+              <ListItem alignItems='center' key={position.symbolId} className={'sidebar__ticker-portfolio'}>
                 <ListItemText>
-                  <Link to={`/assets/${stock.Ticker.ticker}`} className={'link-stocks'}>
-                  {stock.Ticker.ticker}
+                  <Link to={`/assets/${position.symbol}`} className={'link-stocks'}>
+                  {position.symbol}
                   </Link>
                 </ListItemText>
-                {console.log(stock)}
-                <StockPrice price={prices[idx]}/>
+                {/* <StockPrice price={prices[idx]}/> */}
               </ListItem>
             )
           })}
