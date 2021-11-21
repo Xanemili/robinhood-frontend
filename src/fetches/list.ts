@@ -2,9 +2,8 @@ import { baseUrl } from '../config'
 import {AssetListType, removeList} from '../store/listSlice'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import store from '../store/store'
-import { loadLists, loadListFailure, resetLists, loadingLists, addList } from '../store/listSlice'
+import { loadLists, loadListFailure, resetLists, loadingLists, addList, addListItem as addItem, removeListItem } from '../store/listSlice'
 import { createAlert } from '../store/alertSlice'
-import { IexAsset } from '../api-types'
 
 export const getLists = async (token: string) => {
 
@@ -18,8 +17,7 @@ export const getLists = async (token: string) => {
 
   if (res.ok) {
     const lists = await res.json()
-
-    if (Array.isArray(lists) && lists.length > 0) {
+    if (lists && Object.keys(lists).length > 0) {
       store.dispatch(loadLists(lists))
       store.dispatch(createAlert({payload: { id: 10, message: 'New List Successful', type: 'success'}}))
     } else {
@@ -30,9 +28,10 @@ export const getLists = async (token: string) => {
   }
 }
 
-export const deleteListItem = async (token: string, id: Number, security: IexAsset) => {
+export const deleteListItem = async (id: Number, symbol: string) => {
 
-  const res = await fetch(`${baseUrl}/list/${id}/security/${security}`, {
+  const token = localStorage.getItem('token')
+  const res = await fetch(`${baseUrl}/list/${id}/${symbol}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${token}`
@@ -40,15 +39,18 @@ export const deleteListItem = async (token: string, id: Number, security: IexAss
   });
 
   if (res.ok) {
-    return res.json()
+    let data = await res.json()
+    console.log(data)
+    store.dispatch(removeListItem({ id: data.id, symbol: data.symbol }))
   } else {
-    return 'There was an error'
+    store.dispatch(loadListFailure())
   }
 }
 
-export const addListItem = async (token: string, id: string, security: IexAsset) => {
+export const addListItem = async (id: string, symbol: string) => {
 
-  const res = await fetch(`${baseUrl}/list/${id}/security/${security}`, {
+  const token = localStorage.getItem('token')
+  const res = await fetch(`${baseUrl}/list/${parseInt(id)}/${symbol}`, {
     method: 'PUT',
     headers: {
       Authorization: `Bearer ${token}`
@@ -56,9 +58,10 @@ export const addListItem = async (token: string, id: string, security: IexAsset)
   });
 
   if (res.ok) {
-    return res.json()
+    let data = await res.json()
+    store.dispatch(addItem({ symbol: data }))
   } else {
-    return 'There was an error'
+    store.dispatch(loadListFailure())
   }
 }
 
@@ -105,6 +108,7 @@ export const deleteList = async (id: number) => {
 
 export const deleteListById = createAsyncThunk('lists/deleteListById', async (listId: number, thunkAPI) => {
   const response = await deleteList(listId)
+  return response
 })
 
 export const getMovers = async() => {

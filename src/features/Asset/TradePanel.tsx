@@ -1,29 +1,31 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { sendTrade } from '../../fetches/asset';
 import { Divider, TextField } from '@mui/material';
-import { addListItem, deleteListItem } from '../../fetches/list';
-import ActionModal from './ActionModal';
-import { useAppSelector } from '../../store/hooks';
-import { selectToken } from '../../store/userSlice';
+import { useAppSelector } from '../../store/hooks'
+import { selectToken } from '../../store/userSlice'
 
-export default function TradePanel({ asset: { quote } }) {
+import { IexAsset } from '../../api-types'
+import WatchListDropDown from '../Lists/WatchListDropDown';
 
-  const [quantity, setQuantity] = useState(10);
-  const [price, setPrice] = useState();
-  const [orderType, setOrderType] = useState('BUY');
+interface TradePanelProps {
+  quote: IexAsset
+}
+
+export default function TradePanel(props: TradePanelProps) {
+
+  const { quote } = props
+
+  const [quantity, setQuantity] = useState(10)
+  const [price, setPrice] = useState(0.00)
+  const [orderType, setOrderType] = useState('buy')
   const token = useAppSelector(selectToken)
 
-  useEffect(() => {
-    if (quote) {
-      setPrice(quote.latestPrice)
-    }
-  }, [quote])
 
-  const handleOrder = async (e) => {
+  const handleOrder = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const payload = {
       orderType,
@@ -32,39 +34,16 @@ export default function TradePanel({ asset: { quote } }) {
       quantity
     }
 
-
-    const success = await sendTrade(token, payload);
-    if (success) {
-      alert('Trade Successful!')
-    } else {
-      alert('Trade Failed')
-    }
-  }
-
-  const updateProperty = callback => e => {
-    callback(e.target.value)
-  }
-
-  const addToList = async () => {
-    let response = await addListItem(token, quote.symbol);
-    if (response) {
-      alert(`${quote.symbol} was added to your Watchlist.`)
-    }
-  }
-
-  const removeFromList = async () => {
-    let response = await deleteListItem(token, quote.symbol);
-    return <ActionModal message={response.message} />
+    await sendTrade(token, payload);
   }
 
   if (!quote) {
     return null;
   }
 
-
   return (
     <Card>
-      <form onSubmit={handleOrder} padding={2}>
+      <form onSubmit={handleOrder}>
         <Grid container justifyContent='space-between' direction='column' alignItems='center' spacing={2}>
           <Grid item xs={8}>
             <Typography variant='h3'>
@@ -72,10 +51,10 @@ export default function TradePanel({ asset: { quote } }) {
             </Typography>
           </Grid>
           <Grid item xs={8}>
-            <Button onClick={() => setOrderType('BUY')} color='secondary' variant={orderType === 'BUY' ? 'outlined' : null}>
+            <Button onClick={() => setOrderType('buy')} color='secondary' variant={'outlined'}>
               Buy
           </Button>
-            <Button onClick={() => setOrderType('SELL')} color='inherit' variant={orderType === 'SELL' ? 'outlined' : null}>
+            <Button onClick={() => setOrderType('sell')} color='inherit' variant={'outlined'}>
               Sell
           </Button>
           </Grid>
@@ -87,7 +66,7 @@ export default function TradePanel({ asset: { quote } }) {
               required
               variant="outlined"
               value={quantity}
-              onChange={updateProperty(setQuantity)} />
+              onChange={(e) => setQuantity(parseFloat(e.target.value))} />
           </Grid>
           <Grid item xs={8}>
             <TextField
@@ -113,19 +92,7 @@ export default function TradePanel({ asset: { quote } }) {
         </Grid>
       </form>
       <Divider variant='middle' />
-
-      {
-        // needs to be reworked, multiple lists now available.
-      // <Grid container justifyContent='center' style={{ padding: 12 }}>
-      //   <Button onClick={addToList} >
-      //     Add To List
-      //   </Button>
-      //   <Button onClick={removeFromList}>
-      //     Remove From List
-      //   </Button>
-      // </Grid>
-      }
-
+      <WatchListDropDown symbol={quote.symbol}/>
     </Card>
   );
 }

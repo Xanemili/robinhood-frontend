@@ -1,16 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { IexAsset } from '../api-types'
 import { RootState } from './store'
+import { deleteListById } from '../fetches/list'
 
 export type AssetListData = {
-  [id: number]: AssetListType
+  [id: string]: AssetListType
 }
 
 export type AssetListType = {
   id: number,
   name?: string,
   description?: string,
-  Tickers?: Array<IexAsset>
+  symbols?: Array<IexAsset>
 }
 
 type Status = 'loading' | 'failure' | 'success' | 'setup'
@@ -35,14 +36,26 @@ export const listSlice = createSlice({
       delete state.data[action.payload]
     },
     addList: (state: AssetListSlice, action) => {
-      const {id, name, description, Tickers } = action.payload
-      state.data[id] = {id, name, description, Tickers}
+      const {id, name, description, symbols } = action.payload
+      state.data[name] = {id, name, description, symbols}
+      console.log(state.data)
     },
     resetLists: (state: AssetListSlice) => {
       return initialState
     },
-    addToList: (state: AssetListSlice, action) => {
+    addListItem: (state: AssetListSlice, action) => {
+      const { id, symbol } = action.payload
+      const { data } = state
+      console.log(data)
+      state.data[id].symbols?.push(symbol)
       return state
+    },
+    removeListItem: (state: AssetListSlice, action) => {
+      const { id, symbol } = action.payload
+      console.log(state.data)
+      if (state.data[id]) {
+        state.data[id].symbols = state.data[id].symbols?.filter( x => x.id !== symbol.id)
+      }
     },
     loadingLists: (state: AssetListSlice) => {
       state.status = 'loading'
@@ -52,10 +65,15 @@ export const listSlice = createSlice({
       state.status = 'failure'
       return state
     }
-  },
+  }, extraReducers: (builder) => {
+    builder.addCase(deleteListById.fulfilled, (state, action) => {
+      console.log(action.payload)
+      // delete state.data[action.payload]
+    })
+  }
 })
 
-export const { loadLists, removeList, addList, loadListFailure, resetLists, loadingLists, } = listSlice.actions
+export const { loadLists, removeList, addList, loadListFailure, resetLists, loadingLists, addListItem, removeListItem,  } = listSlice.actions
 
 export const selectList = (state: RootState, id: number) => state.lists.data[id]
 export const selectLists = (state: RootState) => state.lists

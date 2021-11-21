@@ -1,6 +1,7 @@
 export interface IexAsset {
   symbol: string
   latestPrice?: number
+  id?: number
 }
 
 export interface NewsApiArticle {

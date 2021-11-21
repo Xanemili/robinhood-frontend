@@ -43,9 +43,8 @@ const Asset = () => {
           <CompanyInfo asset={asset}/>
           <CompanyNews asset={asset}/>
         </Grid>
-
         <Grid item xs={3}>
-          <TradePanel asset={asset}/>
+          <TradePanel quote={asset.quote}/>
         </Grid>
       </Grid>
     </Container>

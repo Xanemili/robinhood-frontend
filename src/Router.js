@@ -10,7 +10,6 @@ import Signup from './features/Signup'
 import CssBaseline from '@mui/material/CssBaseline'
 import NavBar from './features/Navbar'
 import Toolbar from '@mui/material/Toolbar'
-import { Typography } from '@mui/material'
 
 const PrivateRoute = (props) => {
   const { component: Component, token, path } = props

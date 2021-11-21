@@ -13,6 +13,7 @@ import { ListSubheader } from '@mui/material';
 import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
 
+
 const Portfolio = () => {
 
 
@@ -33,7 +34,6 @@ const Portfolio = () => {
      if (!portfolio) return
      (async() => {
        let portfolioString = portfolio.filter(position => position !== 'CASH').reduce( (acc, ele) => {
-         console.log(ele)
          return acc + ',' + ele.symbol
        }, "")
        let res = await fetch(`https://sandbox.iexapis.com/stable/tops?symbols=${portfolioString}&token=Tsk_d83ce3387c9b44d99c7060e036faad15`)
@@ -66,7 +66,7 @@ const Portfolio = () => {
               </ListItem>
             )
           })}
-        <Suggested />
+        {/* <Suggested /> */}
         </List>
       </Card>
   )

@@ -1,14 +1,11 @@
 import Grid from '@mui/material/Grid'
-import Box from '@mui/material/Box'
 import Container from '@mui/material/Container'
 import Portfolio from './Portfolio'
 import PortfolioChart from './PortfolioChart'
 import NewsContainer from './NewsContainer';
-import CurrentBalance from './CurrentBalance'
 import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
 import ListSection from '../Lists/ListSection';
-import { Toolbar } from '@mui/material'
 import SimpleConfirm from '../Messages/SimpleConfirm'
 import { selectDialog } from '../../store/alertSlice'
 
@@ -27,10 +24,6 @@ const DashBoard = () => {
         </Grid>
         <Grid item xs={8}>
           <PortfolioChart />
-          <CurrentBalance />
-          {
-            // NEWS CONTAINER FUNCTIONAL
-          }
           {/* <NewsContainer /> */}
         </Grid>
         <Grid item xs={2}>
