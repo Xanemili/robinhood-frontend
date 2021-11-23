@@ -1,13 +1,11 @@
 import { Button, DialogContent, DialogContentText } from '@mui/material'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
-import { deleteListById } from '../../fetches/list';
 import { closeDialog, selectDialog } from '../../store/alertSlice';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 
 interface SimpleDialogProps {
   open: boolean
-  onConfirm: Function
 }
 
 const SimpleConfirm = (props: SimpleDialogProps) =>  {
@@ -20,8 +18,6 @@ const SimpleConfirm = (props: SimpleDialogProps) =>  {
   }
 
   const confirmAction = () => {
-    // TO DO: MODULAR OCMPONENT TO TAKE IN CALLBACK
-    // redux doesn't like passing funcs thru so need another method.
     if (dialog.action) {
       dispatch(dialog.action())
       dispatch(closeDialog())

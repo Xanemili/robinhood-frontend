@@ -1,5 +1,18 @@
 import { createTheme } from '@mui/material/styles';
+import {
+  Link as RouterLink,
+  LinkProps as RouterLinkProps,
+} from 'react-router-dom';
+import { forwardRef } from 'react'
 
+const LinkBehavior = forwardRef<
+  any,
+  Omit<RouterLinkProps, 'to'> & { href: RouterLinkProps['to'] }
+>((props, ref) => {
+  const { href, ...other } = props;
+  // Map href (MUI) -> to (react-router)
+  return <RouterLink data-testid="custom-link" ref={ref} to={href} {...other} />;
+});
 
 const baseTheme = createTheme({
   palette: {
@@ -10,9 +23,6 @@ const baseTheme = createTheme({
     secondary: {
       main: '#577e99',
     },
-    badColor: {
-      main: '#82ca9d'
-    },
     background: {
       default: '#00141F',
       paper: '#002233'
@@ -22,10 +32,10 @@ const baseTheme = createTheme({
       secondary: '#fff',
       disabled: '#fff'
     },
-    shadows: [
-      "none",
-      "0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)",
-    ]
+    // shadows: [
+    //   "none",
+    //   "0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12)",
+    // ]
   },})
 
 const theme = createTheme(baseTheme, {
@@ -87,9 +97,10 @@ const theme = createTheme(baseTheme, {
       },
       defaultProps: {
         underline: 'hover',
-        color: 'secondary'
+        color: 'secondary',
+        component: LinkBehavior,
       }
-    }
+    },
   }
 })
 

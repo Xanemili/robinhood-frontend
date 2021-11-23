@@ -36,6 +36,10 @@ const ListSection = () => {
         setLosers(losers)
       })();
 
+      return () => {
+        setGainers([])
+        setLosers([])
+      }
   }, [ token, dispatch ])
 
   if(lists.status === 'loading') {

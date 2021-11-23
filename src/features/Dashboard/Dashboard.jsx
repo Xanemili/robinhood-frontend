@@ -16,9 +16,9 @@ const DashBoard = () => {
     return null
   }
   return (
-    <Container maxWidth="" sx={{ mt: 4, mb: 4 }}>
+    <Container maxWidth="">
       <SimpleConfirm open={dialog.open}/>
-      <Grid container spacing={3} justifyContent='center'>
+      <Grid sx={{ marginTop: '0px'}} container spacing={3} justifyContent='center'>
         <Grid item xs={2}>
           <Portfolio />
         </Grid>

@@ -17,9 +17,10 @@ const WatchListDropDown = (props: WatchListDropDownProps) => {
   useEffect(() => {
     if( lists.data ) {
       setSelectedList(Object.values(lists.data)[0].id.toString())
-      console.log(Object.values(lists.data)[0].id.toString())
     }
   }, [lists])
+
+  console.log(selectedList)
 
   return (
 

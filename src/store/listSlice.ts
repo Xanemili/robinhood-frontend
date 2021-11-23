@@ -38,21 +38,16 @@ export const listSlice = createSlice({
     addList: (state: AssetListSlice, action) => {
       const {id, name, description, symbols } = action.payload
       state.data[name] = {id, name, description, symbols}
-      console.log(state.data)
     },
     resetLists: (state: AssetListSlice) => {
       return initialState
     },
     addListItem: (state: AssetListSlice, action) => {
       const { id, symbol } = action.payload
-      const { data } = state
-      console.log(data)
       state.data[id].symbols?.push(symbol)
-      return state
     },
     removeListItem: (state: AssetListSlice, action) => {
       const { id, symbol } = action.payload
-      console.log(state.data)
       if (state.data[id]) {
         state.data[id].symbols = state.data[id].symbols?.filter( x => x.id !== symbol.id)
       }

@@ -13,9 +13,10 @@ import Toolbar from '@mui/material/Toolbar'
 
 const PrivateRoute = (props) => {
   const { component: Component, token, path } = props
-  return (<Route path={path} render={() => {
+  return (<Route path={path} render={(props) => {
+    const localToken = localStorage.getItem('token')
     return (
-      !token
+      !token && !localToken
         ? <Redirect to='/login' />
         : <Component {...props}/>
       );

@@ -40,7 +40,6 @@ export const deleteListItem = async (id: Number, symbol: string) => {
 
   if (res.ok) {
     let data = await res.json()
-    console.log(data)
     store.dispatch(removeListItem({ id: data.id, symbol: data.symbol }))
   } else {
     store.dispatch(loadListFailure())
@@ -59,7 +58,7 @@ export const addListItem = async (id: string, symbol: string) => {
 
   if (res.ok) {
     let data = await res.json()
-    store.dispatch(addItem({ symbol: data }))
+    store.dispatch(addItem({id, symbol: data }))
   } else {
     store.dispatch(loadListFailure())
   }
