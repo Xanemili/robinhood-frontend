@@ -15,7 +15,7 @@ const WatchListDropDown = (props: WatchListDropDownProps) => {
   const lists = useAppSelector(selectLists)
 
   useEffect(() => {
-    if( lists.data ) {
+    if( lists.data && Object.keys(lists.data).length > 0 ) {
       setSelectedList(Object.values(lists.data)[0].id.toString())
     }
   }, [lists])

@@ -27,7 +27,7 @@ const DashBoard = () => {
           {/* <NewsContainer /> */}
         </Grid>
         <Grid item xs={2}>
-          <ListSection />
+          {/* <ListSection /> */}
         </Grid>
       </Grid>
     </Container>

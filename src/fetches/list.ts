@@ -99,9 +99,9 @@ export const deleteList = async (id: number) => {
   })
 
   if(res.ok) {
-    store.dispatch(removeList(id))
+    // store.dispatch(removeList(id))
   } else {
-    store.dispatch(loadListFailure())
+    // store.dispatch(loadListFailure())
   }
 }
 

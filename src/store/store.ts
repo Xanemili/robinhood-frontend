@@ -1,7 +1,8 @@
-import { configureStore, createSerializableStateInvariantMiddleware } from '@reduxjs/toolkit'
+import { configureStore, createSerializableStateInvariantMiddleware,  } from '@reduxjs/toolkit'
 import userReducer from './userSlice'
 import alertReducer from './alertSlice'
 import listReducer from './listSlice'
+import portfolioReducer from './portfolioSlice'
 
 const serializableMiddleware = createSerializableStateInvariantMiddleware({
     ignoredActionPaths: ['alerts.dialog', 'payload.action'],
@@ -14,7 +15,9 @@ const store = configureStore({
         user: userReducer,
         alerts: alertReducer,
         lists: listReducer,
-    }, middleware: [serializableMiddleware]
+        portfolio: portfolioReducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(serializableMiddleware)
 }, )
 
 export type RootState = ReturnType<typeof store.getState>

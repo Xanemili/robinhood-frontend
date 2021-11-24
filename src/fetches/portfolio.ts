@@ -1,22 +1,23 @@
 import {baseUrl} from '../config';
+import { createAsyncThunk } from '@reduxjs/toolkit'
 
-export const getPortfolio = async (token) => {
+export const fetchPortfolio = createAsyncThunk('portfolio/fetchPortfolio', async () => {
+  const token = localStorage.getItem('token')
   const res = await fetch(`${baseUrl}/users/portfolio`, {
     headers: {
       Authorization: `Bearer ${token}`
     }
   });
 
-
   if(res.ok) {
-    let portfolio = await res.json()
-    return portfolio;
+    const data = await res.json()
+    return data
   } else {
-    return [];
+    return Promise.reject()
   }
-};
+})
 
-export const getPortfolioHistory = async(token) => {
+export const getPortfolioHistory = async(token: string) => {
 
   const res = await fetch(`${baseUrl}/users/portfolio/history`, {
     headers: {
@@ -33,7 +34,7 @@ export const getPortfolioHistory = async(token) => {
 }
 
 
-export const addCash = async(token) => {
+export const addCash = async(token: string) => {
   const url = `${baseUrl}/trades/cash`
   const res = await fetch(url, {
     method: 'POST',
@@ -50,7 +51,7 @@ export const addCash = async(token) => {
   }
 }
 
-export const getCash = async(token) => {
+export const getCash = async(token: string) => {
 
   const url = `${baseUrl}/users/cash`
   const res = await fetch(url, {
