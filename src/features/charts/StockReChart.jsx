@@ -9,8 +9,9 @@ import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
 import Box from '@mui/system/Box';
 import { Typography } from '@mui/material';
+import XTooltip from './XTooltip';
 
-const StockRechart = () => {
+const StockRechart = (props) => {
 
   const {symbol} = useParams();
   const [chartData, setChartData] = useState([]);
@@ -21,6 +22,9 @@ const StockRechart = () => {
 
   useEffect(() => {
     (async () => {
+      if(!token) {
+        return
+      }
       let newData = await getTimeSeriesData(token, symbol, range, interval)
       if(newData) {
         setChartData(newData)
@@ -45,7 +49,7 @@ const StockRechart = () => {
             domain={['auto', 'auto']}
             />
             <XAxis dataKey="date" name='date' tickFormatter={(unixTime) => moment(unixTime).format('MMM Do YY')} />
-            <Tooltip />
+            <Tooltip content={<XTooltip />}/>
             <Line type='linear' dataKey='close' name='Close' dot={false} stroke={color} />
           </LineChart>
         </ResponsiveContainer>

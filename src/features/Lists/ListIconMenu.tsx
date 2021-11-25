@@ -4,9 +4,9 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Typography from '@mui/material/Typography';
 import Remove from '@mui/icons-material/Remove'
 import ContentPaste from '@mui/icons-material/ContentPaste';
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
-import { openDialog, selectDialog, } from '../../store/alertSlice';
-import { deleteList } from '../../fetches/list';
+import { useAppDispatch } from '../../store/hooks';
+import { openDialog } from '../../store/alertSlice';
+import { deleteListById } from '../../fetches/list';
 
 interface SimpleListIconMenuProps {
   id: number,
@@ -20,12 +20,12 @@ export default function ListIconMenu(props: SimpleListIconMenuProps) {
     <>
       <MenuItem onClick={() =>
         dispatch(openDialog({
-          title: 'new dialog',
-          description: 'a new dialog',
+          title: 'Are you sure you want to delete this list?',
+          description: 'This action is irreversible.',
           open: true,
-          action: 'lists/deleteListById',
-          targetId: id})
-          )}>
+          action: () => deleteListById(id),
+        })
+      )}>
         <ListItemIcon>
           <Remove fontSize="small" color="warning"/>
         </ListItemIcon>

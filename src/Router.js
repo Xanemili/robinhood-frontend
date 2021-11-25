@@ -10,13 +10,13 @@ import Signup from './features/Signup'
 import CssBaseline from '@mui/material/CssBaseline'
 import NavBar from './features/Navbar'
 import Toolbar from '@mui/material/Toolbar'
-import { Typography } from '@mui/material'
 
 const PrivateRoute = (props) => {
   const { component: Component, token, path } = props
-  return (<Route path={path} render={() => {
+  return (<Route path={path} render={(props) => {
+    const localToken = localStorage.getItem('token')
     return (
-      !token
+      !token && !localToken
         ? <Redirect to='/login' />
         : <Component {...props}/>
       );

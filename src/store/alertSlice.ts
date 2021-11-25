@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from './store'
 import { AlertColor } from '@mui/material/Alert'
-
+import { AnyAction } from 'redux'
 export interface SnackbarAlert {
   id: number
   message?: string
@@ -12,18 +12,18 @@ export interface DialogAlert {
   open: boolean
   title?: string
   description?: string
-  action?: string
-  targetId: number
+  action?: () => AnyAction
+  id?: number
 }
 
 export interface AlertState {
   dialog: DialogAlert
-  snackbar: SnackbarAlert[]
+  snackbar: Array<SnackbarAlert>
 }
 
 const initialState: AlertState = {
   snackbar: [],
-  dialog: { open: false, title: '', description: '', action: '', targetId: 0 }
+  dialog: { open: false, title: '', description: '', id: 0, action: undefined }
 }
 
 export const alertSlice = createSlice({
@@ -31,10 +31,8 @@ export const alertSlice = createSlice({
   initialState,
   reducers: {
     createAlert: (state, action) => {
-
       // Set id to be 1 if there are no current alerts.
       const id = state.snackbar.length === 0 ? 1 : state.snackbar[state.snackbar.length - 1].id + 1
-
       state.snackbar.push({
         id,
         message: action.payload.message,
@@ -48,7 +46,7 @@ export const alertSlice = createSlice({
       state.dialog = action.payload
     },
     closeDialog: (state) => {
-      state.dialog.open = false
+      state.dialog = initialState.dialog
     },
     ///implement successful deletion.... idk how with modular dialog.
   },

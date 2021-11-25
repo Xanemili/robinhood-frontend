@@ -1,4 +1,5 @@
 import {baseUrl} from '../config';
+import store from '../store/store'
 
 export const getAssetData = async (asset) => {
 
@@ -31,7 +32,7 @@ export const sendTrade = async (token, data) => {
   });
   console.log(response)
   if(response.ok){
-    return true;
+    store.dispatch()
   }
 }
 
@@ -62,8 +63,11 @@ export const getSearch = async(token, search) => {
       }
     })
 
-  if(res.ok) {
-    const data = await res.json()
+
+
+    if(res.ok) {
+      const data = await res.json()
+      console.log(data)
     return data;
   } else {
     return [];
