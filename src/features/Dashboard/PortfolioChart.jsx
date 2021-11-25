@@ -9,6 +9,7 @@ import { getPortfolioHistory } from '../../fetches/portfolio'
 import Divider from '@mui/material/Divider'
 import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
+import XTooltip from '../charts/XTooltip';
 
 const PortfolioChart = () => {
 
@@ -116,7 +117,7 @@ const PortfolioChart = () => {
             margin={{ top: 5, right: 7, left: 7, bottom: 0 }}>
             <YAxis hide={true} />
             <XAxis dataKey="parsedDate" hide={true} />
-            <Tooltip />
+            <Tooltip content={<XTooltip />}/>
             <Line type='linear' dataKey='price' name='Value' dot={false} stroke={color} />
           </LineChart>
         </ResponsiveContainer>
