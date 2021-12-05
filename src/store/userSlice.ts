@@ -1,15 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from './store'
+import { loadUser } from '../fetches/user'
+
+interface UserSlice {
+    token: string
+    status: string
+}
+
+const initialState: UserSlice = {
+    token: '',
+    status: 'idle',
+}
 
 export const userSlice = createSlice({
     name: 'user',
-    initialState: {
-        token: '',
-        status: 'idle',
-    },
+    initialState,
     reducers: {
         loadToken: (state, action) => { state.token = action.payload },
         resetToken: state => { state.token = ''}
+    },
+    extraReducers: builder => {
+
     }
 })
 

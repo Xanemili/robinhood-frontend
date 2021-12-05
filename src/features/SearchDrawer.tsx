@@ -1,9 +1,9 @@
-import {  ReactEventHandler, useState, useEffect, useRef } from "react"
+import {  ReactEventHandler, useState, useEffect, } from "react"
 import SwipeableDrawer from "@mui/material/SwipeableDrawer"
 import Box from "@mui/material/Box"
 import List from '@mui/material/List'
 import TextField from '@mui/material/TextField'
-import { Button, FormControl, InputBase, ListItem } from "@mui/material"
+import { Button, FormControl, } from "@mui/material"
 import { useAppSelector } from "../store/hooks"
 import { selectToken } from '../store/userSlice'
 import { getSearch } from '../fetches/asset';
@@ -22,8 +22,6 @@ const SearchDrawer = (props: SearchDrawerProps) => {
   const { open, handleClose, setOpen } = props
   const [searchValue, setSearchValue] = useState('')
   const [searchResults, setSearchResults] = useState([])
-  const anchorRef = useRef(null)
-  const searchRef = useRef(searchValue)
   const token = useAppSelector(selectToken)
 
   useEffect(() => {

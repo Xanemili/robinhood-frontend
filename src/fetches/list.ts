@@ -1,5 +1,5 @@
 import { baseUrl } from '../config'
-import {AssetListType, removeList} from '../store/listSlice'
+import { AssetListType } from '../store/listSlice'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import store from '../store/store'
 import { loadLists, loadListFailure, resetLists, loadingLists, addList, addListItem as addItem, removeListItem } from '../store/listSlice'

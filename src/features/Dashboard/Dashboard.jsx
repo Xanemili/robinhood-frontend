@@ -24,10 +24,10 @@ const DashBoard = () => {
         </Grid>
         <Grid item xs={8}>
           <PortfolioChart />
-          {/* <NewsContainer /> */}
+          <NewsContainer />
         </Grid>
         <Grid item xs={2}>
-          {/* <ListSection /> */}
+          <ListSection />
         </Grid>
       </Grid>
     </Container>

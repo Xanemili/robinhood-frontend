@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
 import { ListItemText } from '@mui/material'
+import { useEffect } from 'react'
 
 
 const StockPrice = ({price}) => {
 
-  // temporary stop gap to show stock price data. will be swapped to a socket for entire portfolio.
+
 
   return (
     <div>
-      
+
     {price ?
       <ListItemText
       primary={price.lastSalePrice ? `$ ${(price.lastSalePrice).toFixed(2)}` : 0}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { MenuItem, Typography, Button, Grid, InputLabel, FormControl } from '@mui/material';
-import { addListItem, deleteListItem } from '../../fetches/list';
+import { addListItem } from '../../fetches/list';
 import { selectLists } from '../../store/listSlice'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import { useAppSelector } from '../../store/hooks';
@@ -19,8 +19,6 @@ const WatchListDropDown = (props: WatchListDropDownProps) => {
       setSelectedList(Object.values(lists.data)[0].id.toString())
     }
   }, [lists])
-
-  console.log(selectedList)
 
   return (
 

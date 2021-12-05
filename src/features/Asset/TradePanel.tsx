@@ -3,13 +3,12 @@ import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
-import { sendTrade } from '../../fetches/asset';
 import { ButtonGroup, CardContent, Divider, TextField } from '@mui/material';
-import { useAppSelector } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { selectToken } from '../../store/userSlice'
-
 import { IexAsset } from '../../api-types'
 import WatchListDropDown from '../Lists/WatchListDropDown';
+import { sendPortfolioTrade } from '../../fetches/portfolio';
 
 interface TradePanelProps {
   quote: IexAsset
@@ -18,14 +17,14 @@ interface TradePanelProps {
 export default function TradePanel(props: TradePanelProps) {
 
   const { quote } = props
-
+  const dispatch = useAppDispatch()
   const [quantity, setQuantity] = useState(10)
   const [price, setPrice] = useState(0.00)
-  const [orderType, setOrderType] = useState('buy')
+  const [orderType, setOrderType] = useState<'buy' | 'sell'>('buy')
   const token = useAppSelector(selectToken)
 
 
-  const handleOrder = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleOrder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const payload = {
       orderType,
@@ -34,7 +33,7 @@ export default function TradePanel(props: TradePanelProps) {
       quantity
     }
 
-    await sendTrade(token, payload);
+    dispatch(sendPortfolioTrade(payload))
   }
 
   if (!quote) {

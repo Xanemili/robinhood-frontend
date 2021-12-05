@@ -9,7 +9,7 @@ import AppBar from '@mui/material/AppBar';
 import SearchDrawer from './SearchDrawer'
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { resetToken, selectToken } from '../store/userSlice';
-import { ButtonGroup, IconButton } from '@mui/material';
+import { ButtonGroup } from '@mui/material';
 
 export default function NavBar() {
 
@@ -45,8 +45,11 @@ export default function NavBar() {
               <Button variant='text' color='warning' onClick={() => setOpen(true)} startIcon={<SearchIcon />}>
                 Search
               </Button>
+              <Button variant='info' component={NavLink} to='/profile'>
+                Profile
+              </Button>
               <Button variant='info' component={NavLink} to='/'>
-                Portfolio
+                Home
               </Button>
               <Button variant='info' onClick={removeToken}>
                 Logout

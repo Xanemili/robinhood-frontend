@@ -10,6 +10,7 @@ import Signup from './features/Signup'
 import CssBaseline from '@mui/material/CssBaseline'
 import NavBar from './features/Navbar'
 import Toolbar from '@mui/material/Toolbar'
+import Profile from './features/Profile/Profile'
 
 const PrivateRoute = (props) => {
   const { component: Component, token, path } = props
@@ -71,6 +72,10 @@ const Router = () => {
             path='/assets/:symbol'
             token={token}
             component={Asset}
+          />
+          <PrivateRoute
+          path='/profile'
+          component={Profile}
           />
         </Switch>
       </Box>

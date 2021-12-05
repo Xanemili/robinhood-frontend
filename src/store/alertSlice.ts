@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, AsyncThunk, AnyAction} from '@reduxjs/toolkit'
 import { RootState } from './store'
 import { AlertColor } from '@mui/material/Alert'
-import { AnyAction } from 'redux'
+import { convertTypeToMessage } from './utils'
 export interface SnackbarAlert {
   id: number
   message?: string
@@ -20,6 +20,11 @@ export interface AlertState {
   dialog: DialogAlert
   snackbar: Array<SnackbarAlert>
 }
+
+type GenericAsyncThunk = AsyncThunk<unknown, unknown, any>
+type PendingAction = ReturnType<GenericAsyncThunk['pending']>
+type RejectedAction = ReturnType<GenericAsyncThunk['rejected']>
+type FulfilledAction = ReturnType<GenericAsyncThunk['fulfilled']>
 
 const initialState: AlertState = {
   snackbar: [],
@@ -48,8 +53,24 @@ export const alertSlice = createSlice({
     closeDialog: (state) => {
       state.dialog = initialState.dialog
     },
-    ///implement successful deletion.... idk how with modular dialog.
   },
+  extraReducers: (builder) => {
+    builder.addMatcher<FulfilledAction>(
+      (action) => action.type.endsWith('/fulfilled'),
+      (state, action) => {
+      let msg = convertTypeToMessage(action.type) ?? ''
+      const id = state.snackbar.length === 0 ? 1 : state.snackbar[state.snackbar.length - 1].id + 1
+      state.snackbar.push({ message: msg, alertType: 'success', id });
+    })
+    .addMatcher<RejectedAction>(
+      (action) => action.type.endsWith('/rejected'),
+      (state, action) => {
+        let msg = convertTypeToMessage(action.type) ?? ''
+        const id = state.snackbar.length === 0 ? 1 : state.snackbar[state.snackbar.length - 1].id + 1
+        state.snackbar.push({ message: msg, alertType: 'error', id });
+      }
+    )
+  }
 })
 
 export const { createAlert, removeAlert, openDialog, closeDialog } =  alertSlice.actions
