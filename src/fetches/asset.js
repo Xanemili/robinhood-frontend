@@ -30,7 +30,7 @@ export const sendTrade = async (token, data) => {
     },
     body: JSON.stringify(data),
   });
-  console.log(response)
+
   if(response.ok){
     store.dispatch()
   }
