@@ -1,23 +1,34 @@
-import { styled } from "@mui/material/styles"
 import TextField, {TextFieldProps} from '@mui/material/TextField'
+import { ValidInput } from './profileReducer'
+import InputAdornment from '@mui/material/InputAdornment';
+import CheckIcon from '@mui/icons-material/Check';
 
 type StyledInputProps = TextFieldProps & {
-  valid?: boolean | null
+  valid?: boolean
+  touched?: boolean
+  data?: ValidInput<string>
 }
-
-const ProfileTextField = styled(TextField, {
-  shouldForwardProp: (prop) => prop !== '',
-})<StyledInputProps>(({ valid, theme }) => ({
-  width: 300,
-  ...(valid && {
-    border: 'green'
-  })
-}))
 
 const ProfileInput = (props: StyledInputProps) => {
 
+  const { data } = props
+
+  const error = data && data.isValid === false
+  const helperText = data && data.inputHelperText
+  const value = data && data.value
+  const valid = data && data.touched && data.isValid
+
   return (
-    <ProfileTextField
+    <TextField
+      error={error}
+      helperText={helperText}
+      value={value}
+      variant={'outlined'}
+      sx={{ margin: '0.5rem' }}
+      // color={color}
+      InputProps={{
+        endAdornment: valid && <CheckIcon color={'success'} />
+      }}
       {...props}
     />
   )
