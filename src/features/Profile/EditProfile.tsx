@@ -60,7 +60,7 @@ const Profile = (props: ProfileProps) => {
   const touchField = async (event: React.FocusEvent<HTMLInputElement>) => {
     try {
       if (!user[event.target.id]) throw new ValidationError('There was an Error with the Form.', event.target.id)
-      console.log(user[event.target.id])
+
       if(event.target.id === 'password' && user['confirmPassword']) {
         await profileSchema.validateSyncAt('confirmPassword', { confirmPassword: user['confirmPassword'].value})
       } else {
@@ -94,13 +94,13 @@ const Profile = (props: ProfileProps) => {
         <ProfileInput data={user.address} onBlur={touchField} onChange={updateForm} label={'Street Address'} disabled={isDisabled} required id='address'/>
         <ProfileInput data={user.zipcode} onBlur={touchField} onChange={updateForm} label={'Zipcode'} disabled={isDisabled} required id='zipcode'/>
         <ProfileInput type='password' onBlur={touchField} data={user.currentPassword} onChange={updateForm} label={'Current Password'} disabled={isDisabled} id={'current-password'}/>
-        <Button onClick={togglePasswordChange} color='warning'>
+        {/* <Button onClick={togglePasswordChange} color='warning'>
           { isPasswordDisabled ? 'Edit Password' : 'Cancel' }
         </Button>
         {!isPasswordDisabled && <>
           <ProfileInput type='password' onBlur={touchField} data={user.password} onChange={updateForm} label={'New Password'} disabled={isPasswordDisabled} id='password'/>
           <ProfileInput type='password' onBlur={touchField} data={user.confirmPassword} onChange={updateForm} label={'Confirm New Password'} disabled={isPasswordDisabled} id='confirmPassword'/>
-        </>}
+        </>} */}
       </Paper>
       <Button type='submit' color='warning' sx={{ height: '100px'}} variant='outlined' fullWidth>
         Update Profile
