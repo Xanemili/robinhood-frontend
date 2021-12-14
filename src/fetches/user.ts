@@ -16,3 +16,23 @@ export const loadUser = async () => {
     return {}
   }
 }
+
+export const updateProfile = async (data: any) => {
+  const token = localStorage.getItem('token')
+  console.log(data)
+
+  const res = await fetch(`${baseUrl}/users/profile`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  })
+
+  if (res.ok) {
+    const data = await res.json()
+    console.log(data)
+    return data
+  }
+}

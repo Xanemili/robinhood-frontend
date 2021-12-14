@@ -45,7 +45,7 @@ export default function NavBar() {
               <Button variant='text' color='warning' onClick={() => setOpen(true)} startIcon={<SearchIcon />}>
                 Search
               </Button>
-              <Button variant='info' component={NavLink} to='/profile'>
+              <Button variant='info' component={NavLink} to='/profile/edit'>
                 Profile
               </Button>
               <Button variant='info' component={NavLink} to='/'>

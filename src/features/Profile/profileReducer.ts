@@ -2,12 +2,12 @@ import * as yup from 'yup';
 
 export interface UserProfile<T> {
     [key: string] : T
-    // email: T
-    // address: T
-    // zipcode: T
-    // firstName: T
-    // lastName: T
-    // username: T
+    email: T
+    address: T
+    zipcode: T
+    firstName: T
+    lastName: T
+    username: T
 }
 
 export type ValidInput<T> = {
@@ -19,6 +19,7 @@ export type ValidInput<T> = {
 
 export type ProfileActions = { type: 'updateField', field: string , data: string }
                     | { type: 'resetField', field: string }
+                    | { type: 'resetFields', fields: string[]}
                     | { type: 'resetForm', field: null}
                     | { type: 'loadUser', data: UserProfile<string> }
                     | { type: 'touchFieldValid', field: string }
@@ -54,7 +55,13 @@ export const profileReducer = (state: UserProfile<ValidInput<string>>, action: P
     case 'updateField':
       return { ...state, [action.field]: { ...state[action.field] ,value: action.data }}
     case 'resetField':
-      return { ...state, [action.field]: { ...state[action.field], value: '' }}
+      return { ...state, [action.field]: { ...state[action.field], value: '', touched: false }}
+    case 'resetFields':
+      const new_state = {...state}
+      for (const field in action.fields) {
+        new_state[field] = {...state[field], value: '', touched: false, inputHelperText: '', isValid: undefined}
+      }
+      return new_state
     case 'resetForm':
       return initialProfile
     default:
@@ -70,10 +77,11 @@ export const profileSchema: yup.SchemaOf<UserProfile<ValidInput<string>>> = yup.
   address: yup.string().required().max(100).trim(),
   firstName: yup.string().required().max(50),
   lastName: yup.string().required().max(50),
-  zipcode: yup.number().required(),
-  phone: yup.number().notRequired().lessThan(10000000000).positive().min(0).integer(),
+  state: yup.string().notRequired().max(2),
+  zipcode: yup.string().notRequired().trim().max(5),
+  phone: yup.string().notRequired().min(10).max(10),
   password: passwordSchema.label('Password'),
-  confirmPassword: yup.string().label('Confirm Password').when('password', {
+  confirmPassword: yup.string().label('Confirm Password').when('Password', {
     is: true,
     then: passwordSchema
           .oneOf([yup.ref('password'), null], 'Passwords must match'),
