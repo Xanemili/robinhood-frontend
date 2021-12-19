@@ -37,7 +37,7 @@ export const listSlice = createSlice({
     },
     addList: (state: AssetListSlice, action) => {
       const {id, name, description, symbols } = action.payload
-      state.data[name] = {id, name, description, symbols}
+      state.data[id] = {id, name, description, symbols}
     },
     resetLists: (state: AssetListSlice) => {
       return initialState
@@ -61,9 +61,14 @@ export const listSlice = createSlice({
       return state
     }
   }, extraReducers: (builder) => {
-    builder.addCase(deleteListById.fulfilled, (state, action) => {
-      console.log(action.payload)
-      // delete state.data[action.payload]
+    builder
+    .addCase(deleteListById.fulfilled, (state, action) => {
+      if (action.payload && action.payload.id) {
+        delete state.data[action.payload.id]
+      }
+    })
+    .addCase(deleteListById.rejected, (state, action) => {
+      state.status = 'failure'
     })
   }
 })

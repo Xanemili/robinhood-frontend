@@ -25,10 +25,10 @@ const PortfolioChart = () => {
     (async() => {
       const data = await getPortfolioHistory(token);
 
-      if(data){
+      if(data && data.length > 1){
         const cleanData = data.map(day => {
           let date = new Date(Date.parse(day.updatedAt.toString()))
-          let parsedDate = `${setMonth(date.getMonth())}, ${date.getDate()}, ${date.getFullYear()}`
+          let parsedDate = `${date.getMonth() +1}-${date.getDate()}-${date.getFullYear()}`
 
           return ({
             date,
@@ -111,25 +111,38 @@ const PortfolioChart = () => {
         </Typography>
       </Box>
 
-      <div style={{ width: '100%', height: 300 }}>
-        <ResponsiveContainer>
-          <LineChart data={currentData}
-            margin={{ top: 5, right: 7, left: 7, bottom: 0 }}>
-            <YAxis hide={true} />
-            <XAxis dataKey="parsedDate" hide={true} />
-            <Tooltip content={<XTooltip />}/>
-            <Line type='linear' dataKey='price' name='Value' dot={false} stroke={color} />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-
+      { currentData && currentData.length > 0 &&
+      <ResponsiveContainer minWidth={'100%'} minHeight={250} height={500}>
+        <LineChart data={currentData}
+          margin={{ top: 5, right: 7, left: 7, bottom: 5 }}>
+          <YAxis orientation={'right'}
+            mirror
+            tickCount={3}
+            domain={[
+            dataMin => {
+              if (isNaN(dataMin)) return 0
+              return Math.max(Math.round(dataMin - 100).toPrecision(1), 0)
+            },
+            dataMax => {
+              if ( dataMax * 0 !== 0 ) return 100
+              return Math.round(parseFloat(dataMax + Math.pow(10, Math.log10(dataMax) - 1)).toPrecision(2))
+            }]}
+           />
+          <XAxis dataKey="parsedDate" />
+          <Tooltip content={<XTooltip />}/>
+          <Line type='linear' dataKey='price' name='Value' dot={false} stroke={color} />
+        </LineChart>
+      </ResponsiveContainer>
+      }
+{/*
       <ButtonGroup color='secondary' size='small' style={{ margin: 1 }}>
-        {/* <Button onClick={handleRange} value={2}>1D</Button> */}
+        <Button onClick={handleRange} value={2}>1D</Button>
         <Button onClick={() => handleRange('month', 1)} value={3}>1M</Button>
         <Button onClick={() => handleRange('month', 3)} value={4}>3M</Button>
         <Button onClick={() => handleRange('year', 1)} value={5}>1Y</Button>
         <Button onClick={() => handleRange('year', 3)} value={1}>3Y</Button>
       </ButtonGroup>
+*/}
     </Paper>
 
   )

@@ -45,7 +45,7 @@ export const alertSlice = createSlice({
       })
     },
     removeAlert: (state, action) => {
-      state.snackbar.filter( alert => alert.id !== action.payload.id)
+      state.snackbar = state.snackbar.splice(-1)
     },
     openDialog: (state, action) => {
       state.dialog = action.payload
@@ -68,6 +68,11 @@ export const alertSlice = createSlice({
         let msg = convertTypeToMessage(action.type) ?? ''
         const id = state.snackbar.length === 0 ? 1 : state.snackbar[state.snackbar.length - 1].id + 1
         state.snackbar.push({ message: msg, alertType: 'error', id });
+      })
+    .addMatcher<PendingAction>(
+      (action) => action.type.endsWith('/pending'),
+      (state, action) => {
+        return state
       }
     )
   }

@@ -101,6 +101,18 @@ const theme = createTheme(baseTheme, {
         component: LinkBehavior,
       }
     },
+    MuiListItemButton: {
+      root: {
+        style: {
+          '&:hover': {
+            border: 'white 1px dashed'
+          }
+        }
+      },
+      defaultProps: {
+        focusRipple: true,
+      }
+    }
   }
 })
 

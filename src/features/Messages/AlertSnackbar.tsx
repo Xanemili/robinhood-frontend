@@ -13,7 +13,7 @@ const AlertSnackbar = () => {
 
 
   useEffect(() => {
-    if(snackbarStack.length) {
+    if(snackbarStack && snackbarStack.length) {
       setAlert(snackbarStack[0])
       setOpen(true)
     }

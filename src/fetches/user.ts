@@ -1,4 +1,6 @@
 import { baseUrl } from '../config'
+import { createAlert } from '../store/alertSlice'
+import store from '../store/store'
 
 export const loadUser = async () => {
   const token = localStorage.getItem('token')
@@ -32,7 +34,7 @@ export const updateProfile = async (data: any) => {
 
   if (res.ok) {
     const data = await res.json()
-    console.log(data)
+    store.dispatch(createAlert({message: 'Profile Updated'}))
     return data
   }
 }

@@ -29,7 +29,7 @@ const ListSection = () => {
   const [losers, setLosers] = useState([])
 
   useEffect(() => {
-      (async () => { await getLists(token) })();
+      (async () => { await getLists() })();
       (async () => {
         const {gainers, losers} = await getMovers()
         setGainers(gainers)

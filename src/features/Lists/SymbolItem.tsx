@@ -10,11 +10,12 @@ interface SymbolItemProps {
   asset: IexAsset
   type?: 'controlled' | 'uncontrolled' | 'descriptive'
   removeItem?: (removalItem: string) => Promise<void>
+  extraAction?: () => void
 }
 
 
 const SymbolItem = (props: SymbolItemProps) => {
-  const { asset, type, removeItem } = props
+  const { asset, type, removeItem, extraAction } = props
 
   const handleItemRemove = () => {
     if (removeItem) {
@@ -24,7 +25,8 @@ const SymbolItem = (props: SymbolItemProps) => {
 
   return (
     <ListItem alignItems='center' key={asset.symbol}>
-      <ListItemButton component={Link} to={`/assets/${asset.symbol}`} >
+      <ListItemButton sx={{'&:hover': { backgroundColor: 'gray'}}} component={Link} to={`/assets/${asset.symbol}`}
+        onClick={() => extraAction ? extraAction() : null }>
         <ListItemText>
             {asset.symbol}
             {type === 'descriptive' &&
@@ -38,8 +40,8 @@ const SymbolItem = (props: SymbolItemProps) => {
         </Typography>
       </ListItemButton>
       { type === 'controlled' &&
-        <IconButton onClick={handleItemRemove}>
-          <Remove fontSize="small" color="warning" />
+        <IconButton onClick={handleItemRemove} title={"Remove Item"} >
+          <Remove fontSize="small" color="warning" aria-label={'Remove List Item'}/>
         </IconButton>}
       {/* <StockPrice ticker={asset.ticker} /> */}
     </ListItem>

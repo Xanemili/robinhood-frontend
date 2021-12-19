@@ -72,7 +72,7 @@ export const profileReducer = (state: UserProfile<ValidInput<string>>, action: P
 const passwordSchema = yup.string().min(8).max(24).trim().ensure().matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/, {excludeEmptyString: true, message: 'Passwords must be contain a lowercase, an uppercase, a number, and a special character'})
 
 export const profileSchema: yup.SchemaOf<UserProfile<ValidInput<string>>> = yup.object().shape({
-  username: yup.string().required().min(5).max(24).ensure().trim(),
+  username: yup.string().required().min(4).max(24).ensure().trim(),
   email: yup.string().required().email(),
   address: yup.string().required().max(100).trim(),
   firstName: yup.string().required().max(50),
@@ -80,11 +80,11 @@ export const profileSchema: yup.SchemaOf<UserProfile<ValidInput<string>>> = yup.
   state: yup.string().notRequired().max(2),
   zipcode: yup.string().notRequired().trim().max(5),
   phone: yup.string().notRequired().min(10).max(10),
-  password: passwordSchema.label('Password'),
-  confirmPassword: yup.string().label('Confirm Password').when('Password', {
-    is: true,
-    then: passwordSchema
-          .oneOf([yup.ref('password'), null], 'Passwords must match'),
-    otherwise: passwordSchema
-  }),
+  // password: passwordSchema.label('Password'),
+  // confirmPassword: yup.string().label('Confirm Password').when('Password', {
+  //   is: true,
+  //   then: passwordSchema
+  //         .oneOf([yup.ref('password'), null], 'Passwords must match'),
+  //   otherwise: passwordSchema
+  // }),
 }).defined()

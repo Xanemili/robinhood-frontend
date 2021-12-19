@@ -11,12 +11,16 @@ import Container from '@mui/material/Container'
 import Paper from '@mui/material/Paper'
 import { useAppSelector } from '../../store/hooks';
 import { selectToken } from '../../store/userSlice';
+import { getTimeSeriesData } from '../../fetches/asset'
 
 const Asset = () => {
 
   const token = useAppSelector(selectToken)
   const [asset, setAsset] = useState({})
+  const [range, setRange] = useState('1m')
+  const [interval, setInterval] = useState(1)
   const {symbol} = useParams();
+  const [chartData, setChartData] = useState([])
 
   useEffect(()=> {
 
@@ -25,6 +29,26 @@ const Asset = () => {
         setAsset(dataRes)
     })();
   }, [symbol, setAsset, token])
+
+  useEffect(() => {
+    (async () => {
+      if (!token) {
+        return
+      }
+      let newData = await getTimeSeriesData(token, symbol, range, interval)
+      if (newData) {
+        setChartData(newData)
+      } else {
+        let error = 'error' //intiate error snackbar here
+        console.error(error)
+      }
+    })()
+  }, [range, interval, symbol, token])
+
+  const handleRange = (range, interval) => {
+    setInterval(interval)
+    setRange(range)
+  }
 
   if(!asset){
     return null
@@ -38,7 +62,7 @@ const Asset = () => {
         <Grid item xs={6}>
           <Paper className="chart" sx={{ marginBottom: 10 }}>
             <AssetQuote asset={asset}/>
-            <StockReChart asset={asset}/>
+            <StockReChart chartData={chartData} handleRange={handleRange}/>
           </Paper>
           <CompanyInfo asset={asset}/>
           <CompanyNews asset={asset}/>

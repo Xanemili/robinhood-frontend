@@ -31,7 +31,7 @@ export default function ListIconMenu(props: SimpleListIconMenuProps) {
         </ListItemIcon>
         <ListItemText>Delete</ListItemText>
       </MenuItem>
-      <MenuItem>
+      {/* <MenuItem>
         <ListItemIcon>
           <ContentPaste fontSize="small" />
         </ListItemIcon>
@@ -39,7 +39,7 @@ export default function ListIconMenu(props: SimpleListIconMenuProps) {
         <Typography variant="body2" color="text.secondary">
 
         </Typography>
-      </MenuItem>
+      </MenuItem> */}
     </>
   );
 }

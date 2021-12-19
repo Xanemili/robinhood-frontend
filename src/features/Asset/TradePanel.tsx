@@ -4,8 +4,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { ButtonGroup, CardContent, Divider, TextField } from '@mui/material';
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { selectToken } from '../../store/userSlice'
+import { useAppDispatch } from '../../store/hooks'
 import { IexAsset } from '../../api-types'
 import WatchListDropDown from '../Lists/WatchListDropDown';
 import { sendPortfolioTrade } from '../../fetches/portfolio';
@@ -21,8 +20,6 @@ export default function TradePanel(props: TradePanelProps) {
   const [quantity, setQuantity] = useState(10)
   const [price, setPrice] = useState(0.00)
   const [orderType, setOrderType] = useState<'buy' | 'sell'>('buy')
-  const token = useAppSelector(selectToken)
-
 
   const handleOrder = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

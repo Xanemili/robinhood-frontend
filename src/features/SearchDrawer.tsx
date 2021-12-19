@@ -1,4 +1,4 @@
-import {  ReactEventHandler, useState, useEffect, } from "react"
+import {  ReactEventHandler, useState, useEffect } from "react"
 import SwipeableDrawer from "@mui/material/SwipeableDrawer"
 import Box from "@mui/material/Box"
 import List from '@mui/material/List'
@@ -27,7 +27,6 @@ const SearchDrawer = (props: SearchDrawerProps) => {
   useEffect(() => {
     if(searchValue) {
       const timeOutId = setTimeout(async () => {
-        console.log('showing here :)')
         let searchArray = await getSearch(token, searchValue)
         if(searchArray){
           setSearchResults(searchArray)
@@ -70,7 +69,7 @@ const SearchDrawer = (props: SearchDrawerProps) => {
         { searchResults.length > 0 &&
           <List>
             {searchResults.map( asset => (
-              <SymbolItem asset={asset} type={'descriptive'} />
+              <SymbolItem key={asset.symbol} asset={asset} type={'descriptive'} extraAction={handleClose}/>
               ))}
           </List>
         }

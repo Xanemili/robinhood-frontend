@@ -5,8 +5,8 @@ import store from '../store/store'
 import { loadLists, loadListFailure, resetLists, loadingLists, addList, addListItem as addItem, removeListItem } from '../store/listSlice'
 import { createAlert } from '../store/alertSlice'
 
-export const getLists = async (token: string) => {
-
+export const getLists = async () => {
+  const token = localStorage.getItem('token')
   store.dispatch(loadingLists())
 
   const res = await fetch(`${baseUrl}/list`, {
@@ -19,7 +19,7 @@ export const getLists = async (token: string) => {
     const lists = await res.json()
     if (lists && Object.keys(lists).length > 0) {
       store.dispatch(loadLists(lists))
-      store.dispatch(createAlert({payload: { id: 10, message: 'New List Successful', type: 'success'}}))
+      store.dispatch(createAlert({ message: 'Lists Loaded', type: 'success'}))
     } else {
       store.dispatch(resetLists())
     }
@@ -86,29 +86,30 @@ export const createList = async (data: AssetListType) => {
   }
 }
 
-
-// TO DO: Implement as a thunk!
-export const deleteList = async (id: number) => {
+export const deleteListById = createAsyncThunk('lists/deleteListById', async (listId: number, thunkAPI) => {
   const token = localStorage.getItem('token')
-
-  const res = await fetch(`${baseUrl}/list/${id}`, {
+  const response = await fetch(`${baseUrl}/list/${listId}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${token}`
     }
   })
 
-  if(res.ok) {
-    // store.dispatch(removeList(id))
-  } else {
-    // store.dispatch(loadListFailure())
-  }
-}
-
-export const deleteListById = createAsyncThunk('lists/deleteListById', async (listId: number, thunkAPI) => {
-  const response = await deleteList(listId)
-  return response
+  const data = await response.json()
+  return data
 })
+
+// export const loadLists = createAsyncThunk<AssetListType, number>('lists/loadLists', async (id: number) => {
+//   const token = localStorage.getItem('token')
+
+//   const res = await fetch(`${baseUrl}/list`, {
+//     headers: {
+//       Authorization: `Bearer ${token}`
+//     }
+//   });
+
+//   return (await res.json()) as AssetListType
+// })
 
 export const getMovers = async() => {
   const token = localStorage.getItem('token')

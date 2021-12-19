@@ -23,7 +23,7 @@ const SearchPopper = (props: SearchPopperProps) => {
       <Paper>
         <ClickAwayListener onClickAway={handleClose}>
           <List>
-            {results.map(symbol => <SymbolItem asset={symbol}/>)}
+            {results.map(symbol => <SymbolItem key={symbol.symbol} asset={symbol}/>)}
           </List>
         </ClickAwayListener>
       </Paper>

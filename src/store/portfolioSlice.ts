@@ -39,10 +39,14 @@ export const portfolioSlice = createSlice({
         newPortfolio[position.symbol] = position
       })
       state.data = newPortfolio
+      state.status = 'success'
     })
     .addCase(sendPortfolioTrade.fulfilled, (state, action) => {
       const { position } = action.payload
       state.data[position.symbol] = position
+    })
+    .addCase(sendPortfolioTrade.pending, (state, action) => {
+      state.status = 'loading'
     })
   }
 })

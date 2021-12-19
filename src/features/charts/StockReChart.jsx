@@ -1,44 +1,16 @@
-import { useState, useEffect } from 'react';
-import {useParams} from 'react-router-dom'
+import { useState  } from 'react';
 import { LineChart, Line, YAxis, Tooltip, XAxis, ResponsiveContainer } from 'recharts';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import moment from 'moment'
-import { getTimeSeriesData } from '../../fetches/asset'
-import { useAppSelector } from '../../store/hooks';
-import { selectToken } from '../../store/userSlice';
 import Box from '@mui/system/Box';
 import { Typography } from '@mui/material';
 import XTooltip from './XTooltip';
 
 const StockRechart = (props) => {
 
-  const {symbol} = useParams();
-  const [chartData, setChartData] = useState([]);
-  const [range, setRange] = useState('1m')
-  const [interval, setInterval] = useState(1)
+  const { chartData, handleRange } = props
   const [color, setColor] = useState('#82ca9d')
-  const token = useAppSelector(selectToken)
-
-  useEffect(() => {
-    (async () => {
-      if(!token) {
-        return
-      }
-      let newData = await getTimeSeriesData(token, symbol, range, interval)
-      if(newData) {
-        setChartData(newData)
-      } else {
-        let error = 'error' //intiate error snackbar here
-        console.error(error)
-      }
-    })()
-  }, [range, interval, symbol, token])
-
-  const handleRange = (range, interval) => {
-    setInterval(interval)
-    setRange(range)
-  }
 
   return (
       <Box>

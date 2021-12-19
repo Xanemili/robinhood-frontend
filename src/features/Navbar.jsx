@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import { NavLink } from 'react-router-dom';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -10,26 +10,36 @@ import SearchDrawer from './SearchDrawer'
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { resetToken, selectToken } from '../store/userSlice';
 import { ButtonGroup } from '@mui/material';
+import { useLocation } from 'react-router-dom'
 
 export default function NavBar() {
 
   const dispatch = useAppDispatch()
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
+  const token = useAppSelector(selectToken)
+  const location = useLocation()
+
+  const handleClose = useCallback((event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (!location.state) {
+      location.state = location.pathname
+    }
+    if (location.state !== location.pathname) {
+      handleClose()
+    }
+  }, [location, handleClose])
+
   const removeToken = () => {
     localStorage.removeItem('token');
     dispatch(resetToken())
   }
-
-  const token = useAppSelector(selectToken)
-
-  const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
-    setOpen(false);
-  };
 
   return (
     <Box>

@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography"
-import Box from "@mui/material/Box"
+import Paper from "@mui/material/Paper"
 
 interface XTooltipProps {
   active?: boolean
@@ -12,11 +12,11 @@ const XTooltip = (props: XTooltipProps) => {
 
   if(active && payload && payload.length > 0){
     return (
-      <Box>
-      <Typography>
-        {label} - {payload[0].value}
-      </Typography>
-    </Box>
+      <Paper color='primary' sx={{ padding: '1rem', border: 'black 1px solid'}}>
+        <Typography>
+          {`${label} - ${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(payload[0].value)}`}
+        </Typography>
+      </Paper>
   )
   } else {
     return null

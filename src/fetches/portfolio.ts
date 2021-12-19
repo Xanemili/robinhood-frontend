@@ -26,7 +26,7 @@ export const fetchPortfolio = createAsyncThunk('portfolio/fetchPortfolio', async
 
 export const sendPortfolioTrade = createAsyncThunk('portfolio/sendPortfolioTrade', async(data: Trade, thunkAPI) => {
   const token = localStorage.getItem('token')
-  console.log(thunkAPI)
+
   let trade = {
     price: data.price,
     quantity: data.quantity,
@@ -68,8 +68,9 @@ export const getPortfolioHistory = async(token: string) => {
 }
 
 
-export const addCash = async(token: string) => {
-  const url = `${baseUrl}/trades/cash`
+export const addCash = async() => {
+  const token = localStorage.getItem('token')
+  const url = `${baseUrl}/users/cash`
   const res = await fetch(url, {
     method: 'POST',
     headers: {

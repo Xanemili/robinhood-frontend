@@ -8,6 +8,7 @@ import { selectToken } from '../../store/userSlice';
 import ListSection from '../Lists/ListSection';
 import SimpleConfirm from '../Messages/SimpleConfirm'
 import { selectDialog } from '../../store/alertSlice'
+import AddCash from './AddCash'
 
 const DashBoard = () => {
   const token = useAppSelector(selectToken)
@@ -21,10 +22,11 @@ const DashBoard = () => {
       <Grid sx={{ marginTop: '0px'}} container spacing={3} justifyContent='center'>
         <Grid item xs={2}>
           <Portfolio />
+          <AddCash />
         </Grid>
         <Grid item xs={8}>
           <PortfolioChart />
-          <NewsContainer />
+          {/* <NewsContainer /> */}
         </Grid>
         <Grid item xs={2}>
           <ListSection />
